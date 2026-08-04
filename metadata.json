@@ -1,0 +1,6 @@
+{
+  "name": "Kaelos",
+  "description": "El mayor marketplace de motos de ocasión y renting. Compra, vende, alquila o financia tu moto con total garantía.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
