@@ -18,26 +18,26 @@ export default function SegurosPage({ onNavigateHome, onNavigateServicios }: Seg
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
   const handleWhatsAppClick = () => {
-    const message = encodeURIComponent("Hola, quisiera solicitar presupuesto de seguro para mi moto.");
-    window.open(`https://wa.me/34600000000?text=${message}`, '_blank');
+    const message = encodeURIComponent("Hola, quisiera solicitar presupuesto de seguro o SOAT para mi moto en Perú.");
+    window.open(`https://wa.me/51900000000?text=${message}`, '_blank');
   };
 
   const faqs = [
     {
-      q: "¿Con qué aseguradoras trabajáis?",
-      a: "Comparamos ofertas entre las principales aseguradoras de motocicletas (Mapfre, AXA, Zurich, Allianz, Linea Directa, etc.) para conseguirte las mejores tarifas y coberturas del mercado."
+      q: "¿Con qué aseguradoras trabajan en Perú?",
+      a: "Comparamos ofertas entre las principales aseguradoras líderes en el mercado peruano (Rimac, Pacífico Seguros, La Positiva, MAPFRE Perú e Interseguro) para ofrecerte las mejores tarifas en SOAT y pólizas vehiculares."
     },
     {
-      q: "¿Puedo asegurar mi moto inmediatamente al comprarla?",
-      a: "Sí, podemos emitir y activar la póliza en cuestión de minutos para que puedas salir rodando del taller o concesionario con total cobertura."
+      q: "¿Puedo emitir mi SOAT digital para moto de inmediato?",
+      a: "Sí. Emitimos tu SOAT digital en minutos con registro directo en la base de datos del MTC para que circules 100% en regla sin demoras."
     },
     {
-      q: "¿El seguro cubre equipamiento o accesorios como el casco o maletas?",
-      a: "Disponemos de modalidades especificas que incluyen cobertura de indumentaria (casco, chaqueta, guantes) y accesorios fijados a la moto como maletas Shad/Givi y localizadores."
+      q: "¿El seguro cubre robo total, accidentes y daños a terceros?",
+      a: "Ofrecemos pólizas integrales que cubren robo total, responsabilidad civil frente a terceros, choque, vuelco, incendio y asistencia auxilio mecánico 24/7."
     },
     {
-      q: "¿La asistencia en viaje es desde el Kilómetro 0?",
-      a: "Todas nuestras modalidades recomendadas cuentan con asistencia en viaje nacional e internacional desde el portal de tu vivienda (Km 0)."
+      q: "¿La asistencia en grúa aplica en Lima y provincias?",
+      a: "Todas nuestras modalidades recomendadas cuentan con asistencia de auxilio mecánico y grúa en Lima Metropolitana y principales carreteras a nivel nacional."
     }
   ];
 
@@ -135,10 +135,10 @@ export default function SegurosPage({ onNavigateHome, onNavigateServicios }: Seg
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
-            { title: 'Terceros Básico', desc: 'Responsabilidad civil obligatoria, defensa jurídica y asistencia médica.', icon: Shield },
-            { title: 'Terceros + Asistencia', desc: 'Incluye grúa desde km 0, rescate y vehículo de sustitución.', icon: HeartHandshake },
-            { title: 'Robo e Incendio', desc: 'Protección integral ante sustracción del vehículo, intento de robo o fuego.', icon: Key },
-            { title: 'Todo Riesgo', desc: 'Máxima tranquilidad ante daños propios con o sin franquicia.', icon: Flame }
+            { title: 'SOAT Digital Inmediato', desc: 'Seguro obligatorio de accidentes de tránsito requerido por ley en Perú con emisión en minutos.', icon: Shield },
+            { title: 'Terceros + Auxilio Mecánico', desc: 'Responsabilidad civil ante accidentes, grúa y asistencia técnica en ruta.', icon: HeartHandshake },
+            { title: 'Robo Total + Incendio', desc: 'Protección financiera integral contra la sustracción o pérdida total de tu motocicleta.', icon: Key },
+            { title: 'Todo Riesgo Vehicular', desc: 'Cobertura completa ante choques, raspaduras, vandalismo y desastres naturales.', icon: Flame }
           ].map((item, idx) => {
             const Icon = item.icon;
             return (

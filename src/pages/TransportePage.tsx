@@ -18,26 +18,26 @@ export default function TransportePage({ onNavigateHome, onNavigateServicios }: 
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
   const handleWhatsAppClick = () => {
-    const message = encodeURIComponent("Hola, me gustaría pedir presupuesto para el transporte de mi moto puerta a puerta.");
-    window.open(`https://wa.me/34600000000?text=${message}`, '_blank');
+    const message = encodeURIComponent("Hola, me gustaría pedir presupuesto para el transporte de mi moto en Perú (Lima / Provincias).");
+    window.open(`https://wa.me/51900000000?text=${message}`, '_blank');
   };
 
   const faqs = [
     {
       q: "¿Cómo se sujeta la moto durante el transporte?",
-      a: "Utilizamos furgonetas y remolques cerrados equipados con rampas de aluminio, cepos de rueda delantera y cinchas de trinquete plastificadas específicas para no dañar pintura ni carenados."
+      a: "Utilizamos furgonetas y unidades de carga cerradas equipadas con rampas, cepos de rueda delantera y cinchas de trinquete acolchadas específicas para no dañar pintura ni carenados."
     },
     {
-      q: "¿Está cubierta la moto en caso de siniestro?",
-      a: "Sí. Todo transporte incluye un seguro a todo riesgo de mercancías con cobertura específica para motocicletas desde la recogida hasta la entrega."
+      q: "¿Está cubierta la moto en caso de imprevistos?",
+      a: "Sí. Todo flete y transporte incluye seguro de carga con cobertura para motocicletas desde la recepción hasta la entrega en destino."
     },
     {
-      q: "¿Cuánto tarda el envío peninsular?",
-      a: "El plazo habitual de recogida y entrega es de 24 a 72 horas laborales dentro de la península."
+      q: "¿Llegan a todo el Perú (Lima y Provincias)?",
+      a: "Ofrecemos cobertura en todo Lima Metropolitana, Callao y envíos coordinados a las principales ciudades de provincias a nivel nacional."
     },
     {
-      q: "¿Transportáis motos que no arrancan o averiadas?",
-      a: "Sí, disponemos de cabrestantes y rampas adaptadas para subir cualquier tipo de moto aunque esté inmovilizada o averiada."
+      q: "¿Transportan motos inmovilizadas o averiadas?",
+      a: "Sí, disponemos de rampas y winches adaptados para subir y asegurar cualquier tipo de motocicleta aunque no arranque."
     }
   ];
 
@@ -58,18 +58,18 @@ export default function TransportePage({ onNavigateHome, onNavigateServicios }: 
             <div className="lg:col-span-7 text-left space-y-4 md:space-y-6 text-white drop-shadow-md">
               <div className="space-y-4">
                 <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-[1.1] text-white [text-shadow:_0_2px_12px_rgba(0,0,0,0.7)]">
-                  Transporte profesional de motos puerta a puerta
+                  Transporte profesional de motos en Lima y Provincias
                 </h1>
                 <p className="text-sm sm:text-base font-medium text-slate-100 leading-relaxed max-w-2xl hidden md:block [text-shadow:_0_1px_8px_rgba(0,0,0,0.8)]">
-                  Llevamos tu motocicleta a cualquier punto de España con furgonetas acondicionadas, amarrado de alta seguridad y seguro a todo riesgo incluido.
+                  Llevamos tu motocicleta a cualquier punto del Perú con furgonetas acondicionadas, amarre de alta seguridad y seguro de carga incluido.
                 </p>
               </div>
 
               <div className="space-y-3 pt-2 max-w-lg hidden md:block">
                 {[
                   'Vehículos adaptados exclusivamente para transporte de motos',
-                  'Seguro a todo riesgo de mercancía incluido',
-                  'Recogida y entrega personalizada en tu domicilio'
+                  'Seguro de transporte y carga protegido',
+                  'Recogida y entrega personalizada puerta a puerta en Lima y regiones'
                 ].map((text, idx) => (
                   <div key={idx} className="flex items-center gap-2.5">
                     <span className="w-5 h-5 rounded-full bg-emerald-500 text-white text-xs font-black flex items-center justify-center shrink-0 shadow">✓</span>
@@ -129,10 +129,10 @@ export default function TransportePage({ onNavigateHome, onNavigateServicios }: 
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
-            { title: 'Nacional Peninsular', desc: 'Envío puerta a puerta en cualquier punto de la península ibérica.', icon: MapPin },
+            { title: 'Lima y Provincias', desc: 'Envío puerta a puerta en Lima Metropolitana, Callao y principales departamentos del Perú.', icon: MapPin },
             { title: 'Compraventa Particulares', desc: 'Gestionamos la recogida tras la compra de segunda mano con revisión previa.', icon: Package },
-            { title: 'Transporte a Eventos', desc: 'Llevamos tu moto de circuito o ruta al lugar del evento sin hacer km.', icon: Truck },
-            { title: 'Transporte Urgente', desc: 'Servicio exclusivo directo sin paradas para entregas en menos de 24h.', icon: Clock }
+            { title: 'Transporte a Rutas y Eventos', desc: 'Llevamos tu moto a los puntos de inicio de rutas o travesías sin desgastar neumáticos ni sumar kilometraje.', icon: Truck },
+            { title: 'Transporte Urgente Exclusivo', desc: 'Servicio exclusivo directo sin paradas para entregas prioritarias.', icon: Clock }
           ].map((item, idx) => {
             const Icon = item.icon;
             return (

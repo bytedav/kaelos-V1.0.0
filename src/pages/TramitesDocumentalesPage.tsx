@@ -19,26 +19,26 @@ export default function TramitesDocumentalesPage({ onNavigateHome, onNavigateSer
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
   const handleWhatsAppClick = () => {
-    const message = encodeURIComponent("Hola, me gustaría solicitar información sobre trámites documentales y gestión de la DGT para mi moto.");
-    window.open(`https://wa.me/34600000000?text=${message}`, '_blank');
+    const message = encodeURIComponent("Hola, me gustaría solicitar información sobre trámites documentales y gestión en SUNARP / MTC para mi moto.");
+    window.open(`https://wa.me/51900000000?text=${message}`, '_blank');
   };
 
   const faqs = [
     {
-      q: "¿Cuánto tarda el cambio de nombre de una moto?",
-      a: "El trámite telemático ante la DGT se procesa de forma inmediata. Te entregaremos un permiso de circulación provisional válido al instante y recibirás el documento definitivo en 24-48 horas."
+      q: "¿Cuánto tarda la transferencia registral de una moto en SUNARP?",
+      a: "El trámite notarial y registral ante SUNARP se ingresa de forma telemática. Generamos la constancia de trámite en minutos y la Tarjeta de Identificación Vehicular Electrónica (TIVE) suele emitirse en 24 a 72 horas."
     },
     {
-      q: "¿Qué documentos necesito para transferir una moto de ocasión?",
-      a: "Necesitamos el DNI en vigor de comprador y vendedor, el permiso de circulación original, la ficha técnica del vehículo con ITV en vigor (o pasable) y el contrato de compraventa firmado."
+      q: "¿Qué documentos necesito para transferir una moto en Perú?",
+      a: "Requerimos DNI o Carnet de Extranjería vigente de comprador y vendedor, Tarjeta de Propiedad / TIVE original, SOAT vigente y estar al día en impuesto vehicular ante el SAT si aplica."
     },
     {
-      q: "¿Gestionáis bajas temporales o definitivas?",
-      a: "Sí, tramitamos bajas temporales por no uso o almacenamiento, así como la gestión de bajas definitivas e informe del estado del vehículo antes de comprar."
+      q: "¿Gestionáis trámite de placa física y tarjeta de propiedad (TIVE)?",
+      a: "Sí, tramitamos la obtención o duplicado de la Tarjeta de Identificación Vehicular Electrónica (TIVE), duplicado de placas de rodaje ante la AAP/SUNARP e inscripción de garantías."
     },
     {
-      q: "¿Necesito pedir cita previa en la DGT?",
-      a: "No. Al realizar la gestión a través de nuestra gestoría especializada, nos encargamos de todo de forma 100% online y presencial sin que tengas que pedir cita ni hacer colas."
+      q: "¿Necesito hacer colas en la notaría o SUNARP?",
+      a: "No. En Kaelos nos encargamos de coordinar la firma notarial biométrica rápida y la presentación telemática directa ante SUNARP sin esperas."
     }
   ];
 
@@ -62,19 +62,19 @@ export default function TramitesDocumentalesPage({ onNavigateHome, onNavigateSer
             <div className="lg:col-span-7 text-left space-y-4 md:space-y-6 text-white drop-shadow-md">
               <div className="space-y-4">
                 <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-[1.1] text-white [text-shadow:_0_2px_12px_rgba(0,0,0,0.7)]">
-                  Gestionamos tus trámites de la DGT 100% online
+                  Gestionamos tus trámites en SUNARP y MTC 100% online
                 </h1>
                 <p className="text-sm sm:text-base font-medium text-slate-100 leading-relaxed max-w-2xl hidden md:block [text-shadow:_0_1px_8px_rgba(0,0,0,0.8)]">
-                  Sin citas previas ni esperas: cambios de titularidad, duplicados, informes de tráfico y distintivos ambientales gestionados al instante.
+                  Sin colas ni trámites engorrosos: transferencias notariales, Tarjeta de Propiedad TIVE, duplicados de placa e informes registrales al instante.
                 </p>
               </div>
 
               {/* Checkmarks list */}
               <div className="space-y-3 pt-2 max-w-lg hidden md:block">
                 {[
-                  'Transferencias y cambio de nombre sin salir de casa',
-                  'Gestión directa telemática con la DGT',
-                  'Firma digital y justificante provisional inmediato'
+                  'Transferencia registral y notarial sin salir de casa',
+                  'Gestión telemática directa con SUNARP y SAT',
+                  'Firma notarial biométrica y emisión de TIVE'
                 ].map((text, idx) => (
                   <div key={idx} className="flex items-center gap-2.5">
                     <span className="w-5 h-5 rounded-full bg-emerald-500 text-white text-xs font-black flex items-center justify-center shrink-0 shadow">✓</span>
@@ -152,43 +152,43 @@ export default function TramitesDocumentalesPage({ onNavigateHome, onNavigateSer
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center max-w-2xl mx-auto mb-12">
           <h2 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">
-            Nuestros servicios de gestoría DGT
+            Nuestros servicios de gestoría SUNARP y vehicular
           </h2>
           <p className="text-slate-500 text-sm mt-2 font-medium">
-            Tramitación transparente, segura y rápida para cualquier tipo de motocicleta.
+            Tramitación transparente, segura y rápida para cualquier tipo de motocicleta en Perú.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
             {
-              title: 'Cambio de titularidad',
-              desc: 'Transferencia completa de propiedad para compraventas entre particulares o empresas.',
+              title: 'Transferencia Vehicular SUNARP',
+              desc: 'Gestión notarial y registral completa para compraventa de motos usadas.',
               icon: UserCheck
             },
             {
-              title: 'Informe de cargas DGT',
-              desc: 'Comprobación de embargos, reservas de dominio, precintos y datos técnicos antes de comprar.',
+              title: 'Informe Registral de Cargas',
+              desc: 'Verificación de gravámenes, papeletas SAT/PNP, embargos o robos antes de comprar.',
               icon: FileText
             },
             {
-              title: 'Distintivo Ambiental DGT',
-              desc: 'Envío oficial del pegatina ambiental DGT (B, C, ECO, ZERO) para tu moto.',
+              title: 'Emisión de SOAT y Certificados',
+              desc: 'Emisión inmediata de SOAT físico o digital y revisión de Inspección Técnica Vehicular (CITV).',
               icon: ShieldCheck
             },
             {
-              title: 'Duplicado de documentación',
-              desc: 'Gestión por extravío o deterioro del permiso de circulación o tarjeta ITV.',
+              title: 'Duplicado de Tarjeta (TIVE) y Placa',
+              desc: 'Trámite por pérdida, robo o deterioro de la Tarjeta de Identificación Vehicular o Placas.',
               icon: Clock
             },
             {
-              title: 'Matriculaciones',
-              desc: 'Matriculación de motos nuevas, de importación o cambios de matrícula histórica.',
+              title: 'Inscripción y Inmatriculación',
+              desc: 'Inscripción registral inicial para motos nuevas o de importación con asignación de placa.',
               icon: Building2
             },
             {
-              title: 'Bajas de vehículos',
-              desc: 'Baja temporal por no uso o tramitación de baja definitiva por desguace.',
+              title: 'Levantamiento de Hipotecas / Cargas',
+              desc: 'Saneamiento de partidas registrales en SUNARP al cancelar financiamientos.',
               icon: CheckCircle2
             }
           ].map((item, idx) => {

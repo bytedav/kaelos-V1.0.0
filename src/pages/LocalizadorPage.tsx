@@ -18,8 +18,8 @@ export default function LocalizadorPage({ onNavigateHome, onNavigateServicios }:
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
   const handleWhatsAppClick = () => {
-    const message = encodeURIComponent("Hola, me interesa información sobre la instalación de localizadores GPS para motos.");
-    window.open(`https://wa.me/34600000000?text=${message}`, '_blank');
+    const message = encodeURIComponent("Hola, me interesa información sobre la instalación de localizadores GPS para motos en Perú.");
+    window.open(`https://wa.me/51900000000?text=${message}`, '_blank');
   };
 
   const faqs = [

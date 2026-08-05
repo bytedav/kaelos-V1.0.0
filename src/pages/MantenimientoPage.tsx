@@ -18,26 +18,26 @@ export default function MantenimientoPage({ onNavigateHome, onNavigateServicios 
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
   const handleWhatsAppClick = () => {
-    const message = encodeURIComponent("Hola, quisiera pedir cita para el mantenimiento / revisión de mi moto en vuestro taller.");
-    window.open(`https://wa.me/34600000000?text=${message}`, '_blank');
+    const message = encodeURIComponent("Hola, quisiera pedir cita para el mantenimiento / revisión de mi moto en su taller en Perú.");
+    window.open(`https://wa.me/51900000000?text=${message}`, '_blank');
   };
 
   const faqs = [
     {
-      q: "¿Mantenéis la garantía oficial del fabricante?",
-      a: "Sí. Realizamos el mantenimiento siguiendo rigurosamente las pautas oficiales del fabricante y utilizando recambios homologados u originales, por lo que conservas íntegramente tu garantía oficial."
+      q: "¿Mantienen la garantía oficial del fabricante?",
+      a: "Sí. Realizamos el mantenimiento siguiendo rigurosamente las pautas oficiales de la marca y utilizando repuestos originales y homologados, garantizando la cobertura de tu vehículo."
     },
     {
       q: "¿Tienen moto de sustitución mientras reparan la mía?",
-      a: "Disponemos de flota de motos de sustitución bajo reserva previa para que no te quedes sin movilidad durante la revisión."
+      a: "Disponemos de flota de motos de alquiler / sustitución bajo reserva previa para que no te quedes sin movilidad durante la revisión."
     },
     {
-      q: "¿Qué incluye la revisión oficial periódica?",
-      a: "Incluye cambio de aceite y filtro, revisión de niveles de líquidos, comprobación de frenos y desgaste de pastillas, tensión y engrase de cadena/transmisión, revisión de presiones, luces y diagnosis por ordenador."
+      q: "¿Qué incluye la revisión periódica completa?",
+      a: "Incluye cambio de aceite y filtro, revisión de niveles de líquidos, comprobación de frenos y desgaste de pastillas, tensión y engrase de cadena/transmisión, revisión de presiones, luces y scanner de diagnosis."
     },
     {
-      q: "¿Ofrecen servicio de ITV?",
-      a: "Realizamos la revisión pre-ITV y podemos llevar tu moto a pasar la inspección periódica por ti."
+      q: "¿Ofrecen servicio para la Inspección Técnica Vehicular (CITV)?",
+      a: "Realizamos la revisión pre-CITV completa para asegurar que tu motocicleta pase la Inspección Técnica Vehicular obligatoria sin observaciones."
     }
   ];
 
