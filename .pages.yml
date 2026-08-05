@@ -10,12 +10,10 @@ content:
     label: Blog Kaelos
     type: collection
     path: content/blog
-    extension: md
-    format: frontmatter
-    slug: "{{title}}"
+    filename: "{primary}.md"
     view:
       primary: title
-      secondary: [category, date]
+      fields: [category, date]
     fields:
       - name: title
         label: Título
@@ -66,9 +64,7 @@ content:
     label: Preguntas Frecuentes
     type: collection
     path: content/faqs
-    extension: md
-    format: frontmatter
-    slug: "{{title}}"
+    filename: "{primary}.md"
     fields:
       - name: title
         label: Pregunta

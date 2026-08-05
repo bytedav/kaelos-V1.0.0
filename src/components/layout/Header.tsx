@@ -82,7 +82,7 @@ export const Header: React.FC<HeaderProps> = ({
           >
             {/* Styled text logo */}
             <div className="flex items-baseline tracking-tight leading-none select-none font-sans font-black text-2xl sm:text-3xl">
-              <span className={`${!isHeaderGlass ? 'text-[#ff0d41]' : 'text-white'} transition-colors duration-300`}>kae</span>
+              <span className={`${!isHeaderGlass ? 'text-slate-900' : 'text-white'} transition-colors duration-300`}>kae</span>
               <span className={`${!isHeaderGlass ? 'text-slate-950' : 'text-white'} transition-colors duration-300`}>los</span>
             </div>
           </button>
@@ -157,10 +157,10 @@ export const Header: React.FC<HeaderProps> = ({
                             navigateTo(targetUrl);
                             handleParentMenuClick('compra');
                           }}
-                          className={`text-xs sm:text-sm font-semibold px-5 py-2.5 rounded-xl transition duration-150 cursor-pointer shadow-sm inline-block text-center ${
+                          className={`text-sm px-6 py-2.5 rounded-2xl font-bold transition duration-150 cursor-pointer inline-block text-center shadow-sm text-white ${
                             selectedCondition === 'ocasión'
-                              ? 'bg-slate-950 text-white ring-2 ring-slate-950 ring-offset-1'
-                              : 'bg-slate-800 hover:bg-slate-900 text-white'
+                              ? 'bg-black ring-2 ring-slate-700'
+                              : 'bg-black hover:bg-slate-800'
                           }`}
                         >
                           Motos ocasión
@@ -174,10 +174,10 @@ export const Header: React.FC<HeaderProps> = ({
                             navigateTo(targetUrl);
                             handleParentMenuClick('compra');
                           }}
-                          className={`text-xs sm:text-sm font-semibold px-5 py-2.5 rounded-xl transition duration-150 cursor-pointer shadow-sm inline-block text-center ${
+                          className={`text-sm px-6 py-2.5 rounded-2xl font-bold transition duration-150 cursor-pointer inline-block text-center shadow-sm text-white ${
                             selectedCondition === 'nueva'
-                              ? 'bg-slate-950 text-white ring-2 ring-slate-950 ring-offset-1'
-                              : 'bg-slate-800 hover:bg-slate-900 text-white'
+                              ? 'bg-black ring-2 ring-slate-700'
+                              : 'bg-black hover:bg-slate-800'
                           }`}
                         >
                           Motos nuevas
