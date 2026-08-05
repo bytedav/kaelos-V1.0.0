@@ -40,57 +40,6 @@ export interface BlogPost {
   likes: number;
 }
 
-export const BLOG_POSTS: BlogPost[] = [
-  {
-    id: 'guia-compra-scooter-125',
-    title: 'Las mejores scooters de 125cc para moverte por la ciudad en 2026',
-    excerpt: '¿Pensando en comprar un scooter de 125 para evitar los atascos? Analizamos los modelos líderes en consumo, fiabilidad y capacidad de carga.',
-    category: 'Guías de Compra',
-    image: 'https://images.unsplash.com/photo-1558981420-87aa9dad1c89?auto=format&fit=crop&w=800&q=80',
-    readTime: '6 min',
-    date: '18 Jul 2026',
-    author: {
-      name: 'Carlos Ruiz',
-      role: 'Experto en Movilidad Urbana',
-      avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80'
-    },
-    tags: ['Scooter', 'Ciudad', '125cc', 'Licencia BII'],
-    likes: 124,
-    content: (
-      <div className="space-y-6 text-slate-700 leading-relaxed font-medium">
-        <p className="text-lg text-slate-800 font-semibold leading-relaxed">
-          La movilidad urbana ha cambiado drásticamente en los últimos años. Las restricciones de tráfico, el coste del combustible y la necesidad de ahorrar tiempo en los desplazamientos diarios han convertido a los scooters de 125cc en los reyes indiscutibles del asfalto de nuestras ciudades.
-        </p>
-        
-        <h2 className="text-xl font-extrabold text-[#111215] mt-8 tracking-tight">
-          ¿Por qué un scooter de 125cc es la mejor opción?
-        </h2>
-        <p>
-          Con la licencia de conducir Clase BII-a, cualquier conductor puede ponerse a los mandos de un scooter de 125cc para desplazarse ágilmente por la ciudad. Esto abre la puerta a un ahorro drástico en tiempos de trayecto y en combustible, con medias que apenas superan los 2.2 litros a los 100 km.
-        </p>
-
-        <h2 className="text-xl font-extrabold text-[#111215] mt-8 tracking-tight">
-          Factores clave antes de tomar tu decisión
-        </h2>
-        <ul className="list-disc list-inside space-y-2">
-          <li><strong className="text-slate-900">Rueda alta vs. Rueda pequeña:</strong> Los de rueda alta (16 pulgadas) ofrecen máxima estabilidad en avenidas y baches, mientras que los de rueda pequeña ganan en maniobrabilidad en calles estrechas y hueco bajo el asiento.</li>
-          <li><strong className="text-slate-900">Frenada combinada (CBS) o ABS:</strong> Siempre que tu presupuesto lo permita, opta por sistemas con ABS de doble canal para evitar bloqueos en mojado.</li>
-          <li><strong className="text-slate-900">Capacidad de almacenamiento:</strong> Comprueba si cabe un casco integral bajo el asiento sin esfuerzo.</li>
-        </ul>
-
-        <div className="bg-slate-50 border-l-4 border-[#ff0d41] p-5 rounded-r-2xl my-6">
-          <p className="text-sm font-bold text-[#111215]">
-            💡 Consejo Kaelos:
-          </p>
-          <p className="text-xs text-slate-600 mt-1">
-            Si vas a hacer tramos diarios de autopista o circunvalación (M-30, Ronda de Dalt, V-30), busca modelos de 125cc con motores de 14 o 15 CV (el límite legal) para mantener un ritmo fluido de 100-110 km/h sin forzar la mecánica.
-          </p>
-        </div>
-      </div>
-    )
-  }
-];
-
 interface BlogPageProps {
   onNavigate: (page: any) => void;
   selectedPostId: string | null;
@@ -175,7 +124,7 @@ export default function BlogPage({ onNavigate, selectedPostId, onSelectPostId }:
 
   const blogPosts = useMemo(() => {
     const postMap = new Map<string, BlogPost>();
-    [...dbBlogPosts, ...cmsPosts, ...BLOG_POSTS].forEach((p) => {
+    [...dbBlogPosts, ...cmsPosts].forEach((p) => {
       if (p && p.id && !postMap.has(p.id)) {
         postMap.set(p.id, p);
       }

@@ -20,7 +20,7 @@ export async function loadAllMotorcyclesFromCms(): Promise<any[]> {
   return [];
 }
 
-export async function loadAllBlogPostsFromCms(): Promise<BlogPostContent[]> {
+export function loadAllBlogPostsFromCms(): BlogPostContent[] {
   try {
     const modules = import.meta.glob('/content/blog/*.md', { query: '?raw', eager: true });
     const posts: BlogPostContent[] = [];
@@ -64,7 +64,7 @@ export async function loadAllBlogPostsFromCms(): Promise<BlogPostContent[]> {
   }
 }
 
-export async function loadAllFaqsFromCms(): Promise<any[]> {
+export function loadAllFaqsFromCms(): any[] {
   try {
     const modules = import.meta.glob('/content/faqs/*.md', { query: '?raw', eager: true });
     const categoryMap: Record<string, any[]> = {};
