@@ -121,8 +121,8 @@ export const Header: React.FC<HeaderProps> = ({
                   onClick={(e) => { e.preventDefault(); handleParentMenuClick('compra'); }}
                   className={`flex items-center gap-1.5 text-sm font-semibold transition py-2 cursor-pointer
                     ${activePage === 'compra' && !(selectedStyles.length === 1 && selectedStyles[0]?.toUpperCase() === 'SCOOTER')
-                      ? (!isHeaderGlass ? 'text-[#ff0d41] border-b-2 border-[#ff0d41]' : 'text-white border-b-2 border-white') 
-                      : (!isHeaderGlass ? 'text-slate-600 hover:text-[#ff0d41]' : 'text-[#d6f0ff] hover:text-white')
+                      ? (!isHeaderGlass ? 'text-slate-950 border-b-2 border-slate-950 font-bold' : 'text-white border-b-2 border-white') 
+                      : (!isHeaderGlass ? 'text-slate-600 hover:text-slate-950' : 'text-[#d6f0ff] hover:text-white')
                     }
                   `}
                 >
@@ -130,7 +130,7 @@ export const Header: React.FC<HeaderProps> = ({
                   <ChevronDown className={`w-4 h-4 transition-transform duration-200 
                     ${hoveredMenu === 'compra' ? 'rotate-180' : ''}
                     ${!isHeaderGlass 
-                      ? (activePage === 'compra' ? 'text-[#ff0d41]' : 'text-slate-400 group-hover:text-[#ff0d41]') 
+                      ? (activePage === 'compra' ? 'text-slate-950' : 'text-slate-400 group-hover:text-slate-950') 
                       : (activePage === 'compra' ? 'text-white' : 'text-[#a1d7fb] group-hover:text-white')
                     }
                   `} />
@@ -159,8 +159,8 @@ export const Header: React.FC<HeaderProps> = ({
                           }}
                           className={`text-xs sm:text-sm font-semibold px-5 py-2.5 rounded-xl transition duration-150 cursor-pointer shadow-sm inline-block text-center ${
                             selectedCondition === 'ocasión'
-                              ? 'bg-[#ff0d41] text-white ring-2 ring-[#ff0d41] ring-offset-1'
-                              : 'bg-[#222222] hover:bg-[#111111] text-white'
+                              ? 'bg-slate-950 text-white ring-2 ring-slate-950 ring-offset-1'
+                              : 'bg-slate-800 hover:bg-slate-900 text-white'
                           }`}
                         >
                           Motos ocasión
@@ -176,8 +176,8 @@ export const Header: React.FC<HeaderProps> = ({
                           }}
                           className={`text-xs sm:text-sm font-semibold px-5 py-2.5 rounded-xl transition duration-150 cursor-pointer shadow-sm inline-block text-center ${
                             selectedCondition === 'nueva'
-                              ? 'bg-[#ff0d41] text-white ring-2 ring-[#ff0d41] ring-offset-1'
-                              : 'bg-[#222222] hover:bg-[#111111] text-white'
+                              ? 'bg-slate-950 text-white ring-2 ring-slate-950 ring-offset-1'
+                              : 'bg-slate-800 hover:bg-slate-900 text-white'
                           }`}
                         >
                           Motos nuevas
@@ -212,7 +212,7 @@ export const Header: React.FC<HeaderProps> = ({
                                       handleParentMenuClick('compra');
                                     }}
                                     className={`transition duration-120 block text-left w-full truncate py-0.5 cursor-pointer ${
-                                      isSelected ? 'text-[#ff0d41] font-extrabold' : 'hover:text-[#ff0d41] text-slate-600'
+                                      isSelected ? 'text-slate-950 font-extrabold underline' : 'hover:text-slate-950 text-slate-600'
                                     }`}
                                   >
                                     {style}
@@ -245,7 +245,7 @@ export const Header: React.FC<HeaderProps> = ({
                                       handleParentMenuClick('compra');
                                     }}
                                     className={`transition duration-120 block text-left w-full truncate py-0.5 cursor-pointer ${
-                                      isSelected ? 'text-[#ff0d41] font-extrabold' : 'hover:text-[#ff0d41] text-slate-600'
+                                      isSelected ? 'text-slate-950 font-extrabold underline' : 'hover:text-slate-950 text-slate-600'
                                     }`}
                                   >
                                     {brand}
@@ -286,7 +286,7 @@ export const Header: React.FC<HeaderProps> = ({
                                     }}
 
                                     className={`transition duration-120 block text-left w-full truncate py-0.5 cursor-pointer ${
-                                      isSelected ? 'text-[#ff0d41] font-extrabold' : 'hover:text-[#ff0d41] text-slate-600'
+                                      isSelected ? 'text-slate-950 font-extrabold underline' : 'hover:text-slate-950 text-slate-600'
                                     }`}
                                   >
                                     {item.label}
@@ -314,8 +314,8 @@ export const Header: React.FC<HeaderProps> = ({
                 }}
                 className={`text-sm font-semibold transition duration-150 cursor-pointer py-2
                   ${activePage === 'compra' && selectedCondition === 'nueva' && selectedStyles.length === 1 && selectedStyles[0]?.toUpperCase() === 'SCOOTER'
-                    ? (!isHeaderGlass ? 'text-[#ff0d41] border-b-2 border-[#ff0d41]' : 'text-white border-b-2 border-white') 
-                    : (!isHeaderGlass ? 'text-slate-600 hover:text-[#ff0d41]' : 'text-[#d6f0ff] hover:text-white')
+                    ? (!isHeaderGlass ? 'text-slate-950 border-b-2 border-slate-950 font-bold' : 'text-white border-b-2 border-white') 
+                    : (!isHeaderGlass ? 'text-slate-600 hover:text-slate-950' : 'text-[#d6f0ff] hover:text-white')
                   }
                 `}
               >
@@ -328,8 +328,8 @@ export const Header: React.FC<HeaderProps> = ({
                 onClick={(e) => { e.preventDefault(); handleParentMenuClick('vende'); }}
                 className={`text-sm font-semibold transition duration-150 cursor-pointer py-2
                   ${activePage === 'vende' 
-                    ? (!isHeaderGlass ? 'text-[#ff0d41] border-b-2 border-[#ff0d41]' : 'text-white border-b-2 border-white') 
-                    : (!isHeaderGlass ? 'text-slate-600 hover:text-[#ff0d41]' : 'text-[#d6f0ff] hover:text-white')
+                    ? (!isHeaderGlass ? 'text-slate-950 border-b-2 border-slate-950 font-bold' : 'text-white border-b-2 border-white') 
+                    : (!isHeaderGlass ? 'text-slate-600 hover:text-slate-950' : 'text-[#d6f0ff] hover:text-white')
                   }
                 `}
               >
@@ -342,8 +342,8 @@ export const Header: React.FC<HeaderProps> = ({
                 onClick={(e) => { e.preventDefault(); handleParentMenuClick('financiacion'); }}
                 className={`text-sm font-semibold transition duration-150 cursor-pointer py-2
                   ${activePage === 'financiacion' 
-                    ? (!isHeaderGlass ? 'text-[#ff0d41] border-b-2 border-[#ff0d41]' : 'text-white border-b-2 border-white') 
-                    : (!isHeaderGlass ? 'text-slate-600 hover:text-[#ff0d41]' : 'text-[#d6f0ff] hover:text-white')
+                    ? (!isHeaderGlass ? 'text-slate-950 border-b-2 border-slate-950 font-bold' : 'text-white border-b-2 border-white') 
+                    : (!isHeaderGlass ? 'text-slate-600 hover:text-slate-950' : 'text-[#d6f0ff] hover:text-white')
                   }
                 `}
               >
@@ -362,8 +362,8 @@ export const Header: React.FC<HeaderProps> = ({
                   onClick={(e) => { e.preventDefault(); handleParentMenuClick('contacto'); }}
                   className={`flex items-center gap-1.5 text-sm font-semibold transition py-2 cursor-pointer
                     ${activePage === 'contacto' 
-                      ? (!isHeaderGlass ? 'text-[#ff0d41] border-b-2 border-[#ff0d41]' : 'text-white border-b-2 border-white') 
-                      : (!isHeaderGlass ? 'text-slate-600 hover:text-[#ff0d41]' : 'text-[#d6f0ff] hover:text-white')
+                      ? (!isHeaderGlass ? 'text-slate-950 border-b-2 border-slate-950 font-bold' : 'text-white border-b-2 border-white') 
+                      : (!isHeaderGlass ? 'text-slate-600 hover:text-slate-950' : 'text-[#d6f0ff] hover:text-white')
                     }
                   `}
                 >
@@ -371,7 +371,7 @@ export const Header: React.FC<HeaderProps> = ({
                   <ChevronDown className={`w-4 h-4 transition-transform duration-200 
                     ${hoveredMenu === 'servicios' ? 'rotate-180' : ''}
                     ${!isHeaderGlass 
-                      ? (activePage === 'contacto' ? 'text-[#ff0d41]' : 'text-slate-400 group-hover:text-[#ff0d41]') 
+                      ? (activePage === 'contacto' ? 'text-slate-950' : 'text-slate-400 group-hover:text-slate-950') 
                       : (activePage === 'contacto' ? 'text-white' : 'text-[#a1d7fb] group-hover:text-white')
                     }
                   `} />
@@ -407,10 +407,10 @@ export const Header: React.FC<HeaderProps> = ({
                                 setHoveredMenu(null);
                                 handleParentMenuClick(item.target as any);
                               }}
-                              className="flex items-center gap-3.5 px-3 py-2.5 rounded-xl transition duration-150 text-slate-700 hover:text-[#ff0d41] hover:bg-slate-50 group cursor-pointer"
+                              className="flex items-center gap-3.5 px-3 py-2.5 rounded-xl transition duration-150 text-slate-700 hover:text-slate-950 hover:bg-slate-100 group cursor-pointer"
                             >
-                              <IconComp className="w-5 h-5 text-slate-700 group-hover:text-[#ff0d41] transition-colors shrink-0" strokeWidth={1.8} />
-                              <span className="text-[14px] font-semibold text-slate-700 group-hover:text-[#ff0d41] transition-colors whitespace-nowrap">
+                              <IconComp className="w-5 h-5 text-slate-700 group-hover:text-slate-950 transition-colors shrink-0" strokeWidth={1.8} />
+                              <span className="text-[14px] font-semibold text-slate-700 group-hover:text-slate-950 transition-colors whitespace-nowrap">
                                 {item.title}
                               </span>
                             </a>
@@ -428,8 +428,8 @@ export const Header: React.FC<HeaderProps> = ({
                 onClick={(e) => { e.preventDefault(); handleParentMenuClick('preguntas-frecuentes'); }}
                 className={`text-sm font-semibold transition duration-150 cursor-pointer py-2
                   ${activePage === 'preguntas-frecuentes' 
-                    ? (!isHeaderGlass ? 'text-[#ff0d41] border-b-2 border-[#ff0d41]' : 'text-white border-b-2 border-white') 
-                    : (!isHeaderGlass ? 'text-slate-600 hover:text-[#ff0d41]' : 'text-[#d6f0ff] hover:text-white')
+                    ? (!isHeaderGlass ? 'text-slate-950 border-b-2 border-slate-950 font-bold' : 'text-white border-b-2 border-white') 
+                    : (!isHeaderGlass ? 'text-slate-600 hover:text-slate-950' : 'text-[#d6f0ff] hover:text-white')
                   }
                 `}
               >

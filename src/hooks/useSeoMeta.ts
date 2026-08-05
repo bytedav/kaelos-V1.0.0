@@ -398,14 +398,6 @@ export function useSeoMeta(options: UseSeoMetaOptions) {
         canonical = '/user/favorites';
         break;
 
-      case 'checkout-sale':
-      case 'checkout':
-        rawTitle = 'Reserva y Checkout Seguro | KAELOS';
-        description = 'Gestión privada de pedido y reserva oficial de motocicleta.';
-        breadcrumbs = [{ name: 'Inicio', url: '/' }, { name: 'Checkout', url: '/checkout-sale' }];
-        canonical = '/checkout-sale';
-        break;
-
       default:
         rawTitle = 'Kaelos | Encuentra tu próxima motocicleta';
         description = 'Plataforma líder en compra, venta y financiación de motocicletas.';
@@ -434,7 +426,7 @@ export function useSeoMeta(options: UseSeoMetaOptions) {
       customSchemas.push(localSchemas);
     }
 
-    const isPrivatePage = activePage === 'checkout-sale' || activePage === 'checkout' || activePage === 'favorites';
+    const isPrivatePage = activePage === 'favorites';
     const hasUserParams = typeof window !== 'undefined' && (
       window.location.search.includes('name=') || 
       window.location.search.includes('email=') || 

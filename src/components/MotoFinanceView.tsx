@@ -137,8 +137,6 @@ export default function MotoFinanceView({ bike, onBack }: MotoFinanceViewProps) 
       const cleanPhone = (SITE_CONFIG?.whatsapp?.phoneNumber || '51987654321').replace(/[^0-9]/g, '');
       const bikeSlugOrId = bike?.slug || bikeId;
       const bikeUrl = `${window.location.origin}/moto/${bikeSlugOrId}`;
-      const targetUrl = `/checkout-sale?order=${orderId}&bike=${bikeId}&pago=${mode}&pack=${selectedPack}`;
-      const trackingUrl = `${window.location.origin}${targetUrl}`;
       const packLabel = packNames[selectedPack] || selectedPack;
 
       let waMsg = `🏍️ *SOLICITUD DE RESERVA - KAELOS*\n\n`;
@@ -158,15 +156,13 @@ export default function MotoFinanceView({ bike, onBack }: MotoFinanceViewProps) 
         waMsg += `💵 *Monto de Reserva:* ${formatSoles(registrationFee)}\n\n`;
       }
 
-      waMsg += `📋 *Seguimiento de Estado:* ${trackingUrl}\n\n`;
       waMsg += `_Hola, quiero realizar el pago de la reserva (S/. ${registrationFee}) para asegurar mi motocicleta y continuar con el trámite._`;
 
       const whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(waMsg)}`;
       window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
 
-      // Navigate browser to checkout order tracking screen
-      window.history.pushState(null, '', targetUrl);
-      window.dispatchEvent(new PopStateEvent('popstate'));
+      // Show confirmation screen
+      setFormSubmitted(true);
       window.scrollTo({ top: 0, behavior: 'instant' });
     }
   };

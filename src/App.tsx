@@ -13,7 +13,6 @@ import { motorbikesData } from './data/motorbikesData';
 import MotoDetailView from './components/MotoDetailView';
 import MotoImagesView from './components/MotoImagesView';
 import MotoFinanceView from './components/MotoFinanceView';
-import CheckoutSaleView from './components/CheckoutSaleView';
 import VendePage from './pages/VendePage';
 import EquipamientoPage from './pages/EquipamientoPage';
 import TramitesDocumentalesPage from './pages/TramitesDocumentalesPage';
@@ -623,21 +622,6 @@ export default function App() {
               onClose={() => {
                 setActivePage('moto');
               }}
-            />
-          </div>
-        )}
-
-        {/* 7. MOTORBIKE CHECKOUT SALE PAGE */}
-        {activePage === 'checkout-sale' && (
-          <div className="animate-fade-in">
-            <CheckoutSaleView 
-              bike={selectedDetailedBike}
-              onReserveSuccess={handleReserveSuccess}
-              onBack={() => {
-                setActivePage('compra');
-                window.scrollTo({ top: 0, behavior: 'instant' });
-              }}
-              motorbikesList={motorbikesList}
             />
           </div>
         )}

@@ -16,7 +16,10 @@ import {
   ThumbsUp, 
   MessageSquare, 
   Send,
-  Sparkles
+  Sparkles,
+  FileText,
+  ExternalLink,
+  CheckCircle2
 } from 'lucide-react';
 
 export interface BlogPost {
@@ -107,6 +110,7 @@ export default function BlogPage({ onNavigate, selectedPostId, onSelectPostId }:
   const [newsletterSubscribed, setNewsletterSubscribed] = useState(false);
   const [shareCopied, setShareCopied] = useState(false);
   const [copiedCardId, setCopiedCardId] = useState<string | null>(null);
+  const [isPagesCmsModalOpen, setIsPagesCmsModalOpen] = useState(false);
 
   // Always scroll to top when opening article, changing category, or searching
   useEffect(() => {
@@ -412,6 +416,15 @@ export default function BlogPage({ onNavigate, selectedPostId, onSelectPostId }:
                     {cat}
                   </button>
                 ))}
+
+                <button
+                  onClick={() => setIsPagesCmsModalOpen(true)}
+                  className="ml-auto px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-bold bg-slate-900 text-white hover:bg-black transition-all flex items-center gap-1.5 shrink-0 shadow-xs cursor-pointer"
+                  title="Configuración de Pages CMS"
+                >
+                  <FileText className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Pages CMS</span>
+                </button>
               </div>
             </div>
           </section>
@@ -547,6 +560,73 @@ export default function BlogPage({ onNavigate, selectedPostId, onSelectPostId }:
 
           </div>
         )
+      )}
+
+      {/* PAGES CMS INTEGRATION MODAL */}
+      {isPagesCmsModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fade-in">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 space-y-5 text-left relative">
+            <button
+              onClick={() => setIsPagesCmsModalOpen(false)}
+              className="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-lg font-bold p-1 cursor-pointer"
+            >
+              ✕
+            </button>
+
+            <div className="flex items-center gap-3">
+              <div className="p-3 bg-emerald-50 rounded-xl text-emerald-600">
+                <FileText className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-lg font-black text-slate-900">Integración con Pages CMS</h3>
+                <p className="text-xs text-slate-500 font-medium">Gestor de contenidos rápido y sin servidor (pagescms.org)</p>
+              </div>
+            </div>
+
+            <div className="space-y-3 text-sm text-slate-600 bg-slate-50 p-4 rounded-xl border border-slate-100">
+              <div className="flex items-start gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                <span>
+                  <strong>Archivo de configuración:</strong> <code>.pages.yml</code> creado en la raíz del proyecto.
+                </span>
+              </div>
+              <div className="flex items-start gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                <span>
+                  <strong>Colección de Blog:</strong> Los artículos se guardan en formato Markdown en <code>content/blog/*.md</code> con metadatos YAML.
+                </span>
+              </div>
+              <div className="flex items-start gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                <span>
+                  <strong>Gestión multimedia:</strong> Las imágenes se organizan en <code>public/uploads</code>.
+                </span>
+              </div>
+            </div>
+
+            <div className="text-xs text-slate-500 leading-relaxed">
+              Para agregar o editar artículos desde la interfaz gráfica de Pages CMS, conecta tu repositorio GitHub a <a href="https://app.pagescms.org" target="_blank" rel="noopener noreferrer" className="text-slate-900 font-bold underline">app.pagescms.org</a>. Pages CMS leerá automáticamente la configuración de <code>.pages.yml</code>.
+            </div>
+
+            <div className="flex items-center gap-3 pt-2">
+              <a
+                href="https://app.pagescms.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 py-2.5 px-4 bg-slate-900 text-white hover:bg-black font-bold text-xs rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer"
+              >
+                <span>Abrir Pages CMS</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+              <button
+                onClick={() => setIsPagesCmsModalOpen(false)}
+                className="py-2.5 px-4 bg-slate-100 text-slate-700 hover:bg-slate-200 font-bold text-xs rounded-xl transition-all cursor-pointer"
+              >
+                Cerrar
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
     </div>

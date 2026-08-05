@@ -22,7 +22,6 @@ export const PATH_MAP: Record<string, string> = {
   vende: '/vender-mi-moto',
   equipamiento: '/equipamiento',
   contacto: '/contacto',
-  'checkout-sale': '/checkout-sale',
   'aviso-legal': '/aviso-legal',
   'politica-privacidad': '/politica-privacidad',
   'terminos-y-condiciones': '/terminos-y-condiciones',
@@ -47,7 +46,6 @@ export const REVERSE_PATH_MAP: Record<string, string> = {
   '/equipamiento': 'equipamiento',
   '/maletas-y-accesorios': 'equipamiento',
   '/contacto': 'contacto',
-  '/checkout-sale': 'checkout-sale',
   '/aviso-legal': 'aviso-legal',
   '/politica-privacidad': 'politica-privacidad',
   '/terminos-y-condiciones': 'terminos-y-condiciones',
@@ -103,7 +101,7 @@ export const findBikeInSource = (source: MotorbikeExtended[], rawId: string): Mo
 };
 
 export interface ParsedUrlState {
-  activePage: 'home' | 'compra' | 'moto' | 'moto-images' | 'moto-finance' | 'checkout-sale' | 'acerca-de' | 'financiacion' | 'preguntas-frecuentes' | 'blog' | 'favorites' | 'vende' | 'equipamiento' | 'contacto' | 'aviso-legal' | 'politica-privacidad' | 'terminos-y-condiciones' | 'cookies' | 'tramites-documentales' | 'seguros' | 'localizador' | 'mantenimiento' | 'transporte';
+  activePage: 'home' | 'compra' | 'moto' | 'moto-images' | 'moto-finance' | 'acerca-de' | 'financiacion' | 'preguntas-frecuentes' | 'blog' | 'favorites' | 'vende' | 'equipamiento' | 'contacto' | 'aviso-legal' | 'politica-privacidad' | 'terminos-y-condiciones' | 'cookies' | 'tramites-documentales' | 'seguros' | 'localizador' | 'mantenimiento' | 'transporte';
   selectedDetailedBike: MotorbikeExtended | null;
   selectedBlogPostId: string | null;
   selectedCiudades: string[];
@@ -159,12 +157,11 @@ export function parseUrlToState(
     selectedBlogPostId = null;
     activePage = 'blog';
   } else {
-    const detailSubMatch = currentPath.match(/^\/moto\/([^/]+)\/(finance|pack|images|checkout)$/);
+    const detailSubMatch = currentPath.match(/^\/moto\/([^/]+)\/(finance|pack|images)$/);
     const motoPathMatch = currentPath.match(/^\/moto\/([^/]+)$/);
 
     const isCompraPath = currentPath === '/motos' || currentPath.startsWith('/motos/');
     const isVendePath = currentPath === '/vender-mi-moto';
-    const checkoutSaleMatch = currentPath.match(/^\/checkout-sale(?:\/([^/]+))?$/);
 
     if (detailSubMatch) {
       const bikeId = decodeURIComponent(detailSubMatch[1]);
@@ -172,36 +169,9 @@ export function parseUrlToState(
       selectedDetailedBike = findBikeInSource(bikesSource, bikeId) || null;
       if (sub === 'images') {
         activePage = 'moto-images';
-      } else if (sub === 'checkout') {
-        activePage = 'checkout-sale';
       } else {
         activePage = 'moto-finance';
       }
-    } else if (checkoutSaleMatch) {
-      const urlParams = new URLSearchParams(currentSearch);
-      const matchId = checkoutSaleMatch[1] ? decodeURIComponent(checkoutSaleMatch[1]) : null;
-      const explicitRef = urlParams.get('order') || urlParams.get('pedido') || urlParams.get('ref') || urlParams.get('id');
-      const orderRef = explicitRef || matchId;
-
-      let foundBike: MotorbikeExtended | undefined;
-      if (orderRef) {
-        const savedOrder = getOrderById(orderRef);
-        if (savedOrder && savedOrder.bike_id) {
-          foundBike = findBikeInSource(bikesSource, savedOrder.bike_id);
-        }
-      }
-
-      const urlBikeId = urlParams.get('bike') || matchId;
-      if (!foundBike && urlBikeId) {
-        foundBike = findBikeInSource(bikesSource, urlBikeId);
-      }
-
-      if (!foundBike) {
-        foundBike = findBikeInSource(bikesSource, 'bmw-r-1250-gs') || bikesSource[0];
-      }
-
-      selectedDetailedBike = foundBike || null;
-      activePage = 'checkout-sale';
     } else if (motoPathMatch) {
       const bikeId = decodeURIComponent(motoPathMatch[1]);
       selectedDetailedBike = findBikeInSource(bikesSource, bikeId) || null;
@@ -488,30 +458,7 @@ export function useUrlSync({
     }
     const queryParams = new URLSearchParams();
     let targetPath = '/';
-    if (activePage === 'checkout-sale') {
-      targetPath = '/checkout-sale';
-      const currentParams = new URLSearchParams(window.location.search);
-      let orderParam = currentParams.get('order') || currentParams.get('pedido') || currentParams.get('ref') || currentParams.get('id');
-      
-      if (!orderParam && window.location.hash) {
-        const cleanHash = window.location.hash.replace(/^[#?kK-]+/i, '');
-        if (cleanHash) orderParam = cleanHash;
-      }
-      if (!orderParam && window.location.search) {
-        const cleaned = window.location.search.replace(/^[?#kK-]+/i, '');
-        if (cleaned && !cleaned.includes('=')) {
-          orderParam = cleaned;
-        }
-      }
-      if (orderParam) {
-        orderParam = orderParam.replace(/^[#?kK-]+/i, '');
-      }
-      if (!orderParam) {
-        orderParam = '16116605';
-      }
-
-      queryParams.set('order', orderParam);
-    } else if (activePage === 'moto') {
+    if (activePage === 'moto') {
       const bikeId = selectedDetailedBike?.id || 'harley-heritage-classic';
       targetPath = `/moto/${bikeId}`;
     } else if (activePage === 'moto-images') {

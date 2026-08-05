@@ -29,7 +29,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
   selectedStyles = [],
   selectedCondition = 'all',
 }) => {
-  const [serviciosOpen, setServiciosOpen] = useState(false);
+  const [serviciosOpen, setServiciosOpen] = useState(true);
 
   if (!isOpen) return null;
 
@@ -74,7 +74,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
               handleParentMenuClick('compra', { filterType: 'condition', value: 'all', condition: 'all' });
             }}
             className={`w-full text-left text-[16px] font-bold transition cursor-pointer ${
-              activePage === 'compra' && !(selectedStyles.length === 1 && selectedStyles[0]?.toUpperCase() === 'SCOOTER') ? 'text-[#ff0d41]' : 'text-slate-900 hover:text-[#ff0d41]'
+              activePage === 'compra' && !(selectedStyles.length === 1 && selectedStyles[0]?.toUpperCase() === 'SCOOTER') ? 'text-slate-950 underline underline-offset-4 decoration-2' : 'text-slate-900 hover:text-slate-600'
             }`}
           >
             Compra
@@ -86,7 +86,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
                 handleParentMenuClick('compra', { filterType: 'condition', value: 'ocasión', condition: 'ocasión' });
               }}
               className={`w-full text-left text-[14.5px] font-medium transition cursor-pointer ${
-                activePage === 'compra' && selectedCondition === 'ocasión' ? 'text-[#ff0d41] font-bold' : 'text-slate-600 hover:text-[#ff0d41]'
+                activePage === 'compra' && selectedCondition === 'ocasión' ? 'text-slate-950 font-bold' : 'text-slate-600 hover:text-slate-950'
               }`}
             >
               Motos ocasión
@@ -97,7 +97,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
                 handleParentMenuClick('compra', { filterType: 'condition', value: 'nueva', condition: 'nueva' });
               }}
               className={`w-full text-left text-[14.5px] font-medium transition cursor-pointer ${
-                activePage === 'compra' && selectedCondition === 'nueva' && !(selectedStyles.length === 1 && selectedStyles[0]?.toUpperCase() === 'SCOOTER') ? 'text-[#ff0d41] font-bold' : 'text-slate-600 hover:text-[#ff0d41]'
+                activePage === 'compra' && selectedCondition === 'nueva' && !(selectedStyles.length === 1 && selectedStyles[0]?.toUpperCase() === 'SCOOTER') ? 'text-slate-950 font-bold' : 'text-slate-600 hover:text-slate-950'
               }`}
             >
               Motos nuevas
@@ -113,7 +113,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
               handleParentMenuClick('compra', { filterType: 'style', value: 'SCOOTER', condition: 'nueva' });
             }}
             className={`w-full text-left text-[16px] font-bold transition py-1 cursor-pointer
-              ${activePage === 'compra' && selectedCondition === 'nueva' && selectedStyles.length === 1 && selectedStyles[0]?.toUpperCase() === 'SCOOTER' ? 'text-[#ff0d41]' : 'text-slate-900 hover:text-[#ff0d41]'}
+              ${activePage === 'compra' && selectedCondition === 'nueva' && selectedStyles.length === 1 && selectedStyles[0]?.toUpperCase() === 'SCOOTER' ? 'text-slate-950 underline underline-offset-4 decoration-2' : 'text-slate-900 hover:text-slate-600'}
             `}
           >
             Scooters
@@ -128,7 +128,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
               handleParentMenuClick('vende');
             }}
             className={`w-full text-left text-[16px] font-bold transition py-1 cursor-pointer
-              ${activePage === 'vende' ? 'text-[#ff0d41]' : 'text-slate-900 hover:text-[#ff0d41]'}
+              ${activePage === 'vende' ? 'text-slate-950 underline underline-offset-4 decoration-2' : 'text-slate-900 hover:text-slate-600'}
             `}
           >
             Vende
@@ -143,7 +143,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
               handleParentMenuClick('financiacion');
             }}
             className={`w-full text-left text-[16px] font-bold transition py-1 cursor-pointer
-              ${activePage === 'financiacion' ? 'text-[#ff0d41]' : 'text-slate-900 hover:text-[#ff0d41]'}
+              ${activePage === 'financiacion' ? 'text-slate-950 underline underline-offset-4 decoration-2' : 'text-slate-900 hover:text-slate-600'}
             `}
           >
             Financiación
@@ -154,10 +154,10 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
         <div className="space-y-3">
           <button 
             onClick={() => setServiciosOpen(!serviciosOpen)}
-            className="w-full flex items-center justify-between text-left text-[16px] font-bold text-slate-900 hover:text-[#ff0d41] transition cursor-pointer py-1"
+            className="w-full flex items-center justify-between text-left text-[16px] font-bold text-slate-900 hover:text-slate-700 transition cursor-pointer py-1"
           >
             <span>Servicios</span>
-            <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${serviciosOpen ? 'rotate-180 text-[#ff0d41]' : 'text-slate-400'}`} />
+            <ChevronDown className={`w-4 h-4 text-slate-500 transition-transform duration-200 ${serviciosOpen ? 'rotate-180' : ''}`} />
           </button>
           {serviciosOpen && (
             <div className="pl-4 flex flex-col space-y-3.5 pt-1">
@@ -181,7 +181,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
                       }
                       handleParentMenuClick(item.target);
                     }}
-                    className="flex items-center gap-3.5 text-[14.5px] font-medium text-slate-700 hover:text-[#ff0d41] transition text-left cursor-pointer"
+                    className="flex items-center gap-3.5 text-[14.5px] font-medium text-slate-700 hover:text-slate-950 transition text-left cursor-pointer"
                   >
                     <IconComp className="w-4.5 h-4.5 text-slate-700 shrink-0" strokeWidth={2} />
                     <span>{item.title}</span>
@@ -200,7 +200,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
               handleParentMenuClick('preguntas-frecuentes');
             }}
             className={`w-full text-left text-[16px] font-bold transition py-1 cursor-pointer
-              ${activePage === 'preguntas-frecuentes' ? 'text-[#ff0d41]' : 'text-slate-900 hover:text-[#ff0d41]'}
+              ${activePage === 'preguntas-frecuentes' ? 'text-slate-950 underline underline-offset-4 decoration-2' : 'text-slate-900 hover:text-slate-600'}
             `}
           >
             Preguntas frecuentes
