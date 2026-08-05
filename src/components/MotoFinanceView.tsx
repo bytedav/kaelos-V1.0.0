@@ -10,6 +10,7 @@ import { MotorbikeExtended } from './MotorbikeCard';
 import { calculateCuota, clampEntranceFee, getMinEntrance, FINANCE_TERMS, DEFAULT_TERM, PACK_PRICES, PACK_NAMES } from '../utils/finance';
 import { PRICING_CONFIG } from '../config/pricing';
 import { saveOrder } from '../utils/storage';
+import { SITE_CONFIG } from '../data/siteConfig';
 
 interface MotoFinanceViewProps {
   bike: MotorbikeExtended | null;
@@ -51,10 +52,7 @@ export default function MotoFinanceView({ bike, onBack }: MotoFinanceViewProps) 
   const handleTabChange = (tab: 'finance' | 'packs') => {
     setActiveTab(tab);
     const slug = bike.id;
-    const isRent = window.location.pathname.startsWith('/renting');
-    const newPath = isRent 
-      ? `/renting/moto/${slug}/${tab === 'packs' ? 'pack' : 'finance'}` 
-      : `/moto/${slug}/${tab === 'packs' ? 'pack' : 'finance'}`;
+    const newPath = `/moto/${slug}/${tab === 'packs' ? 'pack' : 'finance'}`;
     window.history.pushState(null, '', newPath);
   };
 
@@ -135,7 +133,38 @@ export default function MotoFinanceView({ bike, onBack }: MotoFinanceViewProps) 
         use_old_bike: tradeIn,
       });
 
+      // Construct professional WhatsApp reservation message
+      const cleanPhone = (SITE_CONFIG?.whatsapp?.phoneNumber || '51987654321').replace(/[^0-9]/g, '');
+      const bikeSlugOrId = bike?.slug || bikeId;
+      const bikeUrl = `${window.location.origin}/moto/${bikeSlugOrId}`;
       const targetUrl = `/checkout-sale?order=${orderId}&bike=${bikeId}&pago=${mode}&pack=${selectedPack}`;
+      const trackingUrl = `${window.location.origin}${targetUrl}`;
+      const packLabel = packNames[selectedPack] || selectedPack;
+
+      let waMsg = `🏍️ *SOLICITUD DE RESERVA - KAELOS*\n\n`;
+      waMsg += `📌 *Código de Pedido:* #${orderId}\n`;
+      waMsg += `🛵 *Motocicleta:* ${bike.brand} ${bike.model}\n`;
+      waMsg += `🔗 *Ver Ficha:* ${bikeUrl}\n\n`;
+
+      if (paymentMethod === 'financiado') {
+        waMsg += `💳 *Modalidad:* Financiación Flexible\n`;
+        waMsg += `💰 *Entrada Inicial:* ${formatSoles(entranceFee)}\n`;
+        waMsg += `📅 *Plazo Elegido:* ${termMonths} meses\n`;
+        waMsg += `📦 *Pack de Servicio:* ${packLabel}\n`;
+        waMsg += `📊 *Cuota Estimada:* ${formatSoles(currentCuota)}/mes*\n\n`;
+      } else {
+        waMsg += `💳 *Modalidad:* Pago al Contado\n`;
+        waMsg += `📦 *Pack de Servicio:* ${packLabel}\n`;
+        waMsg += `💵 *Monto de Reserva:* ${formatSoles(registrationFee)}\n\n`;
+      }
+
+      waMsg += `📋 *Seguimiento de Estado:* ${trackingUrl}\n\n`;
+      waMsg += `_Hola, quiero realizar el pago de la reserva (S/. ${registrationFee}) para asegurar mi motocicleta y continuar con el trámite._`;
+
+      const whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(waMsg)}`;
+      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+
+      // Navigate browser to checkout order tracking screen
       window.history.pushState(null, '', targetUrl);
       window.dispatchEvent(new PopStateEvent('popstate'));
       window.scrollTo({ top: 0, behavior: 'instant' });
@@ -215,11 +244,10 @@ export default function MotoFinanceView({ bike, onBack }: MotoFinanceViewProps) 
         
         {/* Back Button */}
         <a
-          href={window.location.pathname.startsWith('/renting') ? `/renting/moto/${bike.id}` : `/moto/${bike.id}`}
+          href={`/moto/${bike.id}`}
           onClick={(e) => {
             e.preventDefault();
-            const isRent = window.location.pathname.startsWith('/renting');
-            const targetPath = isRent ? `/renting/moto/${bike.id}` : `/moto/${bike.id}`;
+            const targetPath = `/moto/${bike.id}`;
             window.history.pushState(null, '', targetPath);
             onBack();
           }}

@@ -60,7 +60,6 @@ interface CompraPageProps {
   reservedBikeIds?: string[];
   toggleFavorite: (id: string, e?: React.MouseEvent) => void;
   setSelectedDetailedBike: (bike: any) => void;
-  setIsRentingDetail: (val: boolean) => void;
   setActivePage: (page: string) => void;
   handleParentMenuClick: (page: string) => void;
   getFilterUrl: (overrides?: any) => string;
@@ -115,7 +114,6 @@ export const CompraPage: React.FC<CompraPageProps> = ({
   reservedBikeIds = [],
   toggleFavorite,
   setSelectedDetailedBike,
-  setIsRentingDetail,
   setActivePage,
   handleParentMenuClick,
   getFilterUrl,
@@ -162,7 +160,6 @@ export const CompraPage: React.FC<CompraPageProps> = ({
         {/* DESKTOP SIDEBAR FILTERS */}
         <aside className="hidden lg:block w-72 shrink-0 border-r border-slate-200 bg-white min-h-[calc(100vh-4rem)] px-6 py-8 space-y-6 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto custom-scrollbar rounded-none border-t-0 border-b-0 border-l-0">
           <CatalogFilters
-            isRenting={false}
             selectedBrand={selectedBrand}
             setSelectedBrand={setSelectedBrand}
             selectedCondition={selectedCondition}
@@ -293,7 +290,6 @@ export const CompraPage: React.FC<CompraPageProps> = ({
             {hasActiveFilters && (
               <div className="flex flex-wrap items-center gap-2 pt-1 pb-1">
                 <CatalogActiveChips
-                  isRenting={false}
                   selectedCondition={selectedCondition}
                   setSelectedCondition={setSelectedCondition}
                   selectedBrand={selectedBrand}
@@ -337,7 +333,6 @@ export const CompraPage: React.FC<CompraPageProps> = ({
           {/* Grid and pagination using unified CatalogGrid */}
           <CatalogGrid
             bikes={sortedBikes}
-            isRenting={false}
             favorites={favorites}
             reservedBikeIds={reservedBikeIds}
             onToggleFavorite={toggleFavorite}
@@ -345,7 +340,6 @@ export const CompraPage: React.FC<CompraPageProps> = ({
               const found = sortedBikes.find(b => b.id === m.id) || motorbikesData.find(b => b.id === m.id);
               if (found) {
                 setSelectedDetailedBike(found);
-                setIsRentingDetail(false);
                 setActivePage('moto');
                 window.scrollTo({ top: 0, behavior: 'instant' });
               }
@@ -411,7 +405,6 @@ export const CompraPage: React.FC<CompraPageProps> = ({
               {/* Scrollable Content */}
               <div className="flex-1 overflow-y-auto p-5 custom-scrollbar">
                 <CatalogFilters
-                  isRenting={false}
                   isMobile={true}
                   selectedBrand={selectedBrand}
                   setSelectedBrand={setSelectedBrand}

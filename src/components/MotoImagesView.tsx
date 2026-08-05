@@ -45,7 +45,6 @@ const DEFAULT_HARLEY: MotorbikeExtended = {
   kms: 7615,
   power: '94 CV',
   price: 22999,
-  rentingPrice: 123,
   category: 'Custom',
   image: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=800',
   images: [

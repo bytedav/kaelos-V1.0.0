@@ -1,7 +1,7 @@
 import React from 'react';
 
 export interface CatalogActiveChipsProps {
-  isRenting: boolean;
+  isRenting?: boolean;
   selectedCondition: 'all' | 'ocasión' | 'nueva';
   setSelectedCondition: (val: 'all' | 'ocasión' | 'nueva') => void;
   selectedBrand: string;
@@ -11,7 +11,7 @@ export interface CatalogActiveChipsProps {
   isOffersOnly: boolean;
   setIsOffersOnly: (val: boolean) => void;
   
-  // Purchase only
+  // Purchase
   precioDesde?: number;
   setPrecioDesde?: (val: number) => void;
   precioHasta?: number;
@@ -20,12 +20,6 @@ export interface CatalogActiveChipsProps {
   setCilindradaDesde?: (val: number) => void;
   cilindradaHasta?: number;
   setCilindradaHasta?: (val: number) => void;
-
-  // Renting only
-  cuotaDesde?: number;
-  setCuotaDesde?: (val: number) => void;
-  cuotaHasta?: number;
-  setCuotaHasta?: (val: number) => void;
 
   // Common
   selectedStyles: string[];
@@ -46,7 +40,7 @@ export interface CatalogActiveChipsProps {
 }
 
 export const CatalogActiveChips: React.FC<CatalogActiveChipsProps> = ({
-  isRenting,
+  isRenting = false,
   selectedCondition,
   setSelectedCondition,
   selectedBrand,
@@ -63,10 +57,6 @@ export const CatalogActiveChips: React.FC<CatalogActiveChipsProps> = ({
   setCilindradaDesde,
   cilindradaHasta = 1200,
   setCilindradaHasta,
-  cuotaDesde = 0,
-  setCuotaDesde,
-  cuotaHasta = 300,
-  setCuotaHasta,
   selectedStyles,
   setSelectedStyles,
   kmsDesde,
@@ -87,9 +77,8 @@ export const CatalogActiveChips: React.FC<CatalogActiveChipsProps> = ({
     selectedBrand !== 'all' ||
     isKm0 ||
     isOffersOnly ||
-    (!isRenting && (precioDesde > 0 || precioHasta < 25000)) ||
-    (!isRenting && (cilindradaDesde > 0 || cilindradaHasta < 1200)) ||
-    (isRenting && (cuotaDesde > 0 || cuotaHasta < 300)) ||
+    (precioDesde > 0 || precioHasta < 25000) ||
+    (cilindradaDesde > 0 || cilindradaHasta < 1200) ||
     selectedStyles.length > 0 ||
     kmsDesde > 0 || kmsHasta < 100000 ||
     añoDesde > 1995 || añoHasta < 2026 ||
@@ -161,7 +150,7 @@ export const CatalogActiveChips: React.FC<CatalogActiveChipsProps> = ({
         </a>
       )}
 
-      {!isRenting && setCilindradaDesde && setCilindradaHasta && (cilindradaDesde > 0 || cilindradaHasta < 1200) && (
+      {setCilindradaDesde && setCilindradaHasta && (cilindradaDesde > 0 || cilindradaHasta < 1200) && (
         <a 
           href={getFilterUrl({ ccDesde: 0, ccHasta: 1200 })}
           onClick={(e) => {
@@ -178,7 +167,7 @@ export const CatalogActiveChips: React.FC<CatalogActiveChipsProps> = ({
         </a>
       )}
 
-      {!isRenting && setPrecioDesde && setPrecioHasta && (precioDesde > 0 || precioHasta < 25000) && (
+      {setPrecioDesde && setPrecioHasta && (precioDesde > 0 || precioHasta < 25000) && (
         <a 
           href={getFilterUrl({ priceDesde: 0, priceHasta: 25000 })}
           onClick={(e) => {
@@ -189,23 +178,6 @@ export const CatalogActiveChips: React.FC<CatalogActiveChipsProps> = ({
           className="bg-slate-100 border border-slate-200/50 px-3 py-1.5 rounded-full text-xs font-semibold text-slate-800 flex items-center gap-2 shadow-xs transition select-none hover:bg-slate-200/50 hover:border-slate-300"
         >
           <span>Precio: S/. {precioDesde.toLocaleString('en-US', { minimumFractionDigits: 2 })} - {precioHasta === 25000 ? '+S/. 18,000.00' : `S/. ${precioHasta.toLocaleString('en-US', { minimumFractionDigits: 2 })}`}</span>
-          <span className="w-4 h-4 rounded-full bg-slate-900 hover:bg-black text-white text-[9px] font-black flex items-center justify-center transition shrink-0">
-            ×
-          </span>
-        </a>
-      )}
-
-      {isRenting && setCuotaDesde && setCuotaHasta && (cuotaDesde > 0 || cuotaHasta < 300) && (
-        <a 
-          href={getFilterUrl({ cuotaDesde: 0, cuotaHasta: 300 })}
-          onClick={(e) => {
-            e.preventDefault();
-            setCuotaDesde(0); 
-            setCuotaHasta(300);
-          }}
-          className="bg-slate-100 border border-slate-200/50 px-3 py-1.5 rounded-full text-xs font-semibold text-slate-800 flex items-center gap-2 shadow-xs transition select-none hover:bg-slate-200/50 hover:border-slate-300"
-        >
-          <span>Cuota: S/. {cuotaDesde.toLocaleString('en-US', { minimumFractionDigits: 2 })} - {cuotaHasta === 300 ? '+S/. 250.00' : `S/. ${cuotaHasta.toLocaleString('en-US', { minimumFractionDigits: 2 })}`}/mes</span>
           <span className="w-4 h-4 rounded-full bg-slate-900 hover:bg-black text-white text-[9px] font-black flex items-center justify-center transition shrink-0">
             ×
           </span>
@@ -291,8 +263,6 @@ export const CatalogActiveChips: React.FC<CatalogActiveChipsProps> = ({
             ccHasta: 1200,
             priceDesde: 0,
             priceHasta: 25000,
-            cuotaDesde: 0,
-            cuotaHasta: 300,
             kmsDesde: 0,
             kmsHasta: 100000,
             añoDesde: 1995,

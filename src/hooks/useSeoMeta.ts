@@ -34,7 +34,6 @@ export interface UseSeoMetaOptions {
   selectedStyles: string[];
   currentPage: number;
   selectedDetailedBike: any | null;
-  isRentingDetail: boolean;
   selectedBlogPostId: string | null;
 }
 
@@ -57,7 +56,6 @@ export function useSeoMeta(options: UseSeoMetaOptions) {
     selectedStyles,
     currentPage,
     selectedDetailedBike,
-    isRentingDetail,
     selectedBlogPostId,
   } = options;
 
@@ -233,6 +231,14 @@ export function useSeoMeta(options: UseSeoMetaOptions) {
         canonical = '/vender-mi-moto';
         break;
 
+      case 'equipamiento':
+        rawTitle = 'Catálogo Oficial Shad y Accesorios Premium | KAELOS';
+        description = 'Equipa tu moto con maletas, baúles y accesorios profesionales. Compra e instalación oficial directa en nuestros talleres con garantía total.';
+        keywords = ['maletas moto', 'baul trasero moto', 'accesorios shad', 'instalacion maletas moto', 'equipamiento motorista'];
+        breadcrumbs = [{ name: 'Inicio', url: '/' }, { name: 'Financiación y Servicios', url: '/financiacion' }, { name: 'Equipamiento', url: '/equipamiento' }];
+        canonical = '/equipamiento';
+        break;
+
       case 'moto':
         if (selectedDetailedBike) {
           const brand = selectedDetailedBike.brand || '';
@@ -370,7 +376,7 @@ export function useSeoMeta(options: UseSeoMetaOptions) {
 
       case 'terminos-y-condiciones':
         rawTitle = 'Términos y Condiciones | KAELOS';
-        description = 'Términos y condiciones para la compra, venta, renting, garantía e inspección de motocicletas en Kaelos.';
+        description = 'Términos y condiciones para la compra, venta, garantía e inspección de motocicletas en Kaelos.';
         keywords = ['terminos y condiciones kaelos', 'garantia 12 meses', 'condiciones compra moto'];
         breadcrumbs = [{ name: 'Inicio', url: '/' }, { name: 'Términos y Condiciones', url: '/terminos-y-condiciones' }];
         canonical = '/terminos-y-condiciones';
@@ -402,7 +408,7 @@ export function useSeoMeta(options: UseSeoMetaOptions) {
 
       default:
         rawTitle = 'Kaelos | Encuentra tu próxima motocicleta';
-        description = 'Plataforma líder en compra, venta, renting y suscripción de motocicletas.';
+        description = 'Plataforma líder en compra, venta y financiación de motocicletas.';
         canonical = '/';
         break;
     }
@@ -480,7 +486,6 @@ export function useSeoMeta(options: UseSeoMetaOptions) {
     selectedStyles,
     currentPage,
     selectedDetailedBike,
-    isRentingDetail,
     selectedBlogPostId,
     dbPages,
     dbSettings,

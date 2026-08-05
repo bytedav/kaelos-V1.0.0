@@ -23,7 +23,6 @@ const cmsMotorbikes: MotorbikeExtended[] = loadAllMotorcyclesFromContent().map((
     power: item.power || '',
     price: item.price,
     oldPrice: item.discountPrice,
-    rentingPrice: item.rentingPrice || Math.round(item.price * 0.018 + 12),
     category,
     image: mainImage,
     images: gallery,
@@ -45,7 +44,6 @@ const baseMotorbikes: MotorbikeExtended[] = [
     kms: 4200,
     power: '12.5 CV',
     price: 3100,
-    rentingPrice: 59,
     category: 'Scooter',
     image: 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&q=80&w=1200',
     images: [
@@ -63,7 +61,6 @@ const baseMotorbikes: MotorbikeExtended[] = [
     kms: 9480,
     power: '15 CV',
     price: 4899,
-    rentingPrice: 107,
     category: 'Deportiva',
     image: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=1200',
     images: [
@@ -82,7 +79,6 @@ const baseMotorbikes: MotorbikeExtended[] = [
     kms: 12500,
     power: '136 CV',
     price: 18900,
-    rentingPrice: 249,
     category: 'Trail',
     image: 'https://images.unsplash.com/photo-1449426468159-d96dbf08f19f?auto=format&fit=crop&q=80&w=1200',
     images: [
@@ -100,7 +96,6 @@ const baseMotorbikes: MotorbikeExtended[] = [
     kms: 3500,
     power: '119 CV',
     price: 13500,
-    rentingPrice: 210,
     category: 'Touring',
     image: 'https://images.unsplash.com/photo-1609630875171-b1321377ee65?auto=format&fit=crop&q=80&w=1200',
     images: [
@@ -118,7 +113,6 @@ const baseMotorbikes: MotorbikeExtended[] = [
     kms: 5200,
     power: '121 CV',
     price: 15900,
-    rentingPrice: 235,
     category: 'Custom',
     image: 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&q=80&w=1200',
     images: [

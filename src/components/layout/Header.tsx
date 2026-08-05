@@ -5,7 +5,14 @@ import {
   ChevronDown, 
   Search, 
   Menu, 
-  X
+  X,
+  Truck,
+  Wrench,
+  PackagePlus,
+  MapPin,
+  ShieldCheck,
+  FileText,
+  Store
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { FavoriteButton } from '../ui/FavoriteButton';
@@ -17,8 +24,8 @@ export interface HeaderProps {
   searchQuery: string;
   setSearchQuery: (query: string) => void;
   favorites: string[];
-  hoveredMenu: 'compra' | null;
-  setHoveredMenu: (menu: 'compra' | null) => void;
+  hoveredMenu: 'compra' | 'servicios' | null;
+  setHoveredMenu: (menu: 'compra' | 'servicios' | null) => void;
   isMobileSearchOpen: boolean;
   setIsMobileSearchOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isMobileMenuOpen: boolean;
@@ -84,7 +91,7 @@ export const Header: React.FC<HeaderProps> = ({
         {showNav && (
           <>
             {/* 2. Buscador de Motos */}
-            {activePage !== 'compra' && activePage !== 'moto' && activePage !== 'renting' && activePage !== 'blog' && (
+            {activePage !== 'compra' && activePage !== 'moto' && activePage !== 'blog' && (
               <div className="hidden md:flex flex-1 max-w-sm lg:max-w-md items-center relative pl-4">
                 <SearchBar
                   value={searchQuery}
@@ -343,6 +350,78 @@ export const Header: React.FC<HeaderProps> = ({
                 Financiación
               </a>
 
+              {/* SERVICIOS */}
+              <div 
+                id="menu-servicios"
+                className="relative h-full flex items-center"
+                onMouseEnter={() => setHoveredMenu('servicios')}
+                onMouseLeave={() => setHoveredMenu(null)}
+              >
+                <a 
+                  href="/contacto"
+                  onClick={(e) => { e.preventDefault(); handleParentMenuClick('contacto'); }}
+                  className={`flex items-center gap-1.5 text-sm font-semibold transition py-2 cursor-pointer
+                    ${activePage === 'contacto' 
+                      ? (!isHeaderGlass ? 'text-[#ff0d41] border-b-2 border-[#ff0d41]' : 'text-white border-b-2 border-white') 
+                      : (!isHeaderGlass ? 'text-slate-600 hover:text-[#ff0d41]' : 'text-[#d6f0ff] hover:text-white')
+                    }
+                  `}
+                >
+                  <span>Servicios</span>
+                  <ChevronDown className={`w-4 h-4 transition-transform duration-200 
+                    ${hoveredMenu === 'servicios' ? 'rotate-180' : ''}
+                    ${!isHeaderGlass 
+                      ? (activePage === 'contacto' ? 'text-[#ff0d41]' : 'text-slate-400 group-hover:text-[#ff0d41]') 
+                      : (activePage === 'contacto' ? 'text-white' : 'text-[#a1d7fb] group-hover:text-white')
+                    }
+                  `} />
+                </a>
+
+                {/* VENTANA FLOTANTE: SERVICIOS */}
+                <AnimatePresence>
+                  {hoveredMenu === 'servicios' && (
+                    <motion.div 
+                      initial={{ opacity: 0, y: 15, scale: 0.98 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.98 }}
+                      transition={{ duration: 0.2, ease: "easeOut" }}
+                      className="absolute top-[85%] left-1/2 -translate-x-1/2 w-[340px] sm:w-[350px] mt-2 bg-white rounded-[24px] shadow-2xl border border-slate-100 p-5 z-50 text-slate-800"
+                    >
+                      <div className="flex flex-col space-y-1">
+                        {[
+                          { title: 'Transportamos tu moto', icon: Truck, target: 'transporte', href: '/transporte' },
+                          { title: 'Mantenemos tu moto', icon: Wrench, target: 'mantenimiento', href: '/mantenimiento' },
+                          { title: 'Maletas y accesorios', icon: PackagePlus, target: 'equipamiento', href: '/equipamiento' },
+                          { title: 'Localizador GPS', icon: MapPin, target: 'localizador', href: '/localizador' },
+                          { title: 'Aseguramos tu moto', icon: ShieldCheck, target: 'seguros', href: '/seguros' },
+                          { title: 'Trámites documentales', icon: FileText, target: 'tramites-documentales', href: '/tramites-documentales' },
+                          { title: 'Visita nuestras tiendas', icon: Store, target: 'contacto', href: '/contacto' },
+                        ].map((item) => {
+                          const IconComp = item.icon;
+                          return (
+                            <a 
+                              key={item.title}
+                              href={item.href}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setHoveredMenu(null);
+                                handleParentMenuClick(item.target as any);
+                              }}
+                              className="flex items-center gap-3.5 px-3 py-2.5 rounded-xl transition duration-150 text-slate-700 hover:text-[#ff0d41] hover:bg-slate-50 group cursor-pointer"
+                            >
+                              <IconComp className="w-5 h-5 text-slate-700 group-hover:text-[#ff0d41] transition-colors shrink-0" strokeWidth={1.8} />
+                              <span className="text-[14px] font-semibold text-slate-700 group-hover:text-[#ff0d41] transition-colors whitespace-nowrap">
+                                {item.title}
+                              </span>
+                            </a>
+                          );
+                        })}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
               {/* PREGUNTAS FRECUENTES */}
               <a 
                 href="/preguntas-frecuentes"
@@ -373,7 +452,7 @@ export const Header: React.FC<HeaderProps> = ({
 
             {/* Botonera Móvil */}
             <div className="flex lg:hidden items-center gap-3">
-              {activePage !== 'compra' && activePage !== 'moto' && activePage !== 'renting' && activePage !== 'blog' && (
+              {activePage !== 'compra' && activePage !== 'moto' && activePage !== 'blog' && (
                 <button 
                   onClick={() => {
                     setIsMobileSearchOpen(!isMobileSearchOpen);
@@ -419,7 +498,7 @@ export const Header: React.FC<HeaderProps> = ({
       </div>
 
       {/* BUSCADOR DESPLEGABLE MÓVIL */}
-      {isMobileSearchOpen && activePage !== 'renting' && activePage !== 'blog' && (
+      {isMobileSearchOpen && activePage !== 'blog' && (
         <div className={`absolute top-full left-0 right-0 w-full px-4 pb-4 md:hidden border-t pt-3.5 animate-fade-in transition-all duration-300 shadow-2xl z-50
           ${!isHeaderGlass 
             ? 'bg-white/95 backdrop-blur-md border-slate-200' 

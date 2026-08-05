@@ -2,11 +2,30 @@ import express from 'express';
 import path from 'path';
 import fs from 'fs';
 import { createServer as createViteServer } from 'vite';
+import { GoogleGenAI } from '@google/genai';
 import { motorbikesData } from './src/data/motorbikesData';
 import { loadAllBlogPostsFromContent } from './src/data/staticContent';
 
 const PORT = 3000;
 const HOST = '0.0.0.0';
+
+let aiClient: GoogleGenAI | null = null;
+function getAiClient(): GoogleGenAI | null {
+  if (!aiClient) {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (apiKey) {
+      aiClient = new GoogleGenAI({
+        apiKey,
+        httpOptions: {
+          headers: {
+            'User-Agent': 'aistudio-build',
+          },
+        },
+      });
+    }
+  }
+  return aiClient;
+}
 
 interface SeoMeta {
   title: string;
@@ -47,7 +66,7 @@ function getMetaForUrl(reqUrl: string, hostHeader: string, protocol: string, res
 
   const defaultMeta: SeoMeta = {
     title: 'Kaelos | Encuentra tu próxima motocicleta',
-    description: 'Kaelos es la plataforma líder en compra, venta, renting y suscripción de motocicletas. Motos revisadas en más de 100 puntos con garantía de hasta 12 meses.',
+    description: 'Kaelos es la plataforma líder en compra, venta y financiación de motocicletas. Motos revisadas en más de 100 puntos con garantía de hasta 12 meses.',
     ogImage: 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&q=80&w=1200',
     ogType: 'website',
     url: `${fullDomain}${pathName === '/' ? '' : pathName}`,
@@ -477,6 +496,12 @@ function injectMetaTags(html: string, meta: SeoMeta): string {
     updated = updated.replace('</head>', `  <link rel="canonical" href="${meta.url}" />\n</head>`);
   }
 
+  // Inject LLMs.txt meta tag link for AI assistants
+  const llmLinkTag = `  <link rel="alternate" type="text/markdown" href="/llms.txt" title="KAELOS LLMs Text" />`;
+  if (!updated.includes('/llms.txt')) {
+    updated = updated.replace('</head>', `${llmLinkTag}\n</head>`);
+  }
+
   // Inject JSON-LD structured schemas
   if (meta.jsonLd && meta.jsonLd.length > 0) {
     const scriptsJson = meta.jsonLd
@@ -487,6 +512,90 @@ function injectMetaTags(html: string, meta: SeoMeta): string {
 
   return updated;
 }
+
+function generateLlmsTxt(baseUrl: string): string {
+  const bikes = motorbikesData;
+  const bikeListMd = bikes
+    .map((b) => {
+      const bAny = b as any;
+      const url = `${baseUrl}/moto/${bAny.slug || b.id}`;
+      const cond = b.condition === 'nuevo' ? 'Nuevo (0 km)' : `Ocasión (${b.kms.toLocaleString()} km)`;
+      return `### ${b.brand} ${b.model} ${b.version || ''} (${b.year})
+- **Enlace**: [${url}](${url})
+- **Precio**: $${b.price.toLocaleString()} USD (~S/ ${(b.price * 3.75).toLocaleString()} PEN)
+- **Estado**: ${cond}
+- **Categoría**: ${b.category} | **Ubicación**: ${bAny.city || 'Lima'}, Perú
+- **Cilindrada**: ${bAny.displacement || 'N/A'} cc | **Potencia**: ${b.power || 'N/A'}
+- **Garantía**: 12 meses incluidos | **Inspección**: Verificado en 100+ puntos de control
+- **Descripción**: ${bAny.description || 'Motocicleta garantizada y lista para transferencia en Perú.'}
+`;
+    })
+    .join('\n');
+
+  let blogMd = '';
+  try {
+    const posts = loadAllBlogPostsFromContent();
+    blogMd = posts
+      .map(
+        (p) => `- [${p.title}](${baseUrl}/blog/${p.slug || p.id}): ${p.excerpt || p.description || p.category}`
+      )
+      .join('\n');
+  } catch {
+    blogMd = `- [Blog Kaelos](${baseUrl}/blog): Guías y consejos de motociclismo en Perú.`;
+  }
+
+  return `# KAELOS - Marketplace de Motocicletas en Perú
+
+> KAELOS es la plataforma líder en Perú para la compra, venta, tasación y financiación de motocicletas de ocasión inspeccionadas y motos nuevas de 0 km.
+
+KAELOS simplifica el proceso de adquisición y venta de motos con garantías mecánicas de hasta 12 meses, verificación estructural en 100+ puntos de control, financiación personalizada a medida y atención en las principales ciudades de Perú (Lima, Arequipa, Trujillo).
+
+## Secciones Principales y Servicios
+
+- [Catálogo Completo de Motocicletas](${baseUrl}/motos): Explorador de motos filtrable por marca, modelo, precio, año, categoría (Naked, Scooter, Trail, Custom, Sport, Gran Turismo) y ciudad.
+- [Vender mi Moto](${baseUrl}/vender-mi-moto): Servicio de tasación digital gratuita y oferta rápida para vender tu moto con pago seguro e inmediato.
+- [Financiación Vehicular](${baseUrl}/financiacion): Simulador de cuotas mensuales, planes de crédito flexible y aprobación rápida.
+- [Blog y Guías de Motociclismo](${baseUrl}/blog): Guías completas sobre trámites de brevete/licencia A-I y A-II en Perú, mantenimiento preventivo y comparativas de modelos.
+- [Preguntas Frecuentes](${baseUrl}/preguntas-frecuentes): Respuestas a dudas sobre revisión en 100+ puntos, transferencias notariales, garantía y entregas.
+- [Nosotros y Centros Kaelos](${baseUrl}/acerca-de): Información de nuestros centros de atención física en Lima, Trujillo y Arequipa.
+
+---
+
+## Catálogo Completo de Motocicletas en Stock
+
+${bikeListMd}
+
+---
+
+## Artículos de Blog y Guías Destacadas
+
+${blogMd}
+
+---
+
+## Preguntas Frecuentes (FAQ)
+
+### ¿Cómo funciona la garantía de 12 meses?
+Todas las motocicletas de ocasión certificadas por KAELOS cuentan con 12 meses de garantía mecánica sin costo adicional, cubriendo componentes clave de motor y transmisión.
+
+### ¿Qué se revisa en la inspección de 100+ puntos?
+Técnicos especialistas evalúan compresión de motor, fugas de fluidos, alineación de chasis, desgaste de neumáticos y frenos, kit de arrastre, sistema eléctrico y verificación de historial registral (papeletas, robos, cargas financieras en SUNARP).
+
+### ¿Cómo funciona el proceso de financiación?
+Puedes calcular tu cuota mensual en nuestro simulador en línea en [${baseUrl}/financiacion](${baseUrl}/financiacion). Solicitas la evaluación crediticia digitalmente con tu DNI y sustentación de ingresos, obteniendo respuesta en 24-48 horas.
+
+### ¿Cómo vendo mi moto en KAELOS?
+Ingresa a [${baseUrl}/vender-mi-moto](${baseUrl}/vender-mi-moto), completa los datos de tu moto (marca, modelo, año, kilometraje y fotos) y recibe una estimación instantánea. Si estás de acuerdo, coordinamos la revisión técnica y te pagamos al momento.
+
+---
+
+## APIs de IA y Recomendaciones Inteligentes
+
+- **POST ${baseUrl}/api/ai/recommend**: Endpoint API que utiliza Gemini AI para recomendar hasta 3 motos del catálogo según presupuesto, experiencia y categoría deseada.
+- **POST ${baseUrl}/api/ai/chat**: Asesor conversacional Kaelo AI alimentado por modelos Gemini para responder sobre motocicletas, licencias y servicios de Kaelos.
+`;
+}
+
 
 async function startServer() {
   const app = express();
@@ -630,6 +739,148 @@ async function startServer() {
     });
   });
 
+  // POST /api/ai/recommend
+  app.post('/api/ai/recommend', async (req, res) => {
+    try {
+      const { prompt, maxBudget, category, condition, experience } = req.body || {};
+      const ai = getAiClient();
+      
+      const bikesSummary = motorbikesData.map((b) => ({
+        id: b.id,
+        brand: b.brand,
+        model: b.model,
+        version: b.version,
+        year: b.year,
+        kms: b.kms,
+        price: b.price,
+        currency: b.currency,
+        category: b.category,
+        condition: b.condition,
+        power: b.power,
+        displacement: b.displacement,
+      }));
+
+      if (!ai) {
+        // Heuristic fallback search when API key is not configured
+        const filtered = motorbikesData.filter((b) => {
+          if (maxBudget && b.price > maxBudget) return false;
+          if (category && category !== 'all' && b.category.toLowerCase() !== category.toLowerCase()) return false;
+          return true;
+        });
+        const topBikes = (filtered.length > 0 ? filtered : motorbikesData).slice(0, 3);
+        return res.json({
+          success: true,
+          source: 'heuristic',
+          recommendation: 'Te sugerimos estas excelentes opciones de nuestro catálogo de acuerdo a tus preferencias:',
+          tips: 'Revisa siempre la cilindrada y el equipamiento según tu experiencia.',
+          recommendedBikes: topBikes,
+        });
+      }
+
+      const systemInstruction = `Eres "Kaelo AI", el asesor experto e inteligente en motocicletas de KAELOS (marketplace líder de motos en Perú).
+Tu objetivo es recomendar las 1 a 3 mejores motocicletas del catálogo basándote en la solicitud del usuario.
+El catálogo disponible es:
+${JSON.stringify(bikesSummary, null, 2)}
+
+Instrucciones:
+1. Responde de forma cordial y experta en español.
+2. Devuelve únicamente un JSON válido con estas claves exactas:
+   - "advice": string (explicación breve de tus recomendaciones)
+   - "recommendedBikeIds": array de strings (máximo 3 IDs exactos del catálogo)
+   - "tips": string (consejo práctico para el usuario)`;
+
+      const response = await ai.models.generateContent({
+        model: 'gemini-3.6-flash',
+        contents: `Consulta: ${prompt || 'Busco una moto recomendada'}
+Presupuesto máximo: ${maxBudget ? `$${maxBudget}` : 'Sin límite'}
+Categoría: ${category || 'Cualquiera'}
+Estado: ${condition || 'Cualquiera'}
+Experiencia: ${experience || 'General'}`,
+        config: {
+          systemInstruction,
+          responseMimeType: 'application/json',
+        },
+      });
+
+      const text = response.text || '';
+      let parsed: { advice?: string; recommendedBikeIds?: string[]; tips?: string } = {};
+      try {
+        parsed = JSON.parse(text);
+      } catch {
+        parsed = { advice: text, recommendedBikeIds: [], tips: '' };
+      }
+
+      const recIds = parsed.recommendedBikeIds || [];
+      const recommendedBikes = motorbikesData.filter((b) => recIds.includes(b.id));
+
+      return res.json({
+        success: true,
+        source: 'gemini-3.6-flash',
+        recommendation: parsed.advice || 'Aquí tienes las opciones más recomendadas para ti:',
+        tips: parsed.tips || '',
+        recommendedBikes: recommendedBikes.length > 0 ? recommendedBikes : motorbikesData.slice(0, 3),
+      });
+    } catch (err: any) {
+      console.error('Gemini AI recommend error:', err);
+      return res.status(500).json({
+        success: false,
+        error: err.message || 'Error en recomendador IA',
+        recommendedBikes: motorbikesData.slice(0, 3),
+      });
+    }
+  });
+
+  // POST /api/ai/chat
+  app.post('/api/ai/chat', async (req, res) => {
+    try {
+      const { message, conversationHistory = [] } = req.body || {};
+      if (!message || typeof message !== 'string') {
+        return res.status(400).json({ success: false, error: 'El mensaje es requerido' });
+      }
+
+      const ai = getAiClient();
+      if (!ai) {
+        return res.json({
+          success: true,
+          reply: 'En Kaelos contamos con motos de ocasión revisadas en 100+ puntos con 12 meses de garantía y motos 0 km. ¿Deseas ver recomendaciones o ayuda con financiación?',
+          source: 'fallback',
+        });
+      }
+
+      const systemInstruction = `Eres "Kaelo AI", el asesor experto y amigable en motocicletas de la plataforma KAELOS.
+Respondes sobre motocicletas, estilos (Naked, Scooter, Trail, Custom, Sport), cilindrada, licencias A-I/A-IIa/A-IIb en Perú, mantenimiento y servicios de Kaelos (revisión 100+ puntos, garantía 12 meses, tasación online y financiación). Sé conciso, directo y cercano.`;
+
+      const contents = [
+        ...conversationHistory.map((msg: { role: string; content: string }) => ({
+          role: msg.role === 'user' ? 'user' : 'model',
+          parts: [{ text: msg.content }],
+        })),
+        { role: 'user', parts: [{ text: message }] },
+      ];
+
+      const response = await ai.models.generateContent({
+        model: 'gemini-3.6-flash',
+        contents,
+        config: {
+          systemInstruction,
+        },
+      });
+
+      return res.json({
+        success: true,
+        reply: response.text || 'Entendido, ¿en qué más te puedo ayudar?',
+        source: 'gemini-3.6-flash',
+      });
+    } catch (err: any) {
+      console.error('Gemini Chat error:', err);
+      return res.status(500).json({
+        success: false,
+        error: err.message || 'Error consultando al modelo IA',
+        reply: 'Disculpa, ocurrió una interrupción al procesar tu consulta. Por favor reintenta.',
+      });
+    }
+  });
+
   app.get('/robots.txt', (req, res) => {
     const hostHeader = req.headers.host || 'kaelos.com';
     const protocol = req.headers['x-forwarded-proto'] ? String(req.headers['x-forwarded-proto']) : 'https';
@@ -641,10 +892,27 @@ async function startServer() {
     const robotsTxt = `User-agent: *
 Allow: /
 
-Sitemap: ${baseUrl}/sitemap.xml`;
+Sitemap: ${baseUrl}/sitemap.xml
+
+# LLMs.txt specification for AI models & agents:
+# ${baseUrl}/llms.txt`;
 
     res.header('Content-Type', 'text/plain');
     res.send(robotsTxt);
+  });
+
+  app.get('/llms.txt', (req, res) => {
+    const hostHeader = req.headers.host || 'kaelos.com';
+    const protocol = req.headers['x-forwarded-proto'] ? String(req.headers['x-forwarded-proto']) : 'https';
+    const domainHost = hostHeader && !hostHeader.includes('localhost') && !hostHeader.includes('run.app')
+      ? hostHeader
+      : 'kaelos.com';
+    const baseUrl = `${protocol}://${domainHost}`;
+
+    const txt = generateLlmsTxt(baseUrl);
+    res.header('Content-Type', 'text/markdown; charset=utf-8');
+    res.header('Cache-Control', 'public, max-age=3600');
+    res.send(txt);
   });
 
   app.get('/sitemap.xml', (req, res) => {
@@ -669,7 +937,6 @@ Sitemap: ${baseUrl}/sitemap.xml`;
       { url: '/motos/arequipa', priority: '0.8', changefreq: 'daily' },
       { url: '/vender-mi-moto', priority: '0.9', changefreq: 'weekly' },
       { url: '/financiacion', priority: '0.8', changefreq: 'weekly' },
-      { url: '/renting', priority: '0.8', changefreq: 'weekly' },
       { url: '/blog', priority: '0.8', changefreq: 'daily' },
       { url: '/acerca-de', priority: '0.6', changefreq: 'monthly' },
       { url: '/contacto', priority: '0.6', changefreq: 'monthly' },

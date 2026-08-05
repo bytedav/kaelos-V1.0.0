@@ -116,7 +116,6 @@ export const StyleBikeCard: React.FC<StyleBikeCardProps> = ({
 
   const computedFinancePrice = (() => {
     if (moto.financePrice && moto.financePrice > 0) return moto.financePrice;
-    if (moto.rentingPrice && moto.rentingPrice > 0) return moto.rentingPrice;
     if (moto.price && moto.price > 0) {
       return Math.round(moto.price * 0.0214) || Math.round(moto.price * 0.018 + 12);
     }

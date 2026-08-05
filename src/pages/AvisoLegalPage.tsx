@@ -76,7 +76,7 @@ export const AvisoLegalPage: React.FC<LegalPageProps> = ({ onNavigate }) => {
               2. Objeto de la Plataforma
             </h2>
             <p>
-              KAELOS opera como un marketplace especializado en la comercialización, reserva, tasación, financiación y suscripción (renting) de motocicletas nuevas y de ocasión plenamente revisadas en más de 100 puntos de control técnico.
+              KAELOS opera como un marketplace especializado en la comercialización, reserva, tasación y financiación de motocicletas nuevas y de ocasión plenamente revisadas en más de 100 puntos de control técnico.
             </p>
             <p>
               El acceso y la navegación por el Sitio Web atribuyen la condición de Usuario e implican la aceptación plena y sin reservas de todas las disposiciones incluidas en este Aviso Legal.

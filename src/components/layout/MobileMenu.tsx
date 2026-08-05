@@ -1,5 +1,15 @@
-import React from 'react';
-import { X } from 'lucide-react';
+import React, { useState } from 'react';
+import { 
+  X, 
+  ChevronDown,
+  Truck,
+  Wrench,
+  PackagePlus,
+  MapPin,
+  ShieldCheck,
+  FileText,
+  Store
+} from 'lucide-react';
 import { navigateTo } from '../../utils/router';
 
 export interface MobileMenuProps {
@@ -19,6 +29,8 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
   selectedStyles = [],
   selectedCondition = 'all',
 }) => {
+  const [serviciosOpen, setServiciosOpen] = useState(false);
+
   if (!isOpen) return null;
 
   return (
@@ -136,6 +148,48 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
           >
             Financiación
           </button>
+        </div>
+
+        {/* Servicios */}
+        <div className="space-y-3">
+          <button 
+            onClick={() => setServiciosOpen(!serviciosOpen)}
+            className="w-full flex items-center justify-between text-left text-[16px] font-bold text-slate-900 hover:text-[#ff0d41] transition cursor-pointer py-1"
+          >
+            <span>Servicios</span>
+            <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${serviciosOpen ? 'rotate-180 text-[#ff0d41]' : 'text-slate-400'}`} />
+          </button>
+          {serviciosOpen && (
+            <div className="pl-4 flex flex-col space-y-3.5 pt-1">
+              {[
+                { title: 'Transportamos tu moto', icon: Truck, target: 'transporte', href: '/transporte' },
+                { title: 'Mantenemos tu moto', icon: Wrench, target: 'mantenimiento', href: '/mantenimiento' },
+                { title: 'Maletas y accesorios', icon: PackagePlus, target: 'equipamiento', href: '/equipamiento' },
+                { title: 'Localizador GPS', icon: MapPin, target: 'localizador', href: '/localizador' },
+                { title: 'Aseguramos tu moto', icon: ShieldCheck, target: 'seguros', href: '/seguros' },
+                { title: 'Trámites documentales', icon: FileText, target: 'tramites-documentales', href: '/tramites-documentales' },
+                { title: 'Visita nuestras tiendas', icon: Store, target: 'contacto', href: '/contacto' },
+              ].map((item) => {
+                const IconComp = item.icon;
+                return (
+                  <button
+                    key={item.title}
+                    onClick={() => {
+                      onClose();
+                      if (item.href) {
+                        navigateTo(item.href);
+                      }
+                      handleParentMenuClick(item.target);
+                    }}
+                    className="flex items-center gap-3.5 text-[14.5px] font-medium text-slate-700 hover:text-[#ff0d41] transition text-left cursor-pointer"
+                  >
+                    <IconComp className="w-4.5 h-4.5 text-slate-700 shrink-0" strokeWidth={2} />
+                    <span>{item.title}</span>
+                  </button>
+                );
+              })}
+            </div>
+          )}
         </div>
 
         {/* Preguntas frecuentes */}

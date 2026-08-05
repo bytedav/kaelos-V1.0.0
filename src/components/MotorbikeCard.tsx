@@ -10,7 +10,7 @@ export interface MotorbikeExtended {
   power: string;
   price: number;
   oldPrice?: number;
-  rentingPrice: number;
+  rentingPrice?: number;
   category: 'Scooter' | 'Naked' | 'Deportiva' | 'Trail' | 'Touring' | 'Custom' | string;
   image: string;
   images?: string[];

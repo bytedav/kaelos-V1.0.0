@@ -82,9 +82,7 @@ export default function FavoritesPage({
           year: mainMatch.year,
           kms: `${mainMatch.kms.toLocaleString('es-PE')} KM`,
           price: mainMatch.price,
-          financePrice: (mainMatch.rentingPrice && mainMatch.rentingPrice > 0)
-            ? mainMatch.rentingPrice
-            : Math.round(mainMatch.price * 0.0214) || Math.round(mainMatch.price * 0.018 + 12),
+          financePrice: Math.round(mainMatch.price * 0.0214) || Math.round(mainMatch.price * 0.018 + 12),
           images: mainMatch.images && mainMatch.images.length > 0 ? mainMatch.images : [mainMatch.image]
         } as StyleBike;
       }
@@ -131,7 +129,6 @@ export default function FavoritesPage({
         kms: typeof moto.kms === 'string' ? parseInt(moto.kms.replace(/\D/g, '')) || 0 : moto.kms,
         power: '74 CV',
         price: moto.price,
-        rentingPrice: moto.financePrice,
         category: 'Custom',
         image: moto.images[0],
         images: moto.images,

@@ -12,12 +12,15 @@ export const PATH_MAP: Record<string, string> = {
   transporte: '/transporte',
   mantenimiento: '/mantenimiento',
   'tramites-documentales': '/tramites-documentales',
+  seguros: '/seguros',
+  localizador: '/localizador',
   'acerca-de': '/acerca-de',
   financiacion: '/financiacion',
   'preguntas-frecuentes': '/preguntas-frecuentes',
   blog: '/blog',
   favorites: '/user/favorites',
   vende: '/vender-mi-moto',
+  equipamiento: '/equipamiento',
   contacto: '/contacto',
   'checkout-sale': '/checkout-sale',
   'aviso-legal': '/aviso-legal',
@@ -33,12 +36,16 @@ export const REVERSE_PATH_MAP: Record<string, string> = {
   '/transporte': 'transporte',
   '/mantenimiento': 'mantenimiento',
   '/tramites-documentales': 'tramites-documentales',
+  '/seguros': 'seguros',
+  '/localizador': 'localizador',
   '/acerca-de': 'acerca-de',
   '/financiacion': 'financiacion',
   '/preguntas-frecuentes': 'preguntas-frecuentes',
   '/blog': 'blog',
   '/user/favorites': 'favorites',
   '/vender-mi-moto': 'vende',
+  '/equipamiento': 'equipamiento',
+  '/maletas-y-accesorios': 'equipamiento',
   '/contacto': 'contacto',
   '/checkout-sale': 'checkout-sale',
   '/aviso-legal': 'aviso-legal',
@@ -96,9 +103,8 @@ export const findBikeInSource = (source: MotorbikeExtended[], rawId: string): Mo
 };
 
 export interface ParsedUrlState {
-  activePage: 'home' | 'compra' | 'moto' | 'moto-images' | 'moto-finance' | 'checkout-sale' | 'acerca-de' | 'financiacion' | 'preguntas-frecuentes' | 'blog' | 'favorites' | 'vende' | 'contacto' | 'aviso-legal' | 'politica-privacidad' | 'terminos-y-condiciones' | 'cookies';
+  activePage: 'home' | 'compra' | 'moto' | 'moto-images' | 'moto-finance' | 'checkout-sale' | 'acerca-de' | 'financiacion' | 'preguntas-frecuentes' | 'blog' | 'favorites' | 'vende' | 'equipamiento' | 'contacto' | 'aviso-legal' | 'politica-privacidad' | 'terminos-y-condiciones' | 'cookies' | 'tramites-documentales' | 'seguros' | 'localizador' | 'mantenimiento' | 'transporte';
   selectedDetailedBike: MotorbikeExtended | null;
-  isRentingDetail: boolean;
   selectedBlogPostId: string | null;
   selectedCiudades: string[];
   selectedStyles: string[];
@@ -110,8 +116,6 @@ export interface ParsedUrlState {
   cilindradaHasta: number;
   precioDesde: number;
   precioHasta: number;
-  cuotaDesde: number;
-  cuotaHasta: number;
   kmsDesde: number;
   kmsHasta: number;
   añoDesde: number;
@@ -127,7 +131,6 @@ export function parseUrlToState(
 ): ParsedUrlState {
   let activePage: any = 'home';
   let selectedDetailedBike: MotorbikeExtended | null = null;
-  let isRentingDetail = false;
   let selectedBlogPostId: string | null = null;
   let selectedCiudades: string[] = [];
   let selectedStyles: string[] = [];
@@ -139,8 +142,6 @@ export function parseUrlToState(
   let cilindradaHasta = 1200;
   let precioDesde = 0;
   let precioHasta = 25000;
-  let cuotaDesde = 0;
-  let cuotaHasta = 300;
   let kmsDesde = 0;
   let kmsHasta = 100000;
   let añoDesde = 1995;
@@ -169,7 +170,6 @@ export function parseUrlToState(
       const bikeId = decodeURIComponent(detailSubMatch[1]);
       const sub = detailSubMatch[2];
       selectedDetailedBike = findBikeInSource(bikesSource, bikeId) || null;
-      isRentingDetail = false;
       if (sub === 'images') {
         activePage = 'moto-images';
       } else if (sub === 'checkout') {
@@ -205,7 +205,6 @@ export function parseUrlToState(
     } else if (motoPathMatch) {
       const bikeId = decodeURIComponent(motoPathMatch[1]);
       selectedDetailedBike = findBikeInSource(bikesSource, bikeId) || null;
-      isRentingDetail = false;
       activePage = 'moto';
     } else if (isVendePath) {
       activePage = 'vende';
@@ -278,11 +277,6 @@ export function parseUrlToState(
       const priceMaxParam = params.get('precio-hasta') || params.get('price_max');
       if (priceMaxParam) precioHasta = parseInt(priceMaxParam.replace(/[^0-9]/g, '')) || 25000;
 
-      const cuotaMinParam = params.get('cuota-desde');
-      if (cuotaMinParam) cuotaDesde = parseInt(cuotaMinParam.replace(/[^0-9]/g, '')) || 0;
-      const cuotaMaxParam = params.get('cuota-hasta');
-      if (cuotaMaxParam) cuotaHasta = parseInt(cuotaMaxParam.replace(/[^0-9]/g, '')) || 300;
-
       const kmsMinParam = params.get('kms-desde') || params.get('kms_min');
       if (kmsMinParam) kmsDesde = parseInt(kmsMinParam.replace(/[^0-9]/g, '')) || 0;
       const kmsMaxParam = params.get('kms-hasta') || params.get('kms_max');
@@ -317,7 +311,6 @@ export function parseUrlToState(
   return {
     activePage,
     selectedDetailedBike,
-    isRentingDetail,
     selectedBlogPostId,
     selectedCiudades,
     selectedStyles,
@@ -329,8 +322,6 @@ export function parseUrlToState(
     cilindradaHasta,
     precioDesde,
     precioHasta,
-    cuotaDesde,
-    cuotaHasta,
     kmsDesde,
     kmsHasta,
     añoDesde,
@@ -346,8 +337,6 @@ export interface UseUrlSyncProps {
   setActivePage: (page: any) => void;
   selectedDetailedBike: MotorbikeExtended | null;
   setSelectedDetailedBike: (bike: MotorbikeExtended | null) => void;
-  isRentingDetail: boolean;
-  setIsRentingDetail: (isRenting: boolean) => void;
   selectedBlogPostId: string | null;
   setSelectedBlogPostId: (id: string | null) => void;
   selectedBrand: string;
@@ -358,10 +347,10 @@ export interface UseUrlSyncProps {
   setIsKm0: (km0: boolean) => void;
   isOffersOnly: boolean;
   setIsOffersOnly: (offers: boolean) => void;
-  cuotaDesde: number;
-  setCuotaDesde: (cuota: number) => void;
-  cuotaHasta: number;
-  setCuotaHasta: (cuota: number) => void;
+  cuotaDesde?: number;
+  setCuotaDesde?: (cuota: number) => void;
+  cuotaHasta?: number;
+  setCuotaHasta?: (cuota: number) => void;
   cilindradaDesde: number;
   setCilindradaDesde: (cc: number) => void;
   cilindradaHasta: number;
@@ -394,8 +383,6 @@ export function useUrlSync({
   setActivePage,
   selectedDetailedBike,
   setSelectedDetailedBike,
-  isRentingDetail,
-  setIsRentingDetail,
   selectedBlogPostId,
   setSelectedBlogPostId,
   selectedBrand,
@@ -457,7 +444,6 @@ export function useUrlSync({
       if (parsed.selectedDetailedBike) {
         setSelectedDetailedBike(parsed.selectedDetailedBike);
       }
-      setIsRentingDetail(parsed.isRentingDetail);
       setSelectedBlogPostId(parsed.selectedBlogPostId);
 
       if (parsed.selectedCiudades) setSelectedCiudades(parsed.selectedCiudades);
@@ -470,8 +456,8 @@ export function useUrlSync({
       setCilindradaHasta(parsed.cilindradaHasta);
       setPrecioDesde(parsed.precioDesde);
       setPrecioHasta(parsed.precioHasta);
-      setCuotaDesde(parsed.cuotaDesde);
-      setCuotaHasta(parsed.cuotaHasta);
+      if (setCuotaDesde && (parsed as any).cuotaDesde !== undefined) setCuotaDesde((parsed as any).cuotaDesde);
+      if (setCuotaHasta && (parsed as any).cuotaHasta !== undefined) setCuotaHasta((parsed as any).cuotaHasta);
       setKmsDesde(parsed.kmsDesde);
       setKmsHasta(parsed.kmsHasta);
       setAñoDesde(parsed.añoDesde);
@@ -540,7 +526,7 @@ export function useUrlSync({
       const term = currentParams.get('term');
       if (entrance) queryParams.set('entrance', entrance);
       if (term) queryParams.set('term', term);
-    } else if (activePage === 'compra' || activePage === 'renting') {
+    } else if (activePage === 'compra') {
       targetPath = '/motos';
       if (selectedCiudades.length > 0) {
         targetPath += `/${cityToSlug(selectedCiudades[0])}`;
@@ -555,7 +541,7 @@ export function useUrlSync({
       targetPath = PATH_MAP[activePage as any] || '/';
     }
 
-    if (activePage === 'compra' || activePage === 'renting') {
+    if (activePage === 'compra') {
       if (selectedCondition !== 'all') {
         queryParams.set('condicion', selectedCondition === 'nueva' ? 'nuevo' : 'ocasion');
       }
@@ -563,13 +549,8 @@ export function useUrlSync({
       if (isOffersOnly) queryParams.set('ofertas-solo', 'true');
       if (cilindradaDesde > 0) queryParams.set('cilindrada-desde', `${cilindradaDesde}cc`);
       if (cilindradaHasta < 1200) queryParams.set('cilindrada-hasta', `${cilindradaHasta}cc`);
-      if (activePage === 'compra') {
-        if (precioDesde > 0) queryParams.set('precio-desde', precioDesde.toString());
-        if (precioHasta < 25000) queryParams.set('precio-hasta', precioHasta.toString());
-      } else {
-        if (cuotaDesde > 0) queryParams.set('cuota-desde', cuotaDesde.toString());
-        if (cuotaHasta < 300) queryParams.set('cuota-hasta', cuotaHasta.toString());
-      }
+      if (precioDesde > 0) queryParams.set('precio-desde', precioDesde.toString());
+      if (precioHasta < 25000) queryParams.set('precio-hasta', precioHasta.toString());
       if (kmsDesde > 0) queryParams.set('kms-desde', kmsDesde.toString());
       if (kmsHasta < 100000) queryParams.set('kms-hasta', kmsHasta.toString());
       if (añoDesde > 1995) queryParams.set('ano-desde', añoDesde.toString());
@@ -604,8 +585,6 @@ export function useUrlSync({
     cilindradaHasta,
     precioDesde,
     precioHasta,
-    cuotaDesde,
-    cuotaHasta,
     kmsDesde,
     kmsHasta,
     añoDesde,
@@ -616,7 +595,6 @@ export function useUrlSync({
     currentPage,
     searchQuery,
     selectedDetailedBike,
-    isRentingDetail,
     selectedBlogPostId
   ]);
 
@@ -630,9 +608,6 @@ export function useUrlSync({
       ccHasta?: number;
       priceDesde?: number;
       priceHasta?: number;
-      cuotaDesde?: number;
-      cuotaHasta?: number;
-      isRenting?: boolean;
       styleRemoved?: string;
       styleAdded?: string;
       styleToggle?: string;
@@ -701,11 +676,6 @@ export function useUrlSync({
     let pMax = precioHasta;
     if (updates.priceHasta !== undefined) pMax = updates.priceHasta;
 
-    let cMin = cuotaDesde;
-    if (updates.cuotaDesde !== undefined) cMin = updates.cuotaDesde;
-    let cMax = cuotaHasta;
-    if (updates.cuotaHasta !== undefined) cMax = updates.cuotaHasta;
-
     let kMin = kmsDesde;
     if (updates.kmsDesde !== undefined) kMin = updates.kmsDesde;
     let kMax = kmsHasta;
@@ -715,10 +685,6 @@ export function useUrlSync({
     if (updates.añoDesde !== undefined) yMin = updates.añoDesde;
     let yMax = añoHasta;
     if (updates.añoHasta !== undefined) yMax = updates.añoHasta;
-
-    const isRentingMode = updates.isRenting !== undefined 
-      ? updates.isRenting 
-      : (activePage === 'renting' || window.location.pathname.startsWith('/renting'));
 
     let path = '/motos';
     if (cities.length > 0) {
@@ -745,20 +711,11 @@ export function useUrlSync({
     if (ccMax < 1200) {
       params.set('cilindrada-hasta', `${ccMax}cc`);
     }
-    if (!isRentingMode) {
-      if (pMin > 0) {
-        params.set('precio-desde', pMin.toString());
-      }
-      if (pMax < 25000) {
-        params.set('precio-hasta', pMax.toString());
-      }
-    } else {
-      if (cMin > 0) {
-        params.set('cuota-desde', cMin.toString());
-      }
-      if (cMax < 300) {
-        params.set('cuota-hasta', cMax.toString());
-      }
+    if (pMin > 0) {
+      params.set('precio-desde', pMin.toString());
+    }
+    if (pMax < 25000) {
+      params.set('precio-hasta', pMax.toString());
     }
     if (kMin > 0) {
       params.set('kms-desde', kMin.toString());

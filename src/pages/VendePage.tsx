@@ -1,30 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { submitLeadInDb } from '../utils/storage';
-import { CustomSelect } from '../components/CustomSelect';
+import React, { useState } from 'react';
 import { 
   ChevronDown, 
   ChevronUp, 
-  ArrowRight, 
-  Phone, 
-  Mail, 
-  User,
-  AlertCircle
+  ExternalLink,
+  ShieldCheck,
+  Zap,
+  Clock
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-
-// Brand and model dataset for realistic simulation
-const BRAND_MODELS: Record<string, string[]> = {
-  'Honda': ['PCX 125', 'SH 125i', 'CB650R', 'X-ADV', 'CRF1100L Africa Twin', 'Forza 350', 'CB500X', 'CBR500R'],
-  'Yamaha': ['T-Max 560', 'X-Max 125', 'MT-07', 'Tracer 9 GT', 'YZF-R7', 'NMAX 125', 'MT-09', 'Tenere 700'],
-  'BMW': ['R 1250 GS', 'F 850 GS', 'C 400 GT', 'S 1000 RR', 'G 310 R', 'R nineT', 'F 900 R', 'R 1250 RT'],
-  'Kawasaki': ['Z900', 'Ninja 400', 'Versys 650', 'Vulcan S', 'Z650', 'Ninja ZX-6R', 'Z1000'],
-  'Suzuki': ['V-Strom 650', 'GSX-8S', 'Burgman 400', 'GSX-S1000', 'SV650', 'Address 125'],
-  'KTM': ['390 Duke', '890 Adventure', '1290 Super Duke R', '790 Duke', 'RC 390', '250 Adventure'],
-  'Ducati': ['Monster 937', 'Multistrada V4', 'Scrambler Icon', 'Panigale V4', 'Streetfighter V2', 'DesertX'],
-  'Kymco': ['Agility City 125', 'Super Dink 350', 'Xciting VS 400', 'DTX 360', 'People S 125'],
-  'SYM': ['Symphony 125', 'Cruisym 300', 'Maxsym TL 508', 'Jet X 125', 'Fiddle 125'],
-  'Vespa': ['Primavera 125', 'GTS Super 300', 'Elettrica', 'Sprint 50', 'Sei Giorni']
-};
 
 interface VendePageProps {
   onNavigateHome: () => void;
@@ -35,91 +18,8 @@ export default function VendePage({ onNavigateHome, onNavigateCompra }: VendePag
   // Accordion Expand State
   const [openAccordion, setOpenAccordion] = useState<number | null>(0);
 
-  // Bike data input states
-  const [selectedBrand, setSelectedBrand] = useState('');
-  const [selectedModel, setSelectedModel] = useState('');
-  const [version, setVersion] = useState('');
-  const [year, setYear] = useState('');
-  const [kilometers, setKilometers] = useState('');
-
-  // Seller contact input states
-  const [vendedorName, setVendedorName] = useState('');
-  const [vendedorPhone, setVendedorPhone] = useState('');
-  const [vendedorEmail, setVendedorEmail] = useState('');
-
-  // Form submission states
-  const [currentStep, setCurrentStep] = useState<1 | 2>(1);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [validationError, setValidationError] = useState('');
-
-  // Generate years list (e.g., from 2000 to 2026)
-  const years = Array.from({ length: 27 }, (_, i) => String(2026 - i));
-
-  // Handle Brand selection to auto-reset model
-  useEffect(() => {
-    setSelectedModel('');
-  }, [selectedBrand]);
-
-  // Step 1 Validation & Next Handler
-  const handleNextStep = (e: React.MouseEvent) => {
-    e.preventDefault();
-    if (!selectedBrand || !selectedModel || !year || !kilometers) {
-      setValidationError('Por favor, selecciona marca, modelo, año y kilómetros de tu moto.');
-      return;
-    }
-    setValidationError('');
-    setCurrentStep(2);
-  };
-
-  // Step 2 Back Handler
-  const handlePrevStep = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setValidationError('');
-    setCurrentStep(1);
-  };
-
-  // Form submit logic
-  const handleSubmitForm = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (currentStep === 1) {
-      if (!selectedBrand || !selectedModel || !year || !kilometers) {
-        setValidationError('Por favor, selecciona marca, modelo, año y kilómetros de tu moto.');
-        return;
-      }
-      setValidationError('');
-      setCurrentStep(2);
-      return;
-    }
-
-    if (!vendedorName || !vendedorPhone || !vendedorEmail) {
-      setValidationError('Por favor, rellena todos tus datos de contacto obligatorios (*).');
-      return;
-    }
-
-    setValidationError('');
-    setIsSubmitting(true);
-
-    submitLeadInDb({
-      type: 'vender_moto',
-      name: vendedorName,
-      phone: vendedorPhone,
-      email: vendedorEmail,
-      metadata: {
-        brand: selectedBrand,
-        model: selectedModel,
-        year,
-        kilometers,
-        version: version || 'Standard',
-      },
-    });
-
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-    }, 1200);
-  };
+  // URL del formulario externo especializado
+  const externalFormUrl = 'https://forms.google.com';
 
   // Accordion Items content list
   const accordions = [
@@ -159,7 +59,7 @@ export default function VendePage({ onNavigateHome, onNavigateCompra }: VendePag
           </p>
         </div>
 
-        {/* Desktop grid layout. On mobile, the contact form shifts to the top (order-1) */}
+        {/* Desktop grid layout. On mobile, the CTA card shifts to the top (order-1) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
           
           {/* LEFT COLUMN: Advantages text card & FAQ accordions */}
@@ -173,7 +73,7 @@ export default function VendePage({ onNavigateHome, onNavigateCompra }: VendePag
               <p className="text-xs sm:text-sm text-slate-600 font-medium leading-relaxed">
                 Estas ventajas benefician tanto al vendedor como al comprador, ya que proporcionan tranquilidad y hacen que el proceso sea más fluido y seguro.
               </p>
-              <p className="text-xs sm:text-sm text-slate-600 font-bold text-slate-800 leading-relaxed">
+              <p className="text-xs sm:text-sm font-bold text-slate-800 leading-relaxed">
                 Aquí hay algunas razones por las cuales elegir a un profesional podría ser la mejor opción:
               </p>
             </div>
@@ -228,309 +128,57 @@ export default function VendePage({ onNavigateHome, onNavigateCompra }: VendePag
 
           </div>
 
-          {/* RIGHT COLUMN: Premium Seller Lead Form Card */}
+          {/* RIGHT COLUMN: Button card for specialized external form */}
           <div className="lg:col-span-5 order-1 lg:order-2 w-full">
-            <div className="bg-[#002f46] rounded-[24px] sm:rounded-[28px] shadow-xl p-5 sm:p-6 text-white relative overflow-hidden border border-white/5">
+            <div className="bg-[#002f46] rounded-[24px] sm:rounded-[28px] shadow-xl p-6 sm:p-8 text-white relative overflow-hidden border border-white/5 space-y-6 text-left">
               
               {/* Subtle background overlay patterns */}
               <div className="absolute top-0 right-0 w-32 h-32 bg-[#00bcd4]/10 rounded-full blur-2xl pointer-events-none" />
               <div className="absolute bottom-0 left-0 w-44 h-44 bg-[#ff0d41]/5 rounded-full blur-3xl pointer-events-none" />
 
-              {!isSubmitted ? (
-                <form onSubmit={handleSubmitForm} className="space-y-4 text-left relative z-10">
-                  <div className="space-y-2 pb-2 border-b border-white/10">
-                    <div className="flex items-center justify-between">
-                      <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight leading-tight">
-                        Vende tu moto
-                      </h2>
-                      <span className="text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full bg-[#00bcd4]/20 text-[#00bcd4] border border-[#00bcd4]/30">
-                        Paso {currentStep} de 2
-                      </span>
-                    </div>
+              <div className="relative z-10 space-y-3">
+                <span className="text-[10px] font-black tracking-wider uppercase px-3 py-1 rounded-full bg-[#00bcd4]/20 text-[#00bcd4] border border-[#00bcd4]/30 inline-block">
+                  Tasación en línea
+                </span>
+                <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight leading-tight">
+                  Vende tu moto con Kaelos
+                </h2>
+                <p className="text-xs sm:text-sm text-sky-200/80 font-medium leading-relaxed">
+                  Completa la información de tu motocicleta en nuestro formulario especializado para obtener una tasación precisa, rápida y sin compromiso.
+                </p>
+              </div>
 
-                    {/* Visual Progress Bar */}
-                    <div className="w-full bg-white/10 h-1.5 rounded-full overflow-hidden flex gap-1">
-                      <div className={`h-full flex-1 rounded-full transition-all duration-300 ${currentStep >= 1 ? 'bg-[#00bcd4]' : 'bg-white/20'}`} />
-                      <div className={`h-full flex-1 rounded-full transition-all duration-300 ${currentStep >= 2 ? 'bg-[#00bcd4]' : 'bg-white/20'}`} />
-                    </div>
+              {/* Botón directo al formulario externo */}
+              <div className="relative z-10 pt-1">
+                <a
+                  href={externalFormUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full bg-[#00bcd4] hover:bg-[#00a8cc] active:scale-[0.98] text-[#001929] text-xs sm:text-sm font-black py-4 px-6 rounded-full transition-all duration-150 shadow-lg hover:shadow-cyan-500/20 flex items-center justify-center gap-2.5 cursor-pointer uppercase tracking-wider text-center"
+                >
+                  <span>IR AL FORMULARIO DE TASACIÓN</span>
+                  <ExternalLink className="w-4 h-4 text-[#001929] shrink-0" strokeWidth={2.5} />
+                </a>
+              </div>
 
-                    <p className="text-[11px] text-sky-200/75 font-semibold pt-0.5">
-                      {currentStep === 1 
-                        ? 'Paso 1: Indica los datos principales de tu motocicleta' 
-                        : 'Paso 2: Completa tus datos para enviarte la valoración'}
-                    </p>
-                  </div>
-
-                  {validationError && (
-                    <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-2.5 flex items-start gap-2.5 text-[11px] text-red-200 animate-fade-in">
-                      <AlertCircle className="w-3.5 h-3.5 shrink-0 text-red-400 mt-0.5" />
-                      <span>{validationError}</span>
-                    </div>
-                  )}
-
-                  {/* STEP 1: DATOS DE LA MOTO */}
-                  {currentStep === 1 && (
-                    <div className="space-y-3 pt-1 animate-fade-in">
-                      <div className="text-[10px] font-black text-[#00bcd4] uppercase tracking-wider block">
-                        1. Datos de la moto
-                      </div>
-
-                      {/* Brand Input select */}
-                      <div className="space-y-1">
-                        <label className="text-[10px] font-bold text-sky-100 uppercase tracking-wider block">
-                          Marca *
-                        </label>
-                        <CustomSelect
-                          value={selectedBrand}
-                          onChange={(val) => {
-                            setSelectedBrand(val);
-                            setSelectedModel('');
-                          }}
-                          options={Object.keys(BRAND_MODELS).map(b => ({ value: b, label: b }))}
-                          placeholder="Seleccionar marca"
-                          alignText="left"
-                          className="bg-[#526a79]/40 border border-white/10 text-white rounded-full px-4 py-2.5 text-xs font-bold"
-                        />
-                      </div>
-
-                      {/* Model Input select */}
-                      <div className="space-y-1">
-                        <label className="text-[10px] font-bold text-sky-100 uppercase tracking-wider block">
-                          Modelo *
-                        </label>
-                        <CustomSelect
-                          value={selectedModel}
-                          onChange={(val) => setSelectedModel(val)}
-                          disabled={!selectedBrand}
-                          options={selectedBrand ? (BRAND_MODELS[selectedBrand]?.map(m => ({ value: m, label: m })) || []) : []}
-                          placeholder={selectedBrand ? 'Seleccionar modelo' : 'Elige una marca primero'}
-                          alignText="left"
-                          className="bg-[#526a79]/40 border border-white/10 text-white rounded-full px-4 py-2.5 text-xs font-bold"
-                        />
-                      </div>
-
-                      {/* Version Input */}
-                      <div className="space-y-1">
-                        <label className="text-[10px] font-bold text-sky-100 uppercase tracking-wider block">
-                          Versión <span className="text-sky-300/65 font-normal">(Opcional)</span>
-                        </label>
-                        <input
-                          type="text"
-                          placeholder="Ej: ABS, Standard, Sport..."
-                          value={version}
-                          onChange={(e) => setVersion(e.target.value)}
-                          className="w-full bg-[#526a79]/40 border border-white/10 text-white placeholder-sky-200/40 rounded-full px-4 py-2.5 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-[#00bcd4]/30 focus:border-[#00bcd4] transition-all"
-                        />
-                      </div>
-
-                      {/* Two columns: Year & Kms */}
-                      <div className="grid grid-cols-2 gap-3">
-                        {/* Year Select */}
-                        <div className="space-y-1">
-                          <label className="text-[10px] font-bold text-sky-100 uppercase tracking-wider block">
-                            Año *
-                          </label>
-                          <CustomSelect
-                            value={year}
-                            onChange={(val) => setYear(val)}
-                            options={years.map(y => ({ value: String(y), label: String(y) }))}
-                            placeholder="Seleccionar"
-                            alignText="left"
-                            className="bg-[#526a79]/40 border border-white/10 text-white rounded-full px-4 py-2.5 text-xs font-bold"
-                          />
-                        </div>
-
-                        {/* Kilometers Input */}
-                        <div className="space-y-1">
-                          <label className="text-[10px] font-bold text-sky-100 uppercase tracking-wider block">
-                            Kilómetros *
-                          </label>
-                          <input
-                            type="text"
-                            required
-                            placeholder="Ej: 12500"
-                            value={kilometers}
-                            onChange={(e) => {
-                              const cleanVal = e.target.value.replace(/\D/g, '');
-                              setKilometers(cleanVal ? Number(cleanVal).toLocaleString('es-ES') : '');
-                            }}
-                            className="w-full bg-[#526a79]/40 border border-white/10 text-white placeholder-sky-200/40 rounded-full px-4 py-2.5 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-[#00bcd4]/30 focus:border-[#00bcd4] transition-all"
-                          />
-                        </div>
-                      </div>
-
-                      {/* Step 1 Next Button */}
-                      <button
-                        type="button"
-                        onClick={handleNextStep}
-                        className="w-full bg-[#00bcd4] hover:bg-[#00a8cc] active:scale-[0.98] text-[#001929] text-xs sm:text-sm font-extrabold py-3.5 rounded-full transition-all duration-150 shadow-md flex items-center justify-center gap-2 cursor-pointer mt-4"
-                      >
-                        <span>Siguiente: Tus Datos de Contacto</span>
-                        <ArrowRight className="w-4 h-4 text-[#001929]" strokeWidth={3} />
-                      </button>
-                    </div>
-                  )}
-
-                  {/* STEP 2: DATOS DE CONTACTO */}
-                  {currentStep === 2 && (
-                    <div className="space-y-3 pt-1 animate-fade-in">
-                      <div className="text-[10px] font-black text-[#00bcd4] uppercase tracking-wider block">
-                        2. Tus datos de contacto
-                      </div>
-
-                      {/* Selected bike summary badge */}
-                      <div className="bg-white/5 border border-white/10 rounded-xl p-2.5 flex items-center justify-between text-xs">
-                        <div>
-                          <p className="text-[10px] text-sky-200/60 uppercase font-bold">Moto seleccionada:</p>
-                          <p className="font-extrabold text-white text-xs">
-                            {selectedBrand} {selectedModel} ({year}) • {kilometers} km
-                          </p>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={handlePrevStep}
-                          className="text-[10px] text-[#00bcd4] hover:underline font-bold"
-                        >
-                          Editar
-                        </button>
-                      </div>
-
-                      {/* Contact Name input */}
-                      <div className="space-y-1">
-                        <label className="text-[10px] font-bold text-sky-100 uppercase tracking-wider block">Tu Nombre Completo *</label>
-                        <div className="relative">
-                          <input
-                            type="text"
-                            required
-                            placeholder="Introduce tu nombre"
-                            value={vendedorName}
-                            onChange={(e) => setVendedorName(e.target.value)}
-                            className="w-full bg-[#526a79]/40 border border-white/10 text-white placeholder-sky-200/40 rounded-full px-4 py-2.5 pl-9 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-[#00bcd4]/30 focus:border-[#00bcd4] transition-all"
-                          />
-                          <User className="absolute left-3.5 top-2.5 w-3.5 h-3.5 text-sky-200/50" />
-                        </div>
-                      </div>
-
-                      {/* Contact Phone input */}
-                      <div className="space-y-1">
-                        <label className="text-[10px] font-bold text-sky-100 uppercase tracking-wider block">Teléfono / WhatsApp *</label>
-                        <div className="relative">
-                          <input
-                            type="tel"
-                            required
-                            maxLength={12}
-                            placeholder="900 000 000"
-                            value={vendedorPhone}
-                            onChange={(e) => {
-                              const val = e.target.value.replace(/[^\d+ ]/g, '');
-                              setVendedorPhone(val);
-                            }}
-                            className="w-full bg-[#526a79]/40 border border-white/10 text-white placeholder-sky-200/40 rounded-full px-4 py-2.5 pl-9 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-[#00bcd4]/30 focus:border-[#00bcd4] transition-all"
-                          />
-                          <Phone className="absolute left-3.5 top-2.5 w-3.5 h-3.5 text-sky-200/50" />
-                        </div>
-                      </div>
-
-                      {/* Contact Email input */}
-                      <div className="space-y-1">
-                        <label className="text-[10px] font-bold text-sky-100 uppercase tracking-wider block">Correo Electrónico *</label>
-                        <div className="relative">
-                          <input
-                            type="email"
-                            required
-                            placeholder="ejemplo@correo.com"
-                            value={vendedorEmail}
-                            onChange={(e) => setVendedorEmail(e.target.value)}
-                            className="w-full bg-[#526a79]/40 border border-white/10 text-white placeholder-sky-200/40 rounded-full px-4 py-2.5 pl-9 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-[#00bcd4]/30 focus:border-[#00bcd4] transition-all"
-                          />
-                          <Mail className="absolute left-3.5 top-2.5 w-3.5 h-3.5 text-sky-200/50" />
-                        </div>
-                      </div>
-
-                      {/* Step 2 Buttons */}
-                      <div className="flex items-center gap-2.5 pt-2">
-                        <button
-                          type="button"
-                          onClick={handlePrevStep}
-                          className="px-4 py-3 rounded-full border border-white/20 bg-white/5 hover:bg-white/10 text-white text-xs font-bold transition cursor-pointer"
-                        >
-                          Atrás
-                        </button>
-
-                        <button
-                          type="submit"
-                          disabled={isSubmitting}
-                          className="flex-1 bg-[#00bcd4] hover:bg-[#00a8cc] active:scale-[0.98] text-[#001929] text-xs sm:text-sm font-extrabold py-3.5 rounded-full transition-all duration-150 shadow-md flex items-center justify-center gap-2 cursor-pointer"
-                        >
-                          {isSubmitting ? (
-                            <div className="flex items-center gap-2">
-                              <div className="w-4 h-4 rounded-full border-2 border-[#001929]/20 border-t-[#001929] animate-spin" />
-                              <span>Enviando información...</span>
-                            </div>
-                          ) : (
-                            <>
-                              <span>Enviar datos para contacto</span>
-                              <ArrowRight className="w-4 h-4 text-[#001929]" strokeWidth={3} />
-                            </>
-                          )}
-                        </button>
-                      </div>
-                    </div>
-                  )}
-
-                </form>
-              ) : (
-                /* Success confirmation summary */
-                <div className="py-8 text-center space-y-4 animate-fade-in relative z-10">
-                  <div className="w-14 h-14 bg-[#00bcd4] text-[#001929] rounded-full flex items-center justify-center mx-auto text-2xl shadow-lg font-black">
-                    ✓
-                  </div>
-                  
-                  <div className="space-y-1.5">
-                    <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight">
-                      ¡Solicitud enviada con éxito!
-                    </h3>
-                    <p className="text-xs text-sky-200/80 leading-relaxed max-w-sm mx-auto font-medium">
-                      Gracias <strong className="text-white">{vendedorName}</strong>. Hemos recibido la información de tu <strong className="text-white">{selectedBrand} {selectedModel} ({year})</strong>.
-                    </p>
-                  </div>
-
-                  <div className="bg-white/5 border border-white/10 rounded-2xl p-4 text-left space-y-2 max-w-md mx-auto">
-                    <h4 className="text-[10px] font-bold text-sky-100 uppercase tracking-wider">¿Qué sucederá ahora?</h4>
-                    <ul className="space-y-2 text-xs text-sky-200/80 font-medium">
-                      <li className="flex items-start gap-2 text-[11px]">
-                        <span className="text-[#00bcd4] font-black select-none">•</span>
-                        <span>Revisaremos las especificaciones y estado de tu moto.</span>
-                      </li>
-                      <li className="flex items-start gap-2 text-[11px]">
-                        <span className="text-[#00bcd4] font-black select-none">•</span>
-                        <span>Un asesor especializado te contactará a tus canales registrados de forma privada y segura.</span>
-                      </li>
-                      <li className="flex items-start gap-2 text-[11px]">
-                        <span className="text-[#00bcd4] font-black select-none">•</span>
-                        <span>Te explicaremos la propuesta de compra directa o gestión de venta sin ningún compromiso.</span>
-                      </li>
-                    </ul>
-                  </div>
-
-                  <button
-                    onClick={() => {
-                      setSelectedBrand('');
-                      setSelectedModel('');
-                      setVersion('');
-                      setYear('');
-                      setKilometers('');
-                      setVendedorName('');
-                      setVendedorPhone('');
-                      setVendedorEmail('');
-                      setIsSubmitted(false);
-                    }}
-                    className="bg-[#00bcd4] hover:bg-[#00a8cc] active:scale-[0.98] text-[#001929] text-xs font-black py-2.5 px-6 rounded-full transition-all cursor-pointer"
-                  >
-                    Enviar otra moto
-                  </button>
-                </div>
-              )}
+              {/* Beneficios del formulario externo */}
+              <div className="relative z-10 bg-white/5 border border-white/10 rounded-2xl p-4.5 space-y-2.5">
+                <p className="text-[11px] font-bold text-sky-100 uppercase tracking-wider">¿Qué obtendrás en el formulario?</p>
+                <ul className="space-y-2 text-xs text-sky-200/80 font-medium">
+                  <li className="flex items-center gap-2.5 text-[12px]">
+                    <Zap className="w-4 h-4 text-[#00bcd4] shrink-0" />
+                    <span>Proceso 100% guiado paso a paso</span>
+                  </li>
+                  <li className="flex items-center gap-2.5 text-[12px]">
+                    <ShieldCheck className="w-4 h-4 text-[#00bcd4] shrink-0" />
+                    <span>Sube fotos e información detallada de tu moto</span>
+                  </li>
+                  <li className="flex items-center gap-2.5 text-[12px]">
+                    <Clock className="w-4 h-4 text-[#00bcd4] shrink-0" />
+                    <span>Respuesta y valoración en menos de 24 horas</span>
+                  </li>
+                </ul>
+              </div>
 
             </div>
           </div>

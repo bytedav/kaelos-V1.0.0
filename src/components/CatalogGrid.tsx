@@ -6,7 +6,6 @@ import { BikeCardSkeleton } from './ui/Skeleton';
 
 interface CatalogGridProps {
   bikes: StyleBike[];
-  isRenting?: boolean;
   favorites: string[];
   reservedBikeIds?: string[];
   onToggleFavorite: (id: string, e: React.MouseEvent) => void;

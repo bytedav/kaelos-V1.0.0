@@ -60,7 +60,7 @@ export const CatalogSEOSection: React.FC<CatalogSEOSectionProps> = ({ onNavigate
   
   const handleItemClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
-    page: 'compra' | 'renting',
+    page: 'compra',
     filterType: 'brand' | 'style' | 'city' | 'cc',
     value: string,
     href: string

@@ -24,10 +24,9 @@ export interface MotorbikeContent {
   version?: string;
   year: number;
   category: 'Scrambler' | 'Naked' | 'Scooter' | 'Custom' | 'Trail' | 'Sport' | 'Gran Turismo' | string;
-  condition: 'ocasión' | 'nueva' | 'renting';
+  condition: 'ocasión' | 'nueva';
   price: number;
   currency?: string;
-  rentingPrice?: number;
   discountPrice?: number;
   isOffer?: boolean;
   kms?: number;

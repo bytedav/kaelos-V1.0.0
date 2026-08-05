@@ -73,7 +73,7 @@ export const PoliticaPrivacidadPage: React.FC<LegalPageProps> = ({ onNavigate })
             <ul className="list-disc pl-6 space-y-2 text-slate-600">
               <li><strong>Datos de Identificación y Contacto:</strong> Nombre, apellidos, DNI/CE, número de teléfono, dirección de correo electrónico y ciudad de residencia.</li>
               <li><strong>Datos de Tasación de Motocicletas:</strong> Marca, modelo, año, kilometraje, fotos del vehículo e información del propietario al solicitar vender o cambiar tu moto.</li>
-              <li><strong>Datos para Financiación y Renting:</strong> Información laboral básica, ingresos aproximados y preferencias de cuota elegidas en nuestros simuladores.</li>
+              <li><strong>Datos para Financiación:</strong> Información laboral básica, ingresos aproximados y preferencias de cuota elegidas en nuestros simuladores.</li>
               <li><strong>Datos de Navegación:</strong> Dirección IP, tipo de navegador e interacción con el sitio recopilados mediante cookies técnicas y analíticas.</li>
             </ul>
           </section>

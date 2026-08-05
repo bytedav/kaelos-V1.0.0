@@ -82,7 +82,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({ onNavigate }) => {
 
   return (
     <footer className="w-full bg-white font-sans">
-      {/* SEO Directory Catalog Section (Renting & Motos de Ocasión) */}
+      {/* SEO Directory Catalog Section */}
       <CatalogSEOSection onNavigate={onNavigate} />
 
       <div className="max-w-[96%] xl:max-w-[98%] 2xl:max-w-[1720px] 3xl:max-w-[1850px] mx-auto px-4 sm:px-6 lg:px-8 pt-8">

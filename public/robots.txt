@@ -2,3 +2,6 @@ User-agent: *
 Allow: /
 
 Sitemap: https://kaelos.com/sitemap.xml
+
+# LLMs.txt specification for AI models & agents:
+# https://kaelos.com/llms.txt

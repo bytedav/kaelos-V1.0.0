@@ -3,9 +3,7 @@ import { motorbikesData } from './motorbikesData';
 import { MotorbikeExtended } from '../components/MotorbikeCard';
 
 export function toStyleBike(bike: MotorbikeExtended): StyleBike {
-  const calcFinance = (bike.rentingPrice && bike.rentingPrice > 0)
-    ? bike.rentingPrice
-    : Math.round(bike.price * 0.0214) || Math.round(bike.price * 0.018 + 12);
+  const calcFinance = Math.round(bike.price * 0.0214) || Math.round(bike.price * 0.018 + 12);
 
   const rawKms = bike.kms ?? 0;
   const formattedKms = typeof rawKms === 'number'
@@ -23,8 +21,6 @@ export function toStyleBike(bike: MotorbikeExtended): StyleBike {
     oldPrice: bike.oldPrice,
     financePrice: calcFinance,
     images: bike.images && bike.images.length > 0 ? bike.images : [bike.image],
-    isRenting: false,
-    rentingPrice: calcFinance,
     condition: bike.condition,
     isReserved: bike.reserved || bike.isReserved,
     hasOffer: bike.hasOffer,

@@ -15,6 +15,12 @@ import MotoImagesView from './components/MotoImagesView';
 import MotoFinanceView from './components/MotoFinanceView';
 import CheckoutSaleView from './components/CheckoutSaleView';
 import VendePage from './pages/VendePage';
+import EquipamientoPage from './pages/EquipamientoPage';
+import TramitesDocumentalesPage from './pages/TramitesDocumentalesPage';
+import SegurosPage from './pages/SegurosPage';
+import LocalizadorPage from './pages/LocalizadorPage';
+import MantenimientoPage from './pages/MantenimientoPage';
+import TransportePage from './pages/TransportePage';
 import { AcercaDePage } from './pages/AcercaDePage';
 import FinanciacionPage from './pages/FinanciacionPage';
 import PreguntasFrecuentesPage from './pages/PreguntasFrecuentesPage';
@@ -140,9 +146,8 @@ export default function App() {
   }, [setIsScrolled]);
 
   // Navigation active page
-  const [activePage, setActivePage] = useState<'home' | 'compra' | 'moto' | 'moto-images' | 'moto-finance' | 'checkout-sale' | 'acerca-de' | 'financiacion' | 'preguntas-frecuentes' | 'blog' | 'favorites' | 'vende' | 'contacto' | 'aviso-legal' | 'politica-privacidad' | 'terminos-y-condiciones' | 'cookies'>(initialUrlState.activePage);
+  const [activePage, setActivePage] = useState<'home' | 'compra' | 'moto' | 'moto-images' | 'moto-finance' | 'checkout-sale' | 'acerca-de' | 'financiacion' | 'preguntas-frecuentes' | 'blog' | 'favorites' | 'vende' | 'equipamiento' | 'contacto' | 'aviso-legal' | 'politica-privacidad' | 'terminos-y-condiciones' | 'cookies' | 'tramites-documentales' | 'seguros' | 'localizador' | 'mantenimiento' | 'transporte'>(initialUrlState.activePage);
   const [selectedDetailedBike, setSelectedDetailedBike] = useState<MotorbikeExtended | null>(initialUrlState.selectedDetailedBike);
-  const [isRentingDetail, setIsRentingDetail] = useState(initialUrlState.isRentingDetail);
   const [selectedBlogPostId, setSelectedBlogPostId] = useState<string | null>(initialUrlState.selectedBlogPostId);
 
   // Always scroll to top when activePage changes
@@ -206,10 +211,6 @@ export default function App() {
     setCurrentPage,
     expandedFilters,
     setExpandedFilters,
-    cuotaDesde,
-    setCuotaDesde,
-    cuotaHasta,
-    setCuotaHasta,
     cilindradaDesde,
     setCilindradaDesde,
     cilindradaHasta,
@@ -246,8 +247,6 @@ export default function App() {
     setActivePage,
     selectedDetailedBike,
     setSelectedDetailedBike,
-    isRentingDetail,
-    setIsRentingDetail,
     selectedBlogPostId,
     setSelectedBlogPostId,
     selectedBrand,
@@ -258,10 +257,6 @@ export default function App() {
     setIsKm0,
     isOffersOnly,
     setIsOffersOnly,
-    cuotaDesde,
-    setCuotaDesde,
-    cuotaHasta,
-    setCuotaHasta,
     cilindradaDesde,
     setCilindradaDesde,
     cilindradaHasta,
@@ -307,7 +302,6 @@ export default function App() {
     selectedStyles,
     currentPage,
     selectedDetailedBike,
-    isRentingDetail,
     selectedBlogPostId,
   });
   
@@ -448,7 +442,6 @@ export default function App() {
         kms: cleanKms,
         power: '94 CV',
         price: styleBike.price,
-        rentingPrice: styleBike.financePrice || Math.round(styleBike.price * 0.0214),
         category: 'Custom',
         image: styleBike.images ? styleBike.images[0] : '',
         images: styleBike.images || [],
@@ -580,7 +573,6 @@ export default function App() {
             reservedBikeIds={reservedBikeIds}
             toggleFavorite={toggleFavorite}
             setSelectedDetailedBike={setSelectedDetailedBike}
-            setIsRentingDetail={setIsRentingDetail}
             setActivePage={(p: any) => setActivePage(p)}
             handleParentMenuClick={handleParentMenuClick}
             getFilterUrl={getFilterUrl}
@@ -603,7 +595,6 @@ export default function App() {
                 window.scrollTo({ top: 0, behavior: 'instant' });
               }}
               allBikes={motorbikesList}
-              isRentingDetail={false}
               getFilterUrl={getFilterUrl}
             />
           </div>
@@ -657,6 +648,66 @@ export default function App() {
             <VendePage 
               onNavigateHome={() => handleParentMenuClick('home')}
               onNavigateCompra={() => handleParentMenuClick('compra')}
+            />
+          </div>
+        )}
+
+        {/* 14.6 EQUIPAMIENTO PAGE */}
+        {activePage === 'equipamiento' && (
+          <div className="animate-fade-in">
+            <EquipamientoPage 
+              onNavigateHome={() => handleParentMenuClick('home')}
+              onNavigateServicios={() => handleParentMenuClick('contacto')}
+            />
+          </div>
+        )}
+
+        {/* 14.7 TRAMITES DOCUMENTALES PAGE */}
+        {activePage === 'tramites-documentales' && (
+          <div className="animate-fade-in">
+            <TramitesDocumentalesPage 
+              onNavigateHome={() => handleParentMenuClick('home')}
+              onNavigateServicios={() => handleParentMenuClick('contacto')}
+            />
+          </div>
+        )}
+
+        {/* 14.8 SEGUROS PAGE */}
+        {activePage === 'seguros' && (
+          <div className="animate-fade-in">
+            <SegurosPage 
+              onNavigateHome={() => handleParentMenuClick('home')}
+              onNavigateServicios={() => handleParentMenuClick('contacto')}
+            />
+          </div>
+        )}
+
+        {/* 14.9 LOCALIZADOR PAGE */}
+        {activePage === 'localizador' && (
+          <div className="animate-fade-in">
+            <LocalizadorPage 
+              onNavigateHome={() => handleParentMenuClick('home')}
+              onNavigateServicios={() => handleParentMenuClick('contacto')}
+            />
+          </div>
+        )}
+
+        {/* 14.10 MANTENIMIENTO PAGE */}
+        {activePage === 'mantenimiento' && (
+          <div className="animate-fade-in">
+            <MantenimientoPage 
+              onNavigateHome={() => handleParentMenuClick('home')}
+              onNavigateServicios={() => handleParentMenuClick('contacto')}
+            />
+          </div>
+        )}
+
+        {/* 14.11 TRANSPORTE PAGE */}
+        {activePage === 'transporte' && (
+          <div className="animate-fade-in">
+            <TransportePage 
+              onNavigateHome={() => handleParentMenuClick('home')}
+              onNavigateServicios={() => handleParentMenuClick('contacto')}
             />
           </div>
         )}

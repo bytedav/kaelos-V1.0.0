@@ -46,7 +46,6 @@ interface MotoDetailViewProps {
   onNavigateToCompra: (filterInfo?: { filterType: 'brand' | 'style' | 'city' | 'cc' | 'search'; value: string }) => void;
   onSelectBike: (bike: MotorbikeExtended) => void;
   allBikes: MotorbikeExtended[];
-  isRentingDetail?: boolean;
   getFilterUrl?: (updates?: any) => string;
   isLoading?: boolean;
 }
@@ -80,7 +79,6 @@ const DEFAULT_HARLEY: MotorbikeExtended = {
   kms: 7615,
   power: '94 CV',
   price: 22999,
-  rentingPrice: 123, // calculated financed is 492/month
   category: 'Custom',
   image: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=800',
   images: [
@@ -186,7 +184,6 @@ export default function MotoDetailView({
   onNavigateToCompra,
   onSelectBike,
   allBikes,
-  isRentingDetail = false,
   getFilterUrl,
   isLoading = false
 }: MotoDetailViewProps) {
@@ -234,17 +231,12 @@ export default function MotoDetailView({
   const [isReserved, setIsReserved] = useState(false);
   const [isContactRequested, setIsContactRequested] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
-  const [contactModalType, setContactModalType] = useState<'contact' | 'renting'>('contact');
+  const [contactModalType, setContactModalType] = useState<'contact'>('contact');
 
   // Dynamic Finance Simulator States
   const [isSimulatorOpen, setIsSimulatorOpen] = useState(false);
   const [entranceFee, setEntranceFee] = useState<number>(getMinEntrance((bike || DEFAULT_HARLEY).price));
   const [termMonths, setTermMonths] = useState<number>(DEFAULT_TERM);
-
-  // Renting specific states
-  const [rentingMonths, setRentingMonths] = useState<number>(24);
-  const [rentingMileage, setRentingMileage] = useState<string>('500 km/mes');
-  const [rentingInsuranceOption, setRentingInsuranceOption] = useState<boolean>(false);
 
   // Related bikes (exclude current bike, get Custom/Touring category first, match same brand or style)
   const [relatedBikes, setRelatedBikes] = useState<MotorbikeExtended[]>([]);
@@ -323,7 +315,6 @@ export default function MotoDetailView({
           kms: 43587,
           power: '53 CV',
           price: 5799,
-          rentingPrice: 32, // financed 127/month
           category: 'Custom',
           image: 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&q=80&w=500',
           fuel: 'Gasolina'
@@ -336,7 +327,6 @@ export default function MotoDetailView({
           kms: 7599,
           power: '58 CV',
           price: 5999,
-          rentingPrice: 35, // financed 131/month
           category: 'Custom',
           image: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=500',
           fuel: 'Gasolina'
@@ -349,7 +339,6 @@ export default function MotoDetailView({
           kms: 6391,
           power: '122 CV',
           price: 12999,
-          rentingPrice: 60, // financed 239/month
           category: 'Custom',
           image: 'https://images.unsplash.com/photo-1599819811279-d5ad9cccf838?auto=format&fit=crop&q=80&w=500',
           fuel: 'Gasolina'
@@ -795,43 +784,6 @@ export default function MotoDetailView({
     );
   };
 
-  const renderQueIncluyeRentingCard = (isSidebar: boolean) => {
-    return (
-      <div className={`bg-[#f8f9fa] border border-slate-200/80 rounded-[20px] p-5 shadow-xs ${isSidebar ? 'hidden lg:block' : 'block lg:hidden'}`}>
-        <div className="flex items-center gap-2.5 mb-4 text-left">
-          <div className="w-6.5 h-6.5 rounded-full bg-[#ff0d41] flex items-center justify-center text-white shrink-0 shadow-xs font-black text-[12px]">
-            M
-          </div>
-          <h3 className="text-[14px] sm:text-[15px] font-black text-slate-900 tracking-tight">
-            Qué incluye el renting
-          </h3>
-        </div>
-
-        <div className="space-y-3.5 text-left">
-          <div className="flex gap-3 items-center">
-            <ShieldCheck className="w-5 h-5 text-slate-600 shrink-0" strokeWidth={1.5} />
-            <span className="text-[11px] sm:text-xs font-bold text-slate-800 leading-tight">Seguro con asistencia 24h</span>
-          </div>
-
-          <div className="flex gap-3 items-center">
-            <Check className="w-5 h-5 text-slate-600 shrink-0" strokeWidth={2} />
-            <span className="text-[11px] sm:text-xs font-bold text-slate-800 leading-tight">Mantenimiento incluido</span>
-          </div>
-
-          <div className="flex gap-3 items-center">
-            <Truck className="w-5 h-5 text-slate-600 shrink-0" strokeWidth={1.5} />
-            <span className="text-[11px] sm:text-xs font-bold text-slate-800 leading-tight">Entrega a domicilio bajo condiciones</span>
-          </div>
-
-          <div className="flex gap-3 items-center">
-            <CreditCard className="w-5 h-5 text-slate-600 shrink-0" strokeWidth={1.5} />
-            <span className="text-[11px] sm:text-xs font-bold text-slate-800 leading-tight">Impuestos incluidos</span>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
   const renderCertificadoCard = (isSidebar: boolean) => {
     return (
       <div className={`bg-white border border-slate-100 rounded-[20px] p-5 sm:p-5.5 shadow-sm ${isSidebar ? 'hidden lg:block' : 'block lg:hidden'}`}>
@@ -883,7 +835,7 @@ export default function MotoDetailView({
             }} 
             className="hover:text-slate-600 transition"
           >
-            {isRentingDetail ? 'Renting' : 'Compra'}
+            Motos
           </a>
           <span className="text-slate-300 font-light font-sans">›</span>
           <a
@@ -1062,8 +1014,8 @@ export default function MotoDetailView({
 
           </div>
 
-          {/* C. Certificado de calidad Kaelos Panel / Renting panel */}
-          {isRentingDetail ? renderQueIncluyeRentingCard(false) : renderCertificadoCard(false)}
+          {/* C. Certificado de calidad Kaelos Panel */}
+          {renderCertificadoCard(false)}
 
           {/* D & E. Collapsible sections with divider lines */}
           <div className="divide-y divide-slate-200/60 my-4 border-t border-b border-slate-200/60">
@@ -1447,8 +1399,8 @@ export default function MotoDetailView({
           {/* Main Price Card */}
           {renderPriceCard(true)}
 
-          {/* Quality Certificate Panel (Visible on Desktop only) / Renting Panel */}
-          {isRentingDetail ? renderQueIncluyeRentingCard(true) : renderCertificadoCard(true)}
+          {/* Quality Certificate Panel (Visible on Desktop only) */}
+          {renderCertificadoCard(true)}
 
 
 
@@ -1556,7 +1508,7 @@ export default function MotoDetailView({
             </div>
 
             <div className="p-1 sm:p-2">
-              <ContactFormSection noWrapper={true} isRentingForm={contactModalType === 'renting'} />
+              <ContactFormSection noWrapper={true} />
             </div>
           </div>
         </div>

@@ -10,8 +10,6 @@ export interface StyleBike {
   financePrice: number;
   oldFinancePrice?: number;
   images: string[];
-  isRenting?: boolean;
-  rentingPrice?: number;
   condition?: string;
   isKm0?: boolean;
   isNew?: boolean;

@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { CustomSelect } from './CustomSelect';
 
 export interface CatalogFiltersProps {
-  isRenting: boolean;
+  isRenting?: boolean;
   selectedBrand: string;
   setSelectedBrand: (val: string) => void;
   selectedCondition: 'all' | 'ocasión' | 'nueva';
@@ -21,12 +21,6 @@ export interface CatalogFiltersProps {
   setPrecioDesde?: (val: number) => void;
   precioHasta?: number;
   setPrecioHasta?: (val: number) => void;
-  
-  // Renting pricing
-  cuotaDesde?: number;
-  setCuotaDesde?: (val: number) => void;
-  cuotaHasta?: number;
-  setCuotaHasta?: (val: number) => void;
   
   // Standard purchase displacement (Cilindrada)
   cilindradaDesde?: number;
@@ -55,7 +49,7 @@ export interface CatalogFiltersProps {
 }
 
 export const CatalogFilters: React.FC<CatalogFiltersProps> = ({
-  isRenting,
+  isRenting = false,
   selectedBrand,
   setSelectedBrand,
   selectedCondition,
@@ -68,10 +62,6 @@ export const CatalogFilters: React.FC<CatalogFiltersProps> = ({
   setPrecioDesde,
   precioHasta = 25000,
   setPrecioHasta,
-  cuotaDesde = 0,
-  setCuotaDesde,
-  cuotaHasta = 300,
-  setCuotaHasta,
   cilindradaDesde = 0,
   setCilindradaDesde,
   cilindradaHasta = 1200,
@@ -96,7 +86,6 @@ export const CatalogFilters: React.FC<CatalogFiltersProps> = ({
   const [expandedFilters, setExpandedFilters] = useState<Record<string, boolean>>({
     Cilindrada: false,
     Precio: false,
-    Cuota: false,
     Estilo: false,
     Kilometraje: false,
     Año: false,
@@ -172,8 +161,8 @@ export const CatalogFilters: React.FC<CatalogFiltersProps> = ({
     });
   }
 
-  // 2. Precio Filter (Only for purchase/non-renting)
-  if (!isRenting && setPrecioDesde && setPrecioHasta) {
+  // 2. Precio Filter
+  if (setPrecioDesde && setPrecioHasta) {
     accordionConfig.push({
       name: 'Precio',
       icon: <span className="font-extrabold text-[12px] text-slate-800 leading-none">S/.</span>,
@@ -233,69 +222,6 @@ export const CatalogFilters: React.FC<CatalogFiltersProps> = ({
                     { value: 15000, label: 'S/. 15,000.00' },
                     { value: 18000, label: 'S/. 18,000.00' },
                     { value: 25000, label: 'Más de S/. 18,000.00' }
-                  ]}
-                />
-              )}
-            </div>
-          </div>
-        </div>
-      )
-    });
-  }
-
-  // 3. Cuota Filter (Only for Renting)
-  if (isRenting && setCuotaDesde && setCuotaHasta) {
-    accordionConfig.push({
-      name: 'Cuota',
-      icon: <span className="font-extrabold text-[12px] text-slate-800 leading-none">S/.</span>,
-      content: (
-        <div className="pt-1 pb-2 text-left space-y-3">
-          <div className="grid grid-cols-2 gap-2.5 min-w-0 w-full items-start">
-            <div className="min-w-0">
-              <span className="text-[10px] font-bold text-slate-400 block mb-1.5 uppercase tracking-wider truncate">Desde</span>
-              {isMobile && openBottomSheet ? (
-                <button
-                  onClick={() => openBottomSheet('cuotaDesde')}
-                  className={selectClassName}
-                >
-                  S/. {cuotaDesde}/mes
-                </button>
-              ) : (
-                <CustomSelect
-                  value={cuotaDesde}
-                  onChange={(val) => setCuotaDesde(Number(val))}
-                  getOptionUrl={(val) => getFilterUrl({ cuotaDesde: Number(val) })}
-                  options={[
-                    { value: 0, label: 'S/. 0.00 / mes' },
-                    { value: 50, label: 'S/. 50.00 / mes' },
-                    { value: 75, label: 'S/. 75.00 / mes' },
-                    { value: 100, label: 'S/. 100.00 / mes' },
-                    { value: 150, label: 'S/. 150.00 / mes' },
-                    { value: 200, label: 'S/. 200.00 / mes' }
-                  ]}
-                />
-              )}
-            </div>
-            <div className="min-w-0">
-              <span className="text-[10px] font-bold text-slate-400 block mb-1.5 uppercase tracking-wider truncate">Hasta</span>
-              {isMobile && openBottomSheet ? (
-                <button
-                  onClick={() => openBottomSheet('cuotaHasta')}
-                  className={selectClassName}
-                >
-                  {cuotaHasta === 300 ? '+S/. 250/mes' : `S/. ${cuotaHasta}/mes`}
-                </button>
-              ) : (
-                <CustomSelect
-                  value={cuotaHasta}
-                  onChange={(val) => setCuotaHasta(Number(val))}
-                  getOptionUrl={(val) => getFilterUrl({ cuotaHasta: Number(val) })}
-                  options={[
-                    { value: 100, label: 'S/. 100.00 / mes' },
-                    { value: 150, label: 'S/. 150.00 / mes' },
-                    { value: 200, label: 'S/. 200.00 / mes' },
-                    { value: 250, label: 'S/. 250.00 / mes' },
-                    { value: 300, label: 'Más de S/. 250.00 / mes' }
                   ]}
                 />
               )}

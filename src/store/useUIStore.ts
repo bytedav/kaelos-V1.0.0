@@ -17,8 +17,8 @@ interface UIState {
   setIsMobileMenuOpen: (open: boolean | ((prev: boolean) => boolean)) => void;
   isMobileSearchOpen: boolean;
   setIsMobileSearchOpen: (open: boolean | ((prev: boolean) => boolean)) => void;
-  hoveredMenu: 'compra' | null;
-  setHoveredMenu: (menu: 'compra' | null) => void;
+  hoveredMenu: 'compra' | 'servicios' | null;
+  setHoveredMenu: (menu: 'compra' | 'servicios' | null) => void;
   activeBottomSheet: BottomSheetConfig | null;
   setActiveBottomSheet: (sheet: BottomSheetConfig | null) => void;
   bottomSheetSearch: string;

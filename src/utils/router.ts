@@ -1,5 +1,5 @@
 /**
- * ARCHIVO 1: ENRUTADOR DINÁMICO UNIVERSAL (Venta / Ocasión y Renting)
+ * ARCHIVO 1: ENRUTADOR DINÁMICO UNIVERSAL (Venta / Ocasión)
  * Gestiona de forma limpia y continua todas las rutas de la plataforma sin recargar la página.
  */
 
@@ -125,6 +125,9 @@ export function parseCurrentRoute(pathname: string, search: string): ParsedRoute
       return { page: 'mantenimiento', queryParams };
     case '/transporte':
       return { page: 'transporte', queryParams };
+    case '/equipamiento':
+    case '/maletas-y-accesorios':
+      return { page: 'equipamiento', queryParams };
     case '/favoritos':
     case '/user/favorites':
       return { page: 'favoritos', queryParams };

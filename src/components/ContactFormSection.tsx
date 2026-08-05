@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
-import { ChevronDown, Check } from 'lucide-react';
 import { Button } from './common/Button';
 import { Input } from './common/Input';
 import { submitLeadInDb } from '../utils/storage';
 
 interface ContactFormProps {
   noWrapper?: boolean;
-  isRentingForm?: boolean;
 }
 
 export const ContactFormSection: React.FC<ContactFormProps> = ({ 
-  noWrapper = false,
-  isRentingForm = false
+  noWrapper = false
 }) => {
   const [formData, setFormData] = useState({
     nombre: '',
@@ -21,15 +18,6 @@ export const ContactFormSection: React.FC<ContactFormProps> = ({
     privacy: false
   });
   const [submitted, setSubmitted] = useState(false);
-  const [companyStatus, setCompanyStatus] = useState<'no' | 'autonomo' | 'empresa'>('autonomo');
-  const [isCompanyDropdownOpen, setIsCompanyDropdownOpen] = useState(false);
-
-  const getCompanyLabel = (status: 'no' | 'autonomo' | 'empresa') => {
-    if (status === 'no') return 'No';
-    if (status === 'autonomo') return 'Soy autónomo';
-    if (status === 'empresa') return 'Soy una empresa';
-    return 'Soy autónomo';
-  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,14 +27,12 @@ export const ContactFormSection: React.FC<ContactFormProps> = ({
     }
 
     submitLeadInDb({
-      type: isRentingForm ? 'financiacion' : 'contact',
+      type: 'contact',
       name: formData.nombre,
       phone: formData.telefono,
       email: formData.email,
       metadata: {
-        companyStatus,
         marketing: formData.marketing,
-        isRentingForm,
       },
     });
 
@@ -68,10 +54,10 @@ export const ContactFormSection: React.FC<ContactFormProps> = ({
       {/* Header */}
       <div className="space-y-1 mb-3.5 sm:mb-5 text-left">
         <h2 className="text-[20px] sm:text-[24px] md:text-[26px] font-black text-slate-900 tracking-tight leading-tight">
-          {isRentingForm ? 'Empieza tu renting' : '¿Tienes preguntas? Estamos aquí para ayudarte'}
+          ¿Tienes preguntas? Estamos aquí para ayudarte
         </h2>
         <p className="text-slate-400 font-medium text-xs sm:text-sm">
-          {isRentingForm ? 'Indica tus datos para continuar.' : 'Te responderemos en menos de 24 horas'}
+          Te responderemos en menos de 24 horas
         </p>
       </div>
 
@@ -80,10 +66,7 @@ export const ContactFormSection: React.FC<ContactFormProps> = ({
         <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 p-3.5 rounded-xl font-bold mb-4 text-xs flex items-center space-x-2 animate-fade-in">
           <span>✨</span>
           <span>
-            {isRentingForm 
-              ? '¡Solicitud de renting enviada con éxito! Nos pondremos en contacto contigo muy pronto.'
-              : '¡Mensaje enviado con éxito! Nos pondremos en contacto contigo muy pronto.'
-            }
+            ¡Mensaje enviado con éxito! Nos pondremos en contacto contigo muy pronto.
           </span>
         </div>
       ) : null}
@@ -147,57 +130,6 @@ export const ContactFormSection: React.FC<ContactFormProps> = ({
           </div>
         </div>
 
-        {/* Custom Extra Dropdown (¿Eres una empresa o autónomo?) for Renting Form */}
-        {isRentingForm && (
-          <div className="space-y-1.5 relative">
-            <label className="block text-slate-800 font-bold text-xs sm:text-sm text-left">
-              ¿Eres una empresa o autónomo?
-            </label>
-            <button
-              type="button"
-              onClick={() => setIsCompanyDropdownOpen(!isCompanyDropdownOpen)}
-              className="w-full bg-white border border-slate-200/80 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 flex items-center justify-between outline-none cursor-pointer hover:border-slate-300 transition"
-            >
-              <span>{getCompanyLabel(companyStatus)}</span>
-              <ChevronDown className="w-4 h-4 text-slate-500" />
-            </button>
-            
-            {isCompanyDropdownOpen && (
-              <>
-                {/* Backdrop for clickout */}
-                <div 
-                  className="fixed inset-0 z-140" 
-                  onClick={() => setIsCompanyDropdownOpen(false)} 
-                />
-                {/* Dropdown list */}
-                <div className="absolute left-0 right-0 mt-1.5 bg-white border border-slate-200/85 rounded-2xl shadow-xl z-150 overflow-hidden animate-fade-in divide-y divide-slate-100 max-h-[220px] overflow-y-auto">
-                  {(['no', 'autonomo', 'empresa'] as const).map((status) => (
-                    <button
-                      key={status}
-                      type="button"
-                      onClick={() => {
-                        setCompanyStatus(status);
-                        setIsCompanyDropdownOpen(false);
-                      }}
-                      className={`w-full text-left px-4 py-3 text-sm font-semibold transition-all flex items-center justify-between cursor-pointer
-                        ${companyStatus === status
-                          ? 'bg-slate-50 text-slate-900 font-bold'
-                          : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
-                        }
-                      `}
-                    >
-                      <span>{getCompanyLabel(status)}</span>
-                      {companyStatus === status && (
-                        <Check className="w-4 h-4 text-slate-900" strokeWidth={3} />
-                      )}
-                    </button>
-                  ))}
-                </div>
-              </>
-            )}
-          </div>
-        )}
-
         {/* Checkboxes */}
         <div className="space-y-3 pt-1">
           {/* Promo option */}
@@ -236,7 +168,7 @@ export const ContactFormSection: React.FC<ContactFormProps> = ({
             size="lg"
             fullWidth
           >
-            {isRentingForm ? 'CONTINUAR' : 'Enviar'}
+            Enviar
           </Button>
         </div>
       </form>

@@ -42,8 +42,6 @@ interface UseBikeFiltersOptions {
     selectedCondition: 'all' | 'ocasión' | 'nueva';
     isKm0: boolean;
     isOffersOnly: boolean;
-    cuotaDesde: number;
-    cuotaHasta: number;
     cilindradaDesde: number;
     cilindradaHasta: number;
     precioDesde: number;
@@ -101,8 +99,6 @@ export function useBikeFilters(options: UseBikeFiltersOptions = {}) {
   const [cilindradaHasta, setCilindradaHasta] = useState<number>(initialFilters?.cilindradaHasta ?? 1200); // 1200 represents 'Más de 900 CC'
   const [precioDesde, setPrecioDesde] = useState<number>(initialFilters?.precioDesde ?? 0);
   const [precioHasta, setPrecioHasta] = useState<number>(initialFilters?.precioHasta ?? 25000); // 25000 represents 'Más de S/. 25,000'
-  const [cuotaDesde, setCuotaDesde] = useState<number>(initialFilters?.cuotaDesde ?? 0);
-  const [cuotaHasta, setCuotaHasta] = useState<number>(initialFilters?.cuotaHasta ?? 300); // 300 represents 'Más de S/. 300/mes'
   const [selectedStyles, setSelectedStyles] = useState<string[]>(initialFilters?.selectedStyles ?? []);
   const [kmsDesde, setKmsDesde] = useState<number>(initialFilters?.kmsDesde ?? 0);
   const [kmsHasta, setKmsHasta] = useState<number>(initialFilters?.kmsHasta ?? 100000); // 100000 represents 'Más de 40.000 KM'
@@ -124,8 +120,6 @@ export function useBikeFilters(options: UseBikeFiltersOptions = {}) {
     cilindradaHasta,
     precioDesde,
     precioHasta,
-    cuotaDesde,
-    cuotaHasta,
     selectedStyles.length,
     kmsDesde,
     kmsHasta,
@@ -148,8 +142,6 @@ export function useBikeFilters(options: UseBikeFiltersOptions = {}) {
     setCilindradaHasta(1200);
     setPrecioDesde(0);
     setPrecioHasta(25000);
-    setCuotaDesde(0);
-    setCuotaHasta(300);
     setSelectedStyles([]);
     setKmsDesde(0);
     setKmsHasta(100000);
@@ -167,8 +159,6 @@ export function useBikeFilters(options: UseBikeFiltersOptions = {}) {
     cilindradaHasta < 1200 ||
     precioDesde > 0 ||
     precioHasta < 25000 ||
-    cuotaDesde > 0 ||
-    cuotaHasta < 300 ||
     selectedStyles.length > 0 ||
     kmsDesde > 0 ||
     kmsHasta < 100000 ||
@@ -557,10 +547,6 @@ export function useBikeFilters(options: UseBikeFiltersOptions = {}) {
     setPrecioDesde,
     precioHasta,
     setPrecioHasta,
-    cuotaDesde,
-    setCuotaDesde,
-    cuotaHasta,
-    setCuotaHasta,
     selectedStyles,
     setSelectedStyles,
     kmsDesde,

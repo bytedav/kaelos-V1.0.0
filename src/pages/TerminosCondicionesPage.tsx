@@ -103,13 +103,13 @@ export const TerminosCondicionesPage: React.FC<LegalPageProps> = ({ onNavigate }
             </p>
           </section>
 
-          {/* Section 5: Financiación y Renting */}
+          {/* Section 5: Financiación */}
           <section className="space-y-3">
             <h2 className="text-xl font-bold text-slate-900 border-l-4 border-[#ff0d41] pl-3">
-              5. Financiación y Suscripción (Renting)
+              5. Financiación
             </h2>
             <p>
-              Las cuotas mensuales mostradas en la plataforma corresponden a simulaciones referenciales. La aprobación final de crédito está sujeta al perfil crediticio evaluado por las entidades financieras o de leasing aliadas de KAELOS.
+              Las cuotas mensuales mostradas en la plataforma corresponden a simulaciones referenciales. La aprobación final de crédito está sujeta al perfil crediticio evaluado por las entidades financieras aliadas de KAELOS.
             </p>
           </section>
 
