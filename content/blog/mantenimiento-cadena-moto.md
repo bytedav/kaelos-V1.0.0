@@ -1,7 +1,7 @@
 ---
 title: "Guía paso a paso: Cómo limpiar y tensar la cadena de tu moto"
 excerpt: "Un mantenimiento básico de la transmisión final prolonga la vida útil del kit de arrastre y garantiza una conducción suave y segura."
-category: "Mantenimiento"
+category: "Novedades"
 image: "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=800&q=80"
 readTime: "5 min"
 date: "2026-07-24"

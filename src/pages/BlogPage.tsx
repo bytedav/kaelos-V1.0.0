@@ -185,7 +185,7 @@ export default function BlogPage({ onNavigate, selectedPostId, onSelectPostId }:
 
   // Dynamic categories derived from base list and any posts from DB/CMS
   const categories = useMemo(() => {
-    const baseCats = ['Todos', 'Guías de Compra', 'Mantenimiento', 'Rutas', 'Equipamiento', 'Novedades'];
+    const baseCats = ['Todos', 'Guías de Compra', 'Novedades', 'Rutas y Viajes'];
     const set = new Set<string>(baseCats);
     blogPosts.forEach((p) => {
       if (p.category && p.category.trim()) {
@@ -416,15 +416,6 @@ export default function BlogPage({ onNavigate, selectedPostId, onSelectPostId }:
                     {cat}
                   </button>
                 ))}
-
-                <button
-                  onClick={() => setIsPagesCmsModalOpen(true)}
-                  className="ml-auto px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-bold bg-slate-900 text-white hover:bg-black transition-all flex items-center gap-1.5 shrink-0 shadow-xs cursor-pointer"
-                  title="Configuración de Pages CMS"
-                >
-                  <FileText className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>Pages CMS</span>
-                </button>
               </div>
             </div>
           </section>

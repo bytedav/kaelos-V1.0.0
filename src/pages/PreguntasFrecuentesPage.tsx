@@ -78,7 +78,7 @@ export default function PreguntasFrecuentesPage({ onNavigate }: PreguntasFrecuen
 
   const staticFaqData: FAQCategory[] = [
     {
-      title: 'Vender o intercambiar',
+      title: 'Vender o Intercambiar',
       items: [
         {
           id: 'vender-sin-comprar',
@@ -137,7 +137,7 @@ export default function PreguntasFrecuentesPage({ onNavigate }: PreguntasFrecuen
       ]
     },
     {
-      title: 'Comprar una moto',
+      title: 'Comprar una Moto',
       items: [
         {
           id: 'reacondicionamiento',
@@ -196,7 +196,7 @@ export default function PreguntasFrecuentesPage({ onNavigate }: PreguntasFrecuen
       ]
     },
     {
-      title: 'Financiaciones y otros métodos de pago',
+      title: 'Financiación y otros métodos de pago',
       items: [
         {
           id: 'formas-pago',
