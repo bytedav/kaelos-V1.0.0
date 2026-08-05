@@ -33,16 +33,11 @@ content:
         label: Categoría
         type: select
         options:
-          - label: Guías de Compra
-            value: Guías de Compra
-          - label: Mantenimiento
-            value: Mantenimiento
-          - label: Novedades y Tendencias
-            value: Novedades y Tendencias
-          - label: Consejos de Conducción
-            value: Consejos de Conducción
-          - label: Rutas y Viajes
-            value: Rutas y Viajes
+          values:
+            - Guías de Compra
+            - Novedades
+            - Rutas y Viajes
+
       - name: image
         label: Imagen de Portada
         type: image
@@ -95,14 +90,14 @@ content:
         label: Categoría
         type: select
         options:
-          - label: Vender o intercambiar
-            value: Vender o intercambiar
-          - label: Comprar una moto
-            value: Comprar una moto
-          - label: Financiación y Pagos
-            value: Financiación y Pagos
-          - label: Mantenimiento y Garantía
-            value: Mantenimiento y Garantía
+          values:
+            - Vender o Intercambiar
+            - Comprar una Moto
+            - Financiación y otros métodos de pago
+            - Envíos y entregas
+            - Garantías y seguros
+            - Devoluciones
+
       - name: order
         label: Orden de visualización
         type: number
