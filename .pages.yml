@@ -11,18 +11,24 @@ content:
     type: collection
     path: content/blog
     filename: "{primary}.md"
+
     view:
       primary: title
-      fields: [category, date]
+      fields:
+        - category
+        - date
+
     fields:
       - name: title
         label: Título
         type: string
         required: true
+
       - name: excerpt
         label: Resumen / Bajada
         type: text
         required: true
+
       - name: category
         label: Categoría
         type: select
@@ -37,30 +43,39 @@ content:
             value: Consejos de Conducción
           - label: Rutas y Viajes
             value: Rutas y Viajes
+
       - name: image
         label: Imagen de Portada
         type: image
+
       - name: readTime
         label: Tiempo de Lectura
         type: string
+
       - name: date
         label: Fecha de Publicación
         type: date
+
       - name: authorName
         label: Nombre del Autor
         type: string
+
       - name: authorRole
         label: Cargo / Especialidad del Autor
         type: string
+
       - name: authorAvatar
         label: Avatar del Autor
         type: image
+
       - name: tags
         label: Etiquetas
         type: list
+
       - name: likes
         label: Número de Me Gusta
         type: number
+
       - name: body
         label: Contenido del Artículo (Markdown)
         type: rich-text
@@ -70,11 +85,13 @@ content:
     type: collection
     path: content/faqs
     filename: "{primary}.md"
+
     fields:
       - name: title
         label: Pregunta
         type: string
         required: true
+
       - name: category
         label: Categoría
         type: select
@@ -87,9 +104,11 @@ content:
             value: Financiación y Pagos
           - label: Mantenimiento y Garantía
             value: Mantenimiento y Garantía
+
       - name: order
         label: Orden de visualización
         type: number
+
       - name: body
         label: Respuesta (Markdown)
         type: rich-text
