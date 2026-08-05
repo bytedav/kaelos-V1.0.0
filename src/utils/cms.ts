@@ -65,7 +65,50 @@ export async function loadAllBlogPostsFromCms(): Promise<BlogPostContent[]> {
 }
 
 export async function loadAllFaqsFromCms(): Promise<any[]> {
-  return [];
+  try {
+    const modules = import.meta.glob('/content/faqs/*.md', { query: '?raw', eager: true });
+    const categoryMap: Record<string, any[]> = {};
+
+    const entries = Object.entries(modules);
+    if (entries.length === 0) return [];
+
+    for (const [filepath, mod] of entries) {
+      const rawContent = typeof mod === 'string' ? mod : (mod as any)?.default || '';
+      if (!rawContent) continue;
+
+      const { frontmatter, body } = parseMarkdownFile(rawContent, filepath);
+      const filename = filepath.split('/').pop()?.replace('.md', '') || '';
+      const slug = frontmatter.slug || filename;
+      const question = frontmatter.title || frontmatter.question || 'Pregunta';
+      const category = frontmatter.category || 'General';
+      const order = typeof frontmatter.order === 'number' ? frontmatter.order : 99;
+
+      if (!categoryMap[category]) {
+        categoryMap[category] = [];
+      }
+
+      categoryMap[category].push({
+        id: slug,
+        question,
+        answer: body,
+        order
+      });
+    }
+
+    const categories = Object.entries(categoryMap).map(([categoryName, items]) => {
+      items.sort((a, b) => (a.order || 99) - (b.order || 99));
+      return {
+        id: categoryName.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+        category: categoryName,
+        items: items.map(({ id, question, answer }) => ({ id, question, answer }))
+      };
+    });
+
+    return categories;
+  } catch (error) {
+    console.error('Error loading FAQs from Pages CMS:', error);
+    return [];
+  }
 }
 
 export async function loadAllPagesFromCms(): Promise<any[]> {

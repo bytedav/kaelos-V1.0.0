@@ -2,6 +2,7 @@ import {
   MotorbikeContent,
   BlogPostContent,
   FaqCategoryContent,
+  FaqItemContent,
   PageContent,
   GeneralSettingsContent,
 } from '../types/content';
@@ -198,8 +199,40 @@ export function loadAllFaqsFromContent(): FaqCategoryContent[] {
 }
 
 export async function fetchAllFaqsAsync(): Promise<FaqCategoryContent[]> {
-  const cms = await loadAllFaqsFromCms();
-  return cms.length > 0 ? cms : loadAllFaqsFromContent();
+  const cmsFaqs = await loadAllFaqsFromCms();
+  const staticFaqs = loadAllFaqsFromContent();
+  if (!cmsFaqs || cmsFaqs.length === 0) {
+    return staticFaqs;
+  }
+
+  // Merge static FAQs and CMS FAQs smoothly
+  const categoryMap: Record<string, FaqItemContent[]> = {};
+
+  for (const cat of cmsFaqs) {
+    if (!categoryMap[cat.category]) {
+      categoryMap[cat.category] = [];
+    }
+    categoryMap[cat.category].push(...cat.items);
+  }
+
+  for (const cat of staticFaqs) {
+    if (!categoryMap[cat.category]) {
+      categoryMap[cat.category] = [...cat.items];
+    } else {
+      for (const item of cat.items) {
+        const exists = categoryMap[cat.category].some(i => i.id === item.id || i.question === item.question);
+        if (!exists) {
+          categoryMap[cat.category].push(item);
+        }
+      }
+    }
+  }
+
+  return Object.entries(categoryMap).map(([categoryName, items]) => ({
+    id: categoryName.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+    category: categoryName,
+    items
+  }));
 }
 
 export function loadAllPagesFromContent(): PageContent[] {

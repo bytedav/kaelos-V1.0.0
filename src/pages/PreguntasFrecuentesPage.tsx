@@ -380,8 +380,11 @@ export default function PreguntasFrecuentesPage({ onNavigate }: PreguntasFrecuen
   ];
 
   const faqData = useMemo(() => {
+    if (dbFaqCategories && dbFaqCategories.length > 0) {
+      return dbFaqCategories;
+    }
     return [...cmsFaqs, ...staticFaqData];
-  }, [cmsFaqs]);
+  }, [dbFaqCategories, cmsFaqs]);
 
   // Flatten all FAQ items for Fuse.js indexing and schema generation
   const allFaqItems = useMemo(
