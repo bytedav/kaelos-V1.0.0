@@ -5,7 +5,8 @@ import {
 import { motion, AnimatePresence } from 'motion/react';
 import { CustomSelect } from './CustomSelect';
 import { getBrandFilterOptions } from '../data/brands';
-import { getTopFilterCities } from '../data/cities';
+import { getAllCities } from '../data/cities';
+import { motorbikesData } from '../data/motorbikesData';
 
 export interface CatalogFiltersProps {
   isRenting?: boolean;
@@ -417,8 +418,8 @@ export const CatalogFilters: React.FC<CatalogFiltersProps> = ({
     icon: <Building2 className="w-4 h-4 text-slate-800" strokeWidth={2.5} />,
     content: (
       <div className="space-y-2 pt-1 pb-2 text-left">
-        <div className="space-y-2">
-          {getTopFilterCities(7).map((city) => {
+        <div className="max-h-60 overflow-y-auto pr-1 space-y-2">
+          {getAllCities(motorbikesData).map((city) => {
             const isChecked = selectedCiudades.includes(city);
             const targetUrl = getFilterUrl({ cityToggle: city });
             return (
