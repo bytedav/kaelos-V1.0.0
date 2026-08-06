@@ -1,6 +1,7 @@
 import React from 'react';
 import { navigateTo } from '../utils/router';
 import { getAllBrands } from '../data/brands';
+import { getAllCities } from '../data/cities';
 import { motorbikesData } from '../data/motorbikesData';
 
 export interface FilterInfo {
@@ -19,13 +20,7 @@ const ESTILOS = [
   'Clásica', 'Off-road', 'Maxi Scooter', 'Supermotard', 'Tres ruedas'
 ];
 
-const CIUDADES_PERU = [
-  'Lima - Surco', 'Lima - Los Olivos', 'Arequipa', 'Trujillo',
-  'Chiclayo', 'Piura', 'Cusco', 'Huancayo',
-  'Ica', 'Tacna', 'Chimbote', 'Cajamarca',
-  'Juliaca', 'Pucallpa', 'Iquitos', 'Tarapoto',
-  'Ayacucho', 'Huánuco', 'Sullana', 'Chincha'
-];
+const CIUDADES_PERU = getAllCities(motorbikesData);
 
 const CILINDRADAS = ['50cc', '125cc', '250cc', '500cc'];
 

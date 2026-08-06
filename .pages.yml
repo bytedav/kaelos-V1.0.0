@@ -107,3 +107,17 @@ content:
           label: Nombre de Marca
           type: string
 
+  - name: ciudades
+    label: Ciudades de Perú
+    type: file
+    path: src/data/cities.json
+    fields:
+      - name: cities
+        label: Lista de Ciudades
+        type: list
+        field:
+          name: city
+          label: Nombre de Ciudad
+          type: string
+
+

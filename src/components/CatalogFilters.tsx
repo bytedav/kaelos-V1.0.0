@@ -5,6 +5,7 @@ import {
 import { motion, AnimatePresence } from 'motion/react';
 import { CustomSelect } from './CustomSelect';
 import { getBrandFilterOptions } from '../data/brands';
+import { getTopFilterCities } from '../data/cities';
 
 export interface CatalogFiltersProps {
   isRenting?: boolean;
@@ -417,7 +418,7 @@ export const CatalogFilters: React.FC<CatalogFiltersProps> = ({
     content: (
       <div className="space-y-2 pt-1 pb-2 text-left">
         <div className="space-y-2">
-          {['Lima - Surco', 'Lima - Los Olivos', 'Arequipa', 'Trujillo', 'Chiclayo', 'Piura', 'Cusco'].map((city) => {
+          {getTopFilterCities(7).map((city) => {
             const isChecked = selectedCiudades.includes(city);
             const targetUrl = getFilterUrl({ cityToggle: city });
             return (
