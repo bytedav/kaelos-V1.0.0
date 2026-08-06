@@ -62,14 +62,6 @@ content:
         label: Avatar del Autor
         type: image
 
-      - name: tags
-        label: Etiquetas
-        type: list
-
-      - name: likes
-        label: Número de Me Gusta
-        type: number
-
       - name: body
         label: Contenido del Artículo (Markdown)
         type: rich-text

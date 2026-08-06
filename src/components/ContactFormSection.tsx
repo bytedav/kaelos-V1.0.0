@@ -31,8 +31,10 @@ export const ContactFormSection: React.FC<ContactFormProps> = ({
       name: formData.nombre,
       phone: formData.telefono,
       email: formData.email,
+      privacy: formData.privacy,
       metadata: {
         marketing: formData.marketing,
+        privacy: formData.privacy,
       },
     });
 

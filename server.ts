@@ -698,15 +698,47 @@ async function startServer() {
     } catch (err) {
       console.warn('Failed persisting lead:', err);
     }
+
+    // Forward to Google Sheets Webhook / Apps Script if configured
+    const webhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
+    if (webhookUrl) {
+      fetch(webhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(leadRecord),
+      }).catch((err) => console.warn('Failed sending lead to Google Sheets webhook:', err));
+    }
+
     return res.json({ success: true, lead: leadRecord });
   });
 
   // POST /api/contact
   app.post('/api/contact', (req, res) => {
-    const { nombre, email, telefono, mensaje, asunto } = req.body || {};
+    const { nombre, email, telefono, mensaje, asunto, marketing } = req.body || {};
     if (!nombre || (!email && !telefono)) {
       return res.status(400).json({ success: false, error: 'Name and email/phone are required' });
     }
+
+    const payload = {
+      id: `contact_${Date.now()}`,
+      timestamp: new Date().toISOString(),
+      nombre,
+      telefono,
+      email,
+      mensaje: mensaje || '',
+      asunto: asunto || 'Consulta de Contacto / Formulario',
+      marketing: !!marketing,
+    };
+
+    const webhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
+    if (webhookUrl) {
+      fetch(webhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      }).catch((err) => console.warn('Failed sending contact to Google Sheets webhook:', err));
+    }
+
     return res.json({
       success: true,
       message: 'Mensaje recibido correctamente. Te responderemos en menos de 24 horas.',
