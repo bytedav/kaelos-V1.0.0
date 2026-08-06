@@ -1,4 +1,5 @@
 import { PRICING_CONFIG } from '../config/pricing';
+export * from './brands';
 
 export interface WarrantyPackFeature {
   text: string;
@@ -73,7 +74,7 @@ export const SITE_CONFIG = {
         badge: 'INCLUIDO',
         features: [
           { text: 'Sin moto de sustitución', included: false },
-          { text: 'Sin envío peninsular incluido', included: false },
+          { text: 'Sin envío nacional incluido', included: false },
           { text: 'Sin recompra **', included: false },
           { text: 'Garantía 12 meses', included: true },
           { text: `TEA de ${(PRICING_CONFIG.FINANCING.DEFAULT_ANNUAL_RATE * 100).toFixed(0)}%`, included: true },
@@ -89,7 +90,7 @@ export const SITE_CONFIG = {
           { text: 'Envío a nivel nacional incluido', included: true },
           { text: 'Recompra asegurada **', included: true },
           { text: 'Garantía 12 meses', included: true },
-          { text: 'TIN exclusivo de 50%', included: true },
+          { text: 'TEA preferencial de 8%', included: true },
         ],
       },
       premium: {
@@ -102,7 +103,7 @@ export const SITE_CONFIG = {
           { text: 'Envío a nivel nacional incluido', included: true },
           { text: 'Recompra asegurada **', included: true },
           { text: 'Garantía 24 meses', included: true },
-          { text: 'TIN exclusivo de 50%', included: true },
+          { text: 'TEA preferencial de 8%', included: true },
         ],
       },
     } as Record<string, WarrantyPack>,
@@ -147,7 +148,7 @@ export const SITE_CONFIG = {
       hoursLine2: 'Sábados de 9:00 a 18:00',
       mapsUrl: 'https://maps.google.com/?q=Av.+Javier+Prado+Este+4200,+Santiago+de+Surco,+Lima',
       images: [
-        '/src/assets/images/barcelona_center_1784106082831.jpg',
+        '/src/assets/images/kaelos_center_1784106082831.jpg',
         '/src/assets/images/scooter_red_studio_1784099142309.jpg',
         '/src/assets/images/sport_red_studio_1784099164293.jpg'
       ],

@@ -90,10 +90,20 @@ content:
             - Garantías y seguros
             - Devoluciones
 
-      - name: order
-        label: Orden de visualización
-        type: number
-
       - name: body
         label: Respuesta (Markdown)
         type: rich-text
+
+  - name: marcas
+    label: Marcas de Motocicletas
+    type: file
+    path: src/data/brands.json
+    fields:
+      - name: brands
+        label: Lista de Marcas de Motos
+        type: list
+        field:
+          name: brand
+          label: Nombre de Marca
+          type: string
+

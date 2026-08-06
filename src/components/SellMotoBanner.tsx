@@ -40,7 +40,7 @@ export const SellMotoBanner: React.FC<SellMotoBannerProps> = ({ onAction }) => {
           </button>
         </div>
 
-        {/* Right / Bottom Section: Image of classic blue motorcycle and hand holding Euros */}
+        {/* Right / Bottom Section: Image of classic motorcycle */}
         <div className="relative w-full md:w-1/2 h-[180px] md:h-full overflow-hidden flex items-end justify-center md:justify-end">
           <img
             src={bannerImg}

@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { motorbikesData } from '../data/motorbikesData';
 import { useFuseSearch } from './useFuseSearch';
+import { getBrandFilterOptions } from '../data/brands';
 
 export const sortOptions = [
   { id: 'recomendadas', label: 'Recomendadas (Destacadas)' },
@@ -376,17 +377,7 @@ export function useBikeFilters(options: UseBikeFiltersOptions = {}) {
         searchPlaceholder: 'Filtra...',
         selectedValue: selectedBrand,
         onSelect: (val: any) => setSelectedBrand(val),
-        options: [
-          { value: 'all', label: 'Todas las marcas' },
-          { value: 'Yamaha', label: 'YAMAHA' },
-          { value: 'Honda', label: 'HONDA' },
-          { value: 'Kawasaki', label: 'KAWASAKI' },
-          { value: 'BMW', label: 'BMW' },
-          { value: 'Kymco', label: 'KYMCO' },
-          { value: 'Suzuki', label: 'SUZUKI' },
-          { value: 'KTM', label: 'KTM' },
-          { value: 'Ducati', label: 'DUCATI' }
-        ]
+        options: getBrandFilterOptions(bikesSource)
       });
     } else if (type === 'cilindradaDesde') {
       setActiveBottomSheet({

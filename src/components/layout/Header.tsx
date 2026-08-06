@@ -1,6 +1,7 @@
 import React from 'react';
 import { SearchBar } from '../SearchBar';
 import { navigateTo } from '../../utils/router';
+import { getTopHeaderBrands } from '../../data/brands';
 import { 
   ChevronDown, 
   Search, 
@@ -231,7 +232,7 @@ export const Header: React.FC<HeaderProps> = ({
                             </h3>
                           </div>
                           <ul className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs sm:text-[13px] text-slate-600 font-semibold">
-                            {['BMW', 'Honda', 'Harley-Davidson', 'Ducati', 'KTM', 'Yamaha', 'Suzuki', 'Kawasaki', 'Kymco', 'Benelli'].map((brand) => {
+                            {getTopHeaderBrands(12).map((brand) => {
                               const targetUrl = getFilterUrl({ brand: brand });
                               const isSelected = selectedBrand.toLowerCase() === brand.toLowerCase();
                               return (

@@ -18,6 +18,146 @@ import {
 export function getStaticMotorcycles(): MotorbikeContent[] {
   return [
     {
+      id: 'honda-navi-110',
+      slug: 'honda-navi-110',
+      brand: 'Honda',
+      model: 'Navi 110',
+      version: 'Automatic',
+      year: 2024,
+      category: 'Scooter',
+      condition: 'nueva',
+      price: 1350,
+      currency: 'PEN',
+      kms: 0,
+      displacement: 109,
+      power: '8 CV',
+      fuel: 'Gasolina',
+      featured: true,
+      featuredImage: 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&q=80&w=1200',
+      gallery: [
+        'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&q=80&w=1200'
+      ],
+      imperfections: [],
+      description: 'La motocicleta urbana más vendida en Perú. Diseño crossover compacto, transmisión automática V-Matic y consumo ultra eficiente para el día a día.',
+      published: true,
+      seo: {
+        title: 'Honda Navi 110 Nueva 2024 | Kaelos Motos Perú',
+        description: 'Consigue tu Honda Navi 110 nueva con financiamiento inmediato y entrega a domicilio.'
+      }
+    },
+    {
+      id: 'bajaj-pulsar-ns-200',
+      slug: 'bajaj-pulsar-ns-200',
+      brand: 'Bajaj',
+      model: 'Pulsar NS 200',
+      version: 'FI ABS',
+      year: 2024,
+      category: 'Naked',
+      condition: 'ocasión',
+      price: 2950,
+      currency: 'PEN',
+      kms: 3500,
+      displacement: 199,
+      power: '24.5 CV',
+      fuel: 'Gasolina',
+      featured: true,
+      featuredImage: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=1200',
+      gallery: [
+        'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=1200'
+      ],
+      imperfections: [],
+      description: 'Líder de ventas en el segmento sport naked en Perú. Motor DTS-i de triple bujía, inyección electrónica, refrigeración líquida y frenos ABS de serie.',
+      published: true,
+      seo: {
+        title: 'Bajaj Pulsar NS 200 FI ABS | Kaelos Motos Perú',
+        description: 'La mítica Pulsar NS 200 con garantía Kaelos de 12 meses.'
+      }
+    },
+    {
+      id: 'tvs-apache-rtr-160-4v',
+      slug: 'tvs-apache-rtr-160-4v',
+      brand: 'TVS',
+      model: 'Apache RTR 160 4V',
+      version: 'Special Edition',
+      year: 2024,
+      category: 'Naked',
+      condition: 'nueva',
+      price: 2450,
+      currency: 'PEN',
+      kms: 0,
+      displacement: 159,
+      power: '17.55 CV',
+      fuel: 'Gasolina',
+      featured: true,
+      featuredImage: 'https://images.unsplash.com/photo-1609630875171-b1321377ee65?auto=format&fit=crop&q=80&w=1200',
+      gallery: [
+        'https://images.unsplash.com/photo-1609630875171-b1321377ee65?auto=format&fit=crop&q=80&w=1200'
+      ],
+      imperfections: [],
+      description: 'Tecnología inspirada en las pistas de carreras. Modos de manejo (Urban, Rain, Sport), SmartXonnect Bluetooth y aceleración progresiva impecable.',
+      published: true,
+      seo: {
+        title: 'TVS Apache RTR 160 4V Nueva | Kaelos Motos',
+        description: 'Compra la TVS Apache RTR 160 4V al mejor precio del mercado peruano.'
+      }
+    },
+    {
+      id: 'ronco-demonio-200',
+      slug: 'ronco-demonio-200',
+      brand: 'Ronco',
+      model: 'Demonio 200',
+      version: 'Sport Edition',
+      year: 2024,
+      category: 'Naked',
+      condition: 'nueva',
+      price: 1890,
+      currency: 'PEN',
+      kms: 0,
+      displacement: 198,
+      power: '16 CV',
+      fuel: 'Gasolina',
+      featured: true,
+      featuredImage: 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&q=80&w=1200',
+      gallery: [
+        'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&q=80&w=1200'
+      ],
+      imperfections: [],
+      description: 'Una de las marcas peruanas más vendidas del país. Gran torque urbano, excelente economía de repuestos y rendimiento robusto para trabajo y transporte.',
+      published: true,
+      seo: {
+        title: 'Ronco Demonio 200 Nueva 2024 | Kaelos Motos',
+        description: 'Marca nacional Ronco Demonio 200 con financiamiento preferencial.'
+      }
+    },
+    {
+      id: 'wanxin-wx200-2',
+      slug: 'wanxin-wx200-2',
+      brand: 'Wanxin',
+      model: 'WX200-2',
+      version: 'Pista Sport',
+      year: 2023,
+      category: 'Naked',
+      condition: 'ocasión',
+      price: 1450,
+      currency: 'PEN',
+      kms: 4100,
+      displacement: 197,
+      power: '15 CV',
+      fuel: 'Gasolina',
+      featured: false,
+      featuredImage: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=1200',
+      gallery: [
+        'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=1200'
+      ],
+      imperfections: [],
+      description: 'Wanxin es un gigante de ventas en las provincias de Perú. Motor duradero de 200cc, chasis reforzado y excelente confort de manejo.',
+      published: true,
+      seo: {
+        title: 'Wanxin WX200-2 Ocasión | Kaelos Motos',
+        description: 'Moto Wanxin WX200 reacondicionada y lista para rodar.'
+      }
+    },
+    {
       id: 'bmw-r-1250-gs',
       slug: 'bmw-r-1250-gs',
       brand: 'BMW',

@@ -4,6 +4,7 @@ import { motorbikesData } from '../data/motorbikesData';
 import { MotorbikeExtended } from '../components/MotorbikeCard';
 import { getOrderById } from '../utils/storage';
 import { toSlug, slugToCityName as slugToCity, cityNameToSlug as cityToSlug } from '../utils/router';
+import { matchBrandFromSlug } from '../data/brands';
 
 export const PATH_MAP: Record<string, string> = {
   home: '/',
@@ -220,15 +221,9 @@ export function parseUrlToState(
 
       const brandParam = params.get('marca') || params.get('brand');
       if (brandParam) {
-        const knownBrands = ['yamaha', 'vespa', 'sym', 'aprilia', 'honda', 'bmw', 'ktm', 'ducati', 'kawasaki', 'kymco', 'suzuki'];
-        const matchedBrand = knownBrands.find(b => b === brandParam.toLowerCase());
-        if (matchedBrand) {
-          const map: Record<string, string> = {
-            yamaha: 'Yamaha', vespa: 'Vespa', sym: 'SYM', aprilia: 'Aprilia',
-            honda: 'Honda', bmw: 'BMW', ktm: 'KTM', ducati: 'Ducati',
-            kawasaki: 'Kawasaki', kymco: 'Kymco', suzuki: 'Suzuki'
-          };
-          selectedBrand = map[matchedBrand];
+        const matched = matchBrandFromSlug(brandParam, motorbikesData);
+        if (matched) {
+          selectedBrand = matched;
         } else {
           selectedBrand = brandParam.charAt(0).toUpperCase() + brandParam.slice(1);
         }

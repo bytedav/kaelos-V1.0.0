@@ -699,16 +699,6 @@ async function startServer() {
       console.warn('Failed persisting lead:', err);
     }
 
-    // Forward to Google Sheets Webhook / Apps Script if configured
-    const webhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
-    if (webhookUrl) {
-      fetch(webhookUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(leadRecord),
-      }).catch((err) => console.warn('Failed sending lead to Google Sheets webhook:', err));
-    }
-
     return res.json({ success: true, lead: leadRecord });
   });
 
@@ -729,15 +719,6 @@ async function startServer() {
       asunto: asunto || 'Consulta de Contacto / Formulario',
       marketing: !!marketing,
     };
-
-    const webhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
-    if (webhookUrl) {
-      fetch(webhookUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      }).catch((err) => console.warn('Failed sending contact to Google Sheets webhook:', err));
-    }
 
     return res.json({
       success: true,

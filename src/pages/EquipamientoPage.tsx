@@ -293,8 +293,8 @@ export default function EquipamientoPage({ onNavigateHome, onNavigateServicios }
                 a: "Sí, todos los Top Case y maletas laterales del catálogo oficial incluyen bombín con su respectivo juego de llaves duplicado de seguridad."
               },
               {
-                q: "¿Es necesario homologar las maletas en la ITV?",
-                a: "No. Las maletas y herrajes homologados que instalamos se consideran accesorios desmontables autorizados y no requieren reformas de importancia ni anotación en la ficha técnica para pasar la ITV."
+                q: "¿Es necesario homologar las maletas para la Inspección Técnica Vehicular (CITV)?",
+                a: "No. Las maletas y herrajes homologados que instalamos se consideran accesorios desmontables autorizados y no requieren reformas de importancia ni anotación en la tarjeta para la Inspección Técnica (CITV)."
               }
             ].map((faq, index) => {
               const isOpen = openFaqIndex === index;

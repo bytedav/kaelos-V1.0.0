@@ -17,7 +17,7 @@ interface Center {
 }
 
 const DEFAULT_CENTER_IMAGES = [
-  '/src/assets/images/barcelona_center_1784106082831.jpg',
+  '/src/assets/images/kaelos_center_1784106082831.jpg',
   '/src/assets/images/scooter_red_studio_1784099142309.jpg',
   '/src/assets/images/sport_red_studio_1784099164293.jpg'
 ];
@@ -57,7 +57,7 @@ export const CentersSection: React.FC = () => {
         hours: loc.schedule || 'Lunes a viernes de 8:30 a 20:00\nSábados de 9:00 a 18:00',
         mapsUrl: loc.mapUrl || `https://maps.google.com/?q=${encodeURIComponent(loc.address)}`,
         images: [
-          '/src/assets/images/barcelona_center_1784106082831.jpg',
+          '/src/assets/images/kaelos_center_1784106082831.jpg',
           '/src/assets/images/scooter_red_studio_1784099142309.jpg',
         ],
       }));

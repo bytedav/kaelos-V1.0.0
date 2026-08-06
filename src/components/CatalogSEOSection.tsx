@@ -1,5 +1,7 @@
 import React from 'react';
 import { navigateTo } from '../utils/router';
+import { getAllBrands } from '../data/brands';
+import { motorbikesData } from '../data/motorbikesData';
 
 export interface FilterInfo {
   filterType: 'brand' | 'style' | 'city' | 'cc';
@@ -10,18 +12,7 @@ interface CatalogSEOSectionProps {
   onNavigate?: (page: string, filterInfo?: FilterInfo) => void;
 }
 
-const OCASION_BRANDS = [
-  'Yamaha', 'Honda', 'Bajaj', 'TVS', 'Kawasaki', 'BMW', 'Kymco', 'Suzuki', 'KTM', 'SYM', 'Triumph',
-  'Piaggio', 'Ducati', 'Zontes', 'Benelli', 'Keeway', 'Aprilia', 'Harley Davidson', 'Peugeot',
-  'Vespa', 'Voge', 'Husqvarna', 'Royal Enfield', 'CFMoto', 'Mitt', 'QJMotor', 'Moto Guzzi',
-  'Rieju', 'Brixton', 'FB Mondial', 'Hyosung', 'Daelim', 'Nmoto', 'UM', 'Wottan', 'MV Agusta',
-  'Motor Hispania', 'Hanway', 'Indian', 'Leonart', 'Moto Morini', 'Mash', 'Fantic', 'Swm',
-  'Askoll', 'Gas Gas', 'Malaguti', 'Mutt', 'Motron', 'Velca', 'Orcal', 'Horwin', 'Sherco', 'Beta',
-  'Royal Alloy', 'Nerva', 'Arena', 'Lambretta', 'Seat', 'Italjet', 'Morbidelli', 'Derbi',
-  'Segway', 'Ajp', 'Malcor', 'Lvneng', 'Sumco', 'Gilera', 'Victory', 'Joyner', 'Goes', 'Benda',
-  'FK Motors', 'Riya', 'TM', 'Jin Lun', 'Lintex', 'Monkey Bikes', 'Bullit', 'Ronco', 'Wanxin',
-  'Senda', 'Lifan', 'Zongshen', 'Nexus'
-];
+const OCASION_BRANDS = getAllBrands(motorbikesData);
 
 const ESTILOS = [
   'Scooter', 'Naked', 'Deportiva', 'Trail', 'Touring', 'Custom',

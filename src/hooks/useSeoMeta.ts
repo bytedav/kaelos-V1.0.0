@@ -218,7 +218,7 @@ export function useSeoMeta(options: UseSeoMetaOptions) {
       case 'tramites-documentales':
         rawTitle = 'Cambio de Nombre y Transferencia de Motos Online | KAELOS';
         description = 'Gestiona la transferencia de propiedad, cambio de nombre o matriculación de tu moto online. Justificante provisional inmediato y firma digital.';
-        keywords = ['cambio de nombre moto', 'transferencia moto', 'gestoria trafico', 'papeles moto', 'transferir ciclomotor online'];
+        keywords = ['cambio de nombre moto', 'transferencia moto', 'transferencia notarial sunarp', 'papeles moto', 'transferir moto peru'];
         breadcrumbs = [{ name: 'Inicio', url: '/' }, { name: 'Financiación y Servicios', url: '/financiacion' }, { name: 'Trámites', url: '/tramites-documentales' }];
         canonical = '/tramites-documentales';
         break;

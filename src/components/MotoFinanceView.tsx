@@ -575,12 +575,12 @@ export default function MotoFinanceView({ bike, onBack }: MotoFinanceViewProps) 
                                 {pack.isEnvio ? (
                                   <>
                                     <span className="text-emerald-500 font-extrabold">✓</span>
-                                    <span>Envío peninsular incluido</span>
+                                    <span>Envío nacional incluido</span>
                                   </>
                                 ) : (
                                   <>
                                     <span className="text-rose-500 font-extrabold">✕</span>
-                                    <span>Sin envío peninsular incluido</span>
+                                    <span>Sin envío nacional incluido</span>
                                   </>
                                 )}
                               </li>

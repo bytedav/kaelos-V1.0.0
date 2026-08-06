@@ -4,6 +4,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { CustomSelect } from './CustomSelect';
+import { getBrandFilterOptions } from '../data/brands';
 
 export interface CatalogFiltersProps {
   isRenting?: boolean;
@@ -493,17 +494,7 @@ export const CatalogFilters: React.FC<CatalogFiltersProps> = ({
               className="rounded-xl px-4 py-3 font-bold"
               showSearch={true}
               searchPlaceholder="Filtra..."
-              options={[
-                { value: 'all', label: 'Todas las marcas' },
-                { value: 'Yamaha', label: 'Yamaha' },
-                { value: 'Vespa', label: 'Vespa' },
-                { value: 'SYM', label: 'SYM' },
-                { value: 'Aprilia', label: 'Aprilia' },
-                { value: 'Honda', label: 'Honda' },
-                { value: 'BMW', label: 'BMW' },
-                { value: 'KTM', label: 'KTM' },
-                { value: 'Ducati', label: 'Ducati' }
-              ]}
+              options={getBrandFilterOptions()}
             />
           )}
         </div>
