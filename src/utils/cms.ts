@@ -16,8 +16,55 @@ function parseMarkdownFile(raw: string, filepath: string) {
   }
 }
 
-export async function loadAllMotorcyclesFromCms(): Promise<any[]> {
-  return [];
+export function loadAllMotorcyclesFromCms(): any[] {
+  try {
+    const modules = import.meta.glob(['/content/motos/*.md', '/content/motorbikes/*.md'], { query: '?raw', eager: true });
+    const motos: any[] = [];
+
+    for (const [filepath, mod] of Object.entries(modules)) {
+      const rawContent = typeof mod === 'string' ? mod : (mod as any)?.default || '';
+      if (!rawContent) continue;
+
+      const { frontmatter, body } = parseMarkdownFile(rawContent, filepath);
+      const filename = filepath.split('/').pop()?.replace('.md', '') || '';
+      const slug = frontmatter.slug || filename;
+
+      motos.push({
+        id: slug,
+        slug: slug,
+        brand: frontmatter.brand || 'Marca',
+        model: frontmatter.model || 'Modelo',
+        version: frontmatter.version || '',
+        year: typeof frontmatter.year === 'number' ? frontmatter.year : 2024,
+        category: frontmatter.category || 'Naked',
+        condition: frontmatter.condition === 'nueva' ? 'nueva' : 'ocasión',
+        price: typeof frontmatter.price === 'number' ? frontmatter.price : 0,
+        currency: frontmatter.currency || 'PEN',
+        kms: typeof frontmatter.kms === 'number' ? frontmatter.kms : 0,
+        displacement: typeof frontmatter.displacement === 'number' ? frontmatter.displacement : undefined,
+        power: frontmatter.power || '',
+        fuel: frontmatter.fuel || 'Gasolina',
+        featured: frontmatter.featured !== false,
+        featuredImage: frontmatter.featuredImage || frontmatter.image || '',
+        gallery: Array.isArray(frontmatter.gallery) ? frontmatter.gallery : (frontmatter.featuredImage ? [frontmatter.featuredImage] : []),
+        imperfections: Array.isArray(frontmatter.imperfections) ? frontmatter.imperfections : [],
+        description: frontmatter.description || body || '',
+        published: frontmatter.published !== false,
+        isOffer: frontmatter.isOffer || false,
+        discountPrice: frontmatter.discountPrice,
+        badge: frontmatter.badge,
+        seo: {
+          title: frontmatter.seoTitle || `${frontmatter.brand || ''} ${frontmatter.model || ''}`,
+          description: frontmatter.seoDescription || frontmatter.description || ''
+        }
+      });
+    }
+
+    return motos;
+  } catch (error) {
+    console.error('Error loading motorcycles from Pages CMS:', error);
+    return [];
+  }
 }
 
 export function loadAllBlogPostsFromCms(): BlogPostContent[] {

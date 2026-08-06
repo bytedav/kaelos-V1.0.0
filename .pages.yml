@@ -6,6 +6,143 @@ media:
   output: /uploads
 
 content:
+  - name: motos
+    label: Catálogo de Motos
+    type: collection
+    path: content/motos
+    filename: "{primary}.md"
+
+    view:
+      primary: model
+      fields:
+        - brand
+        - condition
+        - price
+        - year
+
+    fields:
+      - name: brand
+        label: Marca de la Moto
+        type: select
+        options:
+          values:
+            - Honda
+            - Bajaj
+            - TVS
+            - Ronco
+            - Wanxin
+            - Yamaha
+            - Ssenda
+            - Suzuki
+            - KTM
+            - Kawasaki
+            - BMW
+            - Zongshen
+            - Lifan
+            - Hero
+            - Royal Enfield
+            - Benelli
+            - Ducati
+            - Vespa
+            - Kymco
+            - Aprilia
+            - SYM
+            - Harley-Davidson
+            - CFMoto
+            - Voge
+            - Mavila
+            - Nexus
+            - Keeway
+            - Zontes
+            - Piaggio
+            - Peugeot
+            - QJMotor
+            - Moto Guzzi
+            - Husqvarna
+        required: true
+
+      - name: model
+        label: Modelo
+        type: string
+        required: true
+
+      - name: version
+        label: Versión / Edición
+        type: string
+
+      - name: condition
+        label: Condición (nueva u ocasión)
+        type: select
+        options:
+          values:
+            - nueva
+            - ocasión
+        required: true
+
+      - name: year
+        label: Año de Fabricación
+        type: number
+        required: true
+
+      - name: category
+        label: Categoría / Tipo
+        type: select
+        options:
+          values:
+            - Scooter
+            - Naked
+            - Deportiva
+            - Trail
+            - Touring
+            - Custom
+            - Enduro / Cross
+        required: true
+
+      - name: price
+        label: Precio en S/.
+        type: number
+        required: true
+
+      - name: discountPrice
+        label: Precio Oferta / Anterior (S/.)
+        type: number
+
+      - name: kms
+        label: Kilometraje (0 para nuevas)
+        type: number
+
+      - name: displacement
+        label: Cilindrada en cc
+        type: number
+
+      - name: power
+        label: Potencia (ej. 15 CV)
+        type: string
+
+      - name: fuel
+        label: Tipo de Combustible
+        type: string
+
+      - name: featuredImage
+        label: Imagen Principal
+        type: image
+
+      - name: description
+        label: Descripción
+        type: text
+
+      - name: isOffer
+        label: Marca si está en Oferta
+        type: boolean
+
+      - name: badge
+        label: Etiqueta Especial (ej. ¡NUEVA LLEGADA!)
+        type: string
+
+      - name: body
+        label: Detalles Adicionales / Ficha Técnica (Markdown)
+        type: rich-text
+
   - name: blog
     label: Blog Kaelos
     type: collection
@@ -103,7 +240,6 @@ content:
         label: Lista de Marcas de Motos
         type: list
         field:
-          name: brand
           label: Nombre de Marca
           type: string
 
@@ -116,8 +252,8 @@ content:
         label: Lista de Ciudades
         type: list
         field:
-          name: city
           label: Nombre de Ciudad
           type: string
+
 
 
