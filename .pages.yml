@@ -90,10 +90,6 @@ content:
             - Garantías y seguros
             - Devoluciones
 
-      - name: order
-        label: Orden de visualización
-        type: number
-
       - name: body
         label: Respuesta (Markdown)
         type: rich-text
