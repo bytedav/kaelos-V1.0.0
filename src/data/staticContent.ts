@@ -259,11 +259,12 @@ export function getStaticMotorcycles(): MotorbikeContent[] {
 }
 
 export function loadAllMotorcyclesFromContent(): MotorbikeContent[] {
-  return getStaticMotorcycles();
+  const cms = loadAllMotorcyclesFromCms();
+  return cms.length > 0 ? cms : getStaticMotorcycles();
 }
 
 export async function fetchAllMotorcyclesAsync(): Promise<MotorbikeContent[]> {
-  const cms = await loadAllMotorcyclesFromCms();
+  const cms = loadAllMotorcyclesFromCms();
   return cms.length > 0 ? cms : getStaticMotorcycles();
 }
 

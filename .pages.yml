@@ -127,9 +127,30 @@ content:
         label: Imagen Principal
         type: image
 
+      - name: gallery
+        label: Galería de Fotos (Imágenes Adicionales)
+        type: list
+        field:
+          label: Imagen
+          type: image
+
       - name: description
         label: Descripción
         type: text
+
+      - name: imperfections
+        label: Imperfecciones (Solo para motos de ocasión)
+        type: object-list
+        fields:
+          - name: image
+            label: Foto del Detalle / Imperfección
+            type: image
+          - name: title
+            label: Título / Zona
+            type: string
+          - name: description
+            label: Descripción de la imperfección
+            type: text
 
       - name: isOffer
         label: Marca si está en Oferta

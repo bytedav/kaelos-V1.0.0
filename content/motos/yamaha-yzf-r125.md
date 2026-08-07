@@ -13,6 +13,10 @@ fuel: "Gasolina"
 featuredImage: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=1200"
 gallery:
   - "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=1200"
+imperfections:
+  - image: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=1200"
+    title: "Cúpula frontal"
+    description: "Leve rozadura cosmética en el plástico protector del espejo derecho."
 description: "Deportiva de ligera cilindrada con ADN R-Series. Chasis Deltabox, horquilla invertida y embrague asistido antirrebote."
 published: true
 ---
