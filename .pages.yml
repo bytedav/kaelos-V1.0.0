@@ -291,6 +291,3 @@ content:
         label: Lista de Ciudades
         type: string
         list: true
-
-
-
