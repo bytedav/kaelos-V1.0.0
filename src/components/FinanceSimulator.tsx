@@ -101,7 +101,7 @@ export const FinanceSimulator: React.FC<FinanceSimulatorProps> = ({
             <div className="flex items-center justify-between text-xs">
               <label className="font-bold text-slate-800">Plazo (meses)</label>
               <Badge variant="red" size="sm">
-                50% TIN
+                50% TEA
               </Badge>
             </div>
 

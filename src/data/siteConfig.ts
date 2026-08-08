@@ -45,7 +45,7 @@ export interface StoreLocation {
 }
 
 export interface FinanceConfig {
-  annualInterestRate: number; // e.g. 0.50 (50% TIN/TEA)
+  annualInterestRate: number; // e.g. 0.50 (50% TEA)
   minEntranceRatio: number; // e.g. 0.20 (20% inicial)
   defaultTermMonths: number; // e.g. 24
   availableTerms: number[]; // e.g. [12, 18, 24, 36, 48, 60]

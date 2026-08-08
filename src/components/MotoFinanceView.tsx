@@ -603,7 +603,7 @@ export default function MotoFinanceView({ bike, onBack }: MotoFinanceViewProps) 
                               </li>
                               <li className="flex items-center gap-2">
                                 <span className="text-emerald-500 font-extrabold">✓</span>
-                                <span>TIN {pack.key === 'basico' ? 'de' : 'exclusivo de'} {pack.tin}</span>
+                                <span>TEA {pack.key === 'basico' ? 'de' : 'exclusiva de'} {pack.tin}</span>
                               </li>
                             </ul>
                           </button>

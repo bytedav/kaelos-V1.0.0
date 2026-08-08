@@ -305,7 +305,7 @@ Creemos en una movilidad sobre dos ruedas transparente, accesible y libre de fri
 
 - **Transparencia total:** Sin letras pequeñas ni precios ocultos.
 - **Garantía Kaelos:** Hasta 12 meses de cobertura mecánica en motos de ocasión.
-- **Prueba y compra online:** Te entregamos tu moto revisada y matriculada en la puerta de tu casa.`
+- **Prueba y compra online:** Te entregamos tu moto revisada y con placa e inmatriculación en la puerta de tu casa.`
     }
   ];
 }

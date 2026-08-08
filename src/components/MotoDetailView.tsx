@@ -34,7 +34,7 @@ import { CarouselArrows } from './ui/CarouselArrows';
 import { FavoriteButton } from './ui/FavoriteButton';
 import { FinanceSimulator } from './FinanceSimulator';
 import { StyleBike } from '../types';
-import { getCategoryFallbackGallery } from '../utils/images';
+import { getCategoryFallbackGallery, getCategoryFallbackImage } from '../utils/images';
 import { calculateCuota, clampEntranceFee, getMinEntrance, FINANCE_TERMS, DEFAULT_TERM } from '../utils/finance';
 import { MotoDetailSkeleton } from './ui/Skeleton';
 
@@ -197,7 +197,13 @@ export default function MotoDetailView({
 
   const bikeCondition = (currentBike.condition || (currentBike.kms === 0 ? 'nueva' : 'ocasión')).toLowerCase();
   const isOcasion = (currentBike.kms || 0) > 0 && !bikeCondition.includes('nueva') && !currentBike.isKm0;
-  const hasImperfections = isOcasion && Boolean(currentBike.imperfections && currentBike.imperfections.length > 0);
+  
+  // Resilient handling of imperfections array
+  const rawImperfections = currentBike.imperfections || [];
+  const validImperfections = Array.isArray(rawImperfections)
+    ? rawImperfections.filter(item => item && (item.image || item.title || item.description))
+    : [];
+  const hasImperfections = isOcasion && validImperfections.length > 0;
 
   // Dynamic specs and maintenance history calculations per bike
   const scores = getBikeConditionScores(currentBike);
@@ -349,10 +355,15 @@ export default function MotoDetailView({
     }
   }, [allBikes, currentBike]);
 
-  // Gallery handler
-  const imagesList = currentBike.images && currentBike.images.length > 0 
-    ? currentBike.images 
-    : getCategoryFallbackGallery(currentBike.category, currentBike.image);
+  // Gallery handler with resilient fallback support
+  const rawGallery = currentBike.gallery || currentBike.images || [];
+  const validGallery = Array.isArray(rawGallery)
+    ? rawGallery.filter((img): img is string => typeof img === 'string' && img.trim().length > 0)
+    : [];
+
+  const imagesList = validGallery.length > 0 
+    ? validGallery 
+    : getCategoryFallbackGallery(currentBike.category, currentBike.image || currentBike.featuredImage);
 
   const [detailTouchStart, setDetailTouchStart] = useState<{ x: number; y: number } | null>(null);
 
@@ -678,7 +689,7 @@ export default function MotoDetailView({
             <div className="flex items-center justify-between border-b border-slate-200/60 pb-2">
               <span className="text-[14px] font-black text-slate-900 tracking-tight">Simulador de financiación</span>
               <span className="text-[10px] sm:text-xs bg-[#ff0d41]/10 text-[#ff0d41] font-black px-2 py-0.5 rounded-md">
-                50% TIN / Interés fijo
+                50% TEA / Interés fijo
               </span>
             </div>
 
@@ -884,12 +895,15 @@ export default function MotoDetailView({
             
             {/* Main Active Photo */}
             <img 
-              src={imagesList[activeImgIdx]} 
+              src={imagesList[activeImgIdx] || currentBike.image || currentBike.featuredImage || getCategoryFallbackImage(currentBike.category)} 
               alt={`${currentBike.brand} ${currentBike.model}`}
               className="w-full h-full object-cover transition-all duration-500 cursor-pointer"
               onClick={() => openImagesGallery('galeria')}
               referrerPolicy="no-referrer"
               loading="lazy"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = getCategoryFallbackImage(currentBike.category);
+              }}
             />
 
             {/* 2. Action buttons overlay top-right */}
@@ -950,7 +964,7 @@ export default function MotoDetailView({
                 <div 
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" 
                   style={{ 
-                    backgroundImage: "url('https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=600')" 
+                    backgroundImage: `url('${validImperfections[0]?.image || currentBike.image || currentBike.featuredImage || getCategoryFallbackImage(currentBike.category)}')` 
                   }}
                 ></div>
                 <div className="absolute inset-0 bg-black/5"></div>
@@ -959,7 +973,9 @@ export default function MotoDetailView({
                 <div className="absolute bottom-2.5 left-2.5 sm:bottom-4 sm:left-4">
                   <div className="bg-white/95 backdrop-blur-xs border border-white/25 rounded-[12px] px-2.5 py-1.5 sm:px-3.5 sm:py-2 flex items-center gap-1.5 shadow-xs">
                     <AlertTriangle className="w-3.5 h-3.5 text-slate-700" strokeWidth={2.2} />
-                    <span className="text-[10px] sm:text-[13px] font-black text-slate-800 tracking-tight">Imperfecciones</span>
+                    <span className="text-[10px] sm:text-[13px] font-black text-slate-800 tracking-tight">
+                      Imperfecciones ({validImperfections.length})
+                    </span>
                   </div>
                 </div>
               </div>
@@ -1043,20 +1059,20 @@ export default function MotoDetailView({
             {isDetallesOpen && (
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4 pt-3 animate-fade-in">
                 
-                {/* 1. Primera matriculacion */}
+                {/* 1. Año de Fabricacion */}
                 <div className="bg-[#f8fafd] border border-slate-200/90 rounded-2xl p-3.5 sm:p-4 flex flex-col justify-between space-y-2 min-h-[96px] sm:min-h-[110px] hover:border-slate-300 transition-colors">
                   <Calendar className="w-5 h-5 sm:w-6 sm:h-6 text-slate-800 stroke-[1.8] shrink-0" />
                   <div className="flex flex-col min-w-0">
-                    <span className="text-[10.5px] sm:text-xs text-slate-400 font-medium leading-snug">Primera matriculación</span>
+                    <span className="text-[10.5px] sm:text-xs text-slate-400 font-medium leading-snug">Año de fabricación</span>
                     <span className="text-sm sm:text-base font-extrabold text-slate-950 leading-tight mt-0.5">{currentBike.year}</span>
                   </div>
                 </div>
 
-                {/* 2. Carburante */}
+                {/* 2. Combustible */}
                 <div className="bg-[#f8fafd] border border-slate-200/90 rounded-2xl p-3.5 sm:p-4 flex flex-col justify-between space-y-2 min-h-[96px] sm:min-h-[110px] hover:border-slate-300 transition-colors">
                   <Fuel className="w-5 h-5 sm:w-6 sm:h-6 text-slate-800 stroke-[1.8] shrink-0" />
                   <div className="flex flex-col min-w-0">
-                    <span className="text-[10.5px] sm:text-xs text-slate-400 font-medium leading-snug">Carburante</span>
+                    <span className="text-[10.5px] sm:text-xs text-slate-400 font-medium leading-snug">Combustible</span>
                     <span className="text-sm sm:text-base font-extrabold text-slate-950 leading-tight mt-0.5">{currentBike.fuel || 'Gasolina'}</span>
                   </div>
                 </div>
@@ -1119,6 +1135,12 @@ export default function MotoDetailView({
                         <span className="text-[10px] sm:text-[12px] text-slate-400 font-semibold leading-tight">Estilo de la moto</span>
                         <span className="text-xs sm:text-sm font-black text-slate-900 leading-snug mt-0.5">{currentBike.category || 'Naked'}</span>
                       </div>
+                      {currentBike.color && (
+                        <div className="flex flex-col min-w-0">
+                          <span className="text-[10px] sm:text-[12px] text-slate-400 font-semibold leading-tight">Color</span>
+                          <span className="text-xs sm:text-sm font-black text-slate-900 leading-snug mt-0.5">{currentBike.color}</span>
+                        </div>
+                      )}
                       <div className="flex flex-col min-w-0">
                         <span className="text-[10px] sm:text-[12px] text-slate-400 font-semibold leading-tight">Neumático delantero</span>
                         <span className="text-xs sm:text-sm font-black text-slate-900 leading-snug mt-0.5">{scores.neumaticoDelantero}</span>
@@ -1232,30 +1254,30 @@ export default function MotoDetailView({
                       <div className="flex flex-col min-w-0 space-y-3">
                         <div className="flex flex-col min-w-0">
                           <span className="text-[10px] sm:text-[12px] text-[#8e8e93] font-semibold leading-tight">País de origen</span>
-                          <span className="text-xs sm:text-[15px] font-bold text-brand-dark leading-snug mt-0.5">Perú</span>
+                          <span className="text-xs sm:text-[15px] font-bold text-brand-dark leading-snug mt-0.5">{currentBike.originCountry || 'Perú'}</span>
                         </div>
                         <div className="flex flex-col min-w-0">
                           <span className="text-[10px] sm:text-[12px] text-[#8e8e93] font-semibold leading-tight">Revisión Técnica (CITV)</span>
-                          <span className="text-xs sm:text-[15px] font-bold text-brand-dark leading-snug mt-0.5">Válida hasta {citvYear}</span>
+                          <span className="text-xs sm:text-[15px] font-bold text-brand-dark leading-snug mt-0.5">Válida hasta {currentBike.citvValidity || citvYear}</span>
                         </div>
                       </div>
 
                       {/* Col 2 */}
                       <div className="flex flex-col min-w-0">
                         <span className="text-[10px] sm:text-[12px] text-[#8e8e93] font-semibold leading-tight">Número de llaves</span>
-                        <span className="text-xs sm:text-[15px] font-bold text-brand-dark leading-snug mt-0.5">{keyCount}</span>
+                        <span className="text-xs sm:text-[15px] font-bold text-brand-dark leading-snug mt-0.5">{currentBike.keysCount ?? keyCount}</span>
                       </div>
 
                       {/* Col 3 */}
                       <div className="flex flex-col min-w-0">
                         <span className="text-[10px] sm:text-[12px] text-[#8e8e93] font-semibold leading-tight">Última revisión</span>
-                        <span className="text-xs sm:text-[15px] font-bold text-brand-dark leading-snug mt-0.5">17 de julio de 2026</span>
+                        <span className="text-xs sm:text-[15px] font-bold text-brand-dark leading-snug mt-0.5">{currentBike.lastRevisionDate || '17 de julio de 2026'}</span>
                       </div>
 
                       {/* Col 4 */}
                       <div className="flex flex-col min-w-0">
-                        <span className="text-[10px] sm:text-[12px] text-[#8e8e93] font-semibold leading-tight">Tipo de IVA</span>
-                        <span className="text-xs sm:text-[15px] font-bold text-brand-dark leading-snug mt-0.5">IVA no deducible</span>
+                        <span className="text-[10px] sm:text-[12px] text-[#8e8e93] font-semibold leading-tight">Tipo de Impuesto / IGV</span>
+                        <span className="text-xs sm:text-[15px] font-bold text-brand-dark leading-snug mt-0.5">{currentBike.vatType || 'IGV Incluido'}</span>
                       </div>
                     </div>
 
@@ -1338,7 +1360,7 @@ export default function MotoDetailView({
                   
                   <div className="space-y-3 font-semibold">
                     <p>
-                      <strong className="text-slate-900 font-bold">1. Configura tu moto:</strong> Con los packs puedes mejorar las condiciones de tu compra. Elige entre Básico, Económico o Premium y disfruta de un TIN de financiación mejorado, garantía extendida, recompra asegurada o moto de sustitución.
+                      <strong className="text-slate-900 font-bold">1. Configura tu moto:</strong> Con los packs puedes mejorar las condiciones de tu compra. Elige entre Básico, Económico o Premium y disfruta de una tasa TEA de financiación mejorada, garantía extendida, recompra asegurada o moto de sustitución.
                     </p>
 
                     <p>

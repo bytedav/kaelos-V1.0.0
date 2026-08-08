@@ -10,7 +10,7 @@ export const PRICING_CONFIG = {
   RESERVATION_FEE: 250,
 
   /**
-   * Gastos de gestión y trámites de matriculación predeterminados (en Soles S/)
+   * Gastos de gestión y trámites de placa e inmatriculación predeterminados (en Soles S/)
    */
   REGISTRATION_FEE_DEFAULT: 250,
 

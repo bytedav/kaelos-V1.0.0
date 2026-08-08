@@ -41,6 +41,15 @@ export interface MotorbikeContent {
   transmission?: string;
   cooling?: string;
   fuel?: string;
+  city?: string;
+  location?: string;
+  color?: string;
+  originCountry?: string;
+  keysCount?: number;
+  citvValidity?: string;
+  vatType?: string;
+  lastRevisionDate?: string;
+  reserved?: boolean;
   weight?: number;
   seatHeight?: number;
   tankCapacity?: number;

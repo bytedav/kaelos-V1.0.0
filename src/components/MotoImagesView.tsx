@@ -7,7 +7,7 @@ import {
   Heart
 } from 'lucide-react';
 import { MotorbikeExtended } from './MotorbikeCard';
-import { getCategoryFallbackGallery } from '../utils/images';
+import { getCategoryFallbackGallery, getCategoryFallbackImage } from '../utils/images';
 import { CarouselArrows } from './ui/CarouselArrows';
 import { FavoriteButton } from './ui/FavoriteButton';
 
@@ -66,8 +66,20 @@ export default function MotoImagesView({
 
   const bikeCond = (currentBike.condition || (currentBike.kms === 0 ? 'nueva' : 'ocasión')).toLowerCase();
   const isOcasion = bikeCond.includes('ocasion') || bikeCond.includes('ocasión');
-  const imperfectionsList = currentBike.imperfections || [];
-  const hasImperfections = isOcasion && imperfectionsList.length > 0;
+  
+  // Resilient imperfections filtering and fallbacks
+  const rawImperfections = currentBike.imperfections || [];
+  const validImperfections = Array.isArray(rawImperfections)
+    ? rawImperfections
+        .filter(m => m && (m.image || m.title || m.description))
+        .map(m => ({
+          image: m.image && m.image.trim().length > 0 ? m.image : (currentBike.image || currentBike.featuredImage || getCategoryFallbackImage(currentBike.category)),
+          title: m.title || 'Detalle estético',
+          description: m.description || 'Imperfección superficial documentada en la inspección técnica.'
+        }))
+    : [];
+
+  const hasImperfections = isOcasion && validImperfections.length > 0;
 
   // Tabs: 'galeria' | 'imperfecciones'
   const [activeTab, setActiveTab] = useState<'galeria' | 'imperfecciones'>(() => {
@@ -148,13 +160,18 @@ export default function MotoImagesView({
     };
   }, []);
 
-  const galleryImages = currentBike.images && currentBike.images.length > 0 
-    ? currentBike.images 
-    : getCategoryFallbackGallery(currentBike.category, currentBike.image);
+  const rawGallery = currentBike.gallery || currentBike.images || [];
+  const validGallery = Array.isArray(rawGallery)
+    ? rawGallery.filter((img): img is string => typeof img === 'string' && img.trim().length > 0)
+    : [];
+
+  const galleryImages = validGallery.length > 0 
+    ? validGallery 
+    : getCategoryFallbackGallery(currentBike.category, currentBike.image || currentBike.featuredImage);
 
   const currentImages = activeTab === 'galeria' 
     ? galleryImages 
-    : imperfectionsList.map(m => m.image);
+    : (validImperfections.length > 0 ? validImperfections.map(m => m.image) : galleryImages);
 
   const totalCount = currentImages.length;
 
@@ -264,11 +281,14 @@ export default function MotoImagesView({
         >
           
           <img
-            src={currentImages[activeIdx]}
+            src={currentImages[activeIdx] || currentBike.image || currentBike.featuredImage || getCategoryFallbackImage(currentBike.category)}
             alt={`${currentBike.brand} ${currentBike.model} - ${activeTab}`}
             className="w-full h-full object-cover select-none"
             referrerPolicy="no-referrer"
             loading="lazy"
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = getCategoryFallbackImage(currentBike.category);
+            }}
           />
 
           {/* Action pills overlay (Top Right) */}
@@ -325,6 +345,9 @@ export default function MotoImagesView({
                     alt={`Miniatura ${index + 1}`}
                     className="w-full h-full object-cover"
                     referrerPolicy="no-referrer"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = getCategoryFallbackImage(currentBike.category);
+                    }}
                   />
                   {activeTab === 'imperfecciones' && (
                     <span className="absolute top-1 left-1 bg-amber-500 text-slate-950 text-[8px] font-black px-1 py-0.5 rounded-md flex items-center justify-center">

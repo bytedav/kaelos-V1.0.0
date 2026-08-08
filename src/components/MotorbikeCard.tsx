@@ -27,6 +27,14 @@ export interface MotorbikeExtended {
   description?: string;
   currency?: string;
   location?: string;
+  city?: string;
+  transmission?: string;
+  color?: string;
+  originCountry?: string;
+  keysCount?: number;
+  citvValidity?: string;
+  vatType?: string;
+  lastRevisionDate?: string;
   reserved?: boolean;
   isReserved?: boolean;
 }

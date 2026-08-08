@@ -10,7 +10,7 @@ content:
     label: Catálogo de Motos
     type: collection
     path: content/motos
-    filename: "{primary}.md"
+    filename: "{brand}-{model}.md"
 
     view:
       primary: model
@@ -171,14 +171,6 @@ content:
       - name: badge
         label: Etiqueta Especial (ej. ¡NUEVA LLEGADA!)
         type: string
-
-      - name: seoTitle
-        label: Título SEO (Opcional)
-        type: string
-
-      - name: seoDescription
-        label: Descripción SEO (Opcional)
-        type: text
 
       - name: body
         label: Detalles Adicionales / Ficha Técnica (Markdown)
