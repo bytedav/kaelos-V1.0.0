@@ -1,0 +1,296 @@
+# Pages CMS Configuration File (https://pagescms.org)
+# Configuración para Pages CMS - Kaelos Motos
+
+media:
+  input: public/uploads
+  output: /uploads
+
+content:
+  - name: motos
+    label: Catálogo de Motos
+    type: collection
+    path: content/motos
+    filename: "{primary}.md"
+
+    view:
+      primary: model
+      fields:
+        - brand
+        - condition
+        - price
+        - year
+
+    fields:
+      - name: brand
+        label: Marca de la Moto
+        type: select
+        options:
+          values:
+            - Honda
+            - Bajaj
+            - TVS
+            - Ronco
+            - Wanxin
+            - Yamaha
+            - Ssenda
+            - Suzuki
+            - KTM
+            - Kawasaki
+            - BMW
+            - Zongshen
+            - Lifan
+            - Hero
+            - Royal Enfield
+            - Benelli
+            - Ducati
+            - Vespa
+            - Kymco
+            - Aprilia
+            - SYM
+            - Harley-Davidson
+            - CFMoto
+            - Voge
+            - Mavila
+            - Nexus
+            - Keeway
+            - Zontes
+            - Piaggio
+            - Peugeot
+            - QJMotor
+            - Moto Guzzi
+            - Husqvarna
+        required: true
+
+      - name: model
+        label: Modelo
+        type: string
+        required: true
+
+      - name: version
+        label: Versión / Edición
+        type: string
+
+      - name: condition
+        label: Condición (nueva u ocasión)
+        type: select
+        options:
+          values:
+            - nueva
+            - ocasión
+        required: true
+
+      - name: year
+        label: Año de Fabricación
+        type: number
+        required: true
+
+      - name: category
+        label: Categoría / Tipo
+        type: select
+        options:
+          values:
+            - Scooter
+            - Naked
+            - Deportiva
+            - Trail
+            - Touring
+            - Custom
+            - Enduro / Cross
+            - Scrambler
+        required: true
+
+      - name: price
+        label: Precio en S/.
+        type: number
+        required: true
+
+      - name: discountPrice
+        label: Precio Oferta / Anterior (S/.)
+        type: number
+
+      - name: isOffer
+        label: Marca si está en Oferta
+        type: boolean
+
+      - name: kms
+        label: Kilometraje (0 para nuevas)
+        type: number
+
+      - name: displacement
+        label: Cilindrada en cc
+        type: number
+
+      - name: power
+        label: Potencia (ej. 15 CV)
+        type: string
+
+      - name: fuel
+        label: Tipo de Combustible
+        type: select
+        options:
+          values:
+            - Gasolina
+            - Eléctrica
+
+      - name: featuredImage
+        label: Imagen Principal
+        type: image
+
+      - name: gallery
+        label: Galería de Fotos (Imágenes Adicionales)
+        type: image
+        list: true
+
+      - name: description
+        label: Descripción / Resumen
+        type: text
+
+      - name: imperfections
+        label: Imperfecciones (Solo para motos de ocasión)
+        type: object
+        list: true
+        fields:
+          - name: image
+            label: Foto del Detalle / Imperfección
+            type: image
+          - name: title
+            label: Título / Zona
+            type: string
+          - name: description
+            label: Descripción de la imperfección
+            type: text
+
+      - name: featured
+        label: Moto Destacada en Inicio
+        type: boolean
+
+      - name: published
+        label: Publicada en la Web
+        type: boolean
+
+      - name: badge
+        label: Etiqueta Especial (ej. ¡NUEVA LLEGADA!)
+        type: string
+
+      - name: seoTitle
+        label: Título SEO (Opcional)
+        type: string
+
+      - name: seoDescription
+        label: Descripción SEO (Opcional)
+        type: text
+
+      - name: body
+        label: Detalles Adicionales / Ficha Técnica (Markdown)
+        type: rich-text
+
+  - name: blog
+    label: Blog Kaelos
+    type: collection
+    path: content/blog
+    filename: "{primary}.md"
+
+    view:
+      primary: title
+      fields:
+        - category
+        - date
+
+    fields:
+      - name: title
+        label: Título
+        type: string
+        required: true
+
+      - name: excerpt
+        label: Resumen / Bajada
+        type: text
+        required: true
+
+      - name: category
+        label: Categoría
+        type: select
+        options:
+          values:
+            - Guías de Compra
+            - Novedades
+            - Rutas y Viajes
+
+      - name: image
+        label: Imagen de Portada
+        type: image
+
+      - name: readTime
+        label: Tiempo de Lectura
+        type: string
+
+      - name: date
+        label: Fecha de Publicación
+        type: date
+
+      - name: authorName
+        label: Nombre del Autor
+        type: string
+
+      - name: authorRole
+        label: Cargo / Especialidad del Autor
+        type: string
+
+      - name: authorAvatar
+        label: Avatar del Autor
+        type: image
+
+      - name: body
+        label: Contenido del Artículo (Markdown)
+        type: rich-text
+
+  - name: faqs
+    label: Preguntas Frecuentes
+    type: collection
+    path: content/faqs
+    filename: "{primary}.md"
+
+    fields:
+      - name: title
+        label: Pregunta
+        type: string
+        required: true
+
+      - name: category
+        label: Categoría
+        type: select
+        options:
+          values:
+            - Vender o Intercambiar
+            - Comprar una Moto
+            - Financiación y otros métodos de pago
+            - Envíos y entregas
+            - Garantías y seguros
+            - Devoluciones
+
+      - name: body
+        label: Respuesta (Markdown)
+        type: rich-text
+
+  - name: marcas
+    label: Marcas de Motocicletas
+    type: file
+    path: src/data/brands.json
+    fields:
+      - name: brands
+        label: Lista de Marcas de Motos
+        type: string
+        list: true
+
+  - name: ciudades
+    label: Ciudades de Perú
+    type: file
+    path: src/data/cities.json
+    fields:
+      - name: cities
+        label: Lista de Ciudades
+        type: string
+        list: true
+
+
+
