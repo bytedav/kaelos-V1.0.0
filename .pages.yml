@@ -14,8 +14,10 @@ content:
 
     view:
       primary: model
+      sort: [year, desc]
       fields:
         - brand
+        - model
         - condition
         - price
         - year
@@ -131,6 +133,68 @@ content:
           values:
             - Gasolina
             - Eléctrica
+            - Híbrida
+
+      - name: transmission
+        label: Transmisión / Cambio
+        type: select
+        options:
+          values:
+            - Manual
+            - Automática
+            - Semi-automática
+
+      - name: city
+        label: Ubicación / Ciudad en Perú
+        type: select
+        options:
+          values:
+            - Lima
+            - Arequipa
+            - Trujillo
+            - Chiclayo
+            - Cusco
+            - Huancayo
+            - Piura
+            - Ica
+            - Tacna
+            - Juliaca
+            - Chimbote
+            - Pucallpa
+            - Iquitos
+
+      - name: color
+        label: Color de la Moto
+        type: string
+
+      - name: originCountry
+        label: País de Origen
+        type: string
+
+      - name: keysCount
+        label: Número de Llaves
+        type: number
+
+      - name: citvValidity
+        label: Válida hasta (CITV / Revisión Técnica)
+        type: string
+
+      - name: vatType
+        label: Tipo de Impuesto / IGV
+        type: select
+        options:
+          values:
+            - IGV Incluido
+            - IGV no deducible
+            - Exento
+
+      - name: lastRevisionDate
+        label: Fecha de Última Revisión
+        type: string
+
+      - name: reserved
+        label: Moto Reservada
+        type: boolean
 
       - name: featuredImage
         label: Imagen Principal
@@ -184,9 +248,12 @@ content:
 
     view:
       primary: title
+      sort: [date, desc]
       fields:
+        - title
         - category
         - date
+        - authorName
 
     fields:
       - name: title
@@ -241,6 +308,12 @@ content:
     type: collection
     path: content/faqs
     filename: "{primary}.md"
+
+    view:
+      primary: title
+      fields:
+        - title
+        - category
 
     fields:
       - name: title

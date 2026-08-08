@@ -38,8 +38,16 @@ const cmsMotorbikes: MotorbikeExtended[] = loadAllMotorcyclesFromContent().map((
     imperfections: item.imperfections || [],
     description: item.description,
     currency: item.currency || 'PEN',
-    location: 'Lima',
-    city: 'Lima',
+    location: item.location || item.city || 'Lima',
+    city: item.city || item.location || 'Lima',
+    transmission: item.transmission || 'Manual',
+    color: item.color || '',
+    originCountry: item.originCountry || 'Perú',
+    keysCount: item.keysCount ?? 2,
+    citvValidity: item.citvValidity || '2027',
+    vatType: item.vatType || 'IGV Incluido',
+    lastRevisionDate: item.lastRevisionDate || '17 de julio de 2026',
+    reserved: Boolean(item.reserved),
   };
 });
 
