@@ -172,14 +172,6 @@ content:
         label: Etiqueta Especial (ej. ¡NUEVA LLEGADA!)
         type: string
 
-      - name: seoTitle
-        label: Título SEO (Opcional)
-        type: string
-
-      - name: seoDescription
-        label: Descripción SEO (Opcional)
-        type: text
-
       - name: body
         label: Detalles Adicionales / Ficha Técnica (Markdown)
         type: rich-text
