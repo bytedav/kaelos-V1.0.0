@@ -1,4 +1,5 @@
 import customCities from './cities.json';
+import { motorbikesData } from './motorbikesData';
 
 /**
  * Configuración global de ciudades en KAELOS.
@@ -19,7 +20,7 @@ export const DEFAULT_GLOBAL_CITIES: string[] = Array.isArray(rawCities)
  * Obtiene la lista completa de ciudades combinando la lista global configurada
  * en cities.json más cualquier ciudad presente dinámicamente en el inventario de motos.
  */
-export function getAllCities(inventory?: Array<{ location?: string }>): string[] {
+export function getAllCities(inventory: Array<{ location?: string; city?: string }> = motorbikesData): string[] {
   const citiesSet = new Set<string>();
 
   // 1. Agregar ciudades globales

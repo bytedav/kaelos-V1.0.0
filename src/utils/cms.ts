@@ -27,7 +27,8 @@ export function loadAllMotorcyclesFromCms(): any[] {
 
       const { frontmatter, body } = parseMarkdownFile(rawContent, filepath);
       const filename = filepath.split('/').pop()?.replace('.md', '') || '';
-      const slug = frontmatter.slug || filename;
+      const slug = String(frontmatter.slug || filename);
+      const bikeId = String(frontmatter.id || frontmatter.uuid || slug);
 
       const parseNum = (val: any): number | undefined => {
         if (typeof val === 'number') return val;
@@ -46,7 +47,7 @@ export function loadAllMotorcyclesFromCms(): any[] {
       const discountVal = parseNum(frontmatter.discountPrice || frontmatter.oldPrice);
 
       motos.push({
-        id: slug,
+        id: bikeId,
         slug: slug,
         brand: frontmatter.brand || 'Marca',
         model: frontmatter.model || 'Modelo',
@@ -59,16 +60,16 @@ export function loadAllMotorcyclesFromCms(): any[] {
         kms: kmsVal ?? 0,
         displacement: dispVal,
         power: frontmatter.power || '',
-        fuel: frontmatter.fuel || 'Gasolina',
-        transmission: frontmatter.transmission || 'Manual',
-        city: frontmatter.city || frontmatter.location || 'Lima',
-        location: frontmatter.city || frontmatter.location || 'Lima',
+        fuel: frontmatter.fuel || '',
+        transmission: frontmatter.transmission || '',
+        city: frontmatter.city || frontmatter.location || '',
+        location: frontmatter.city || frontmatter.location || '',
         color: frontmatter.color || '',
-        originCountry: frontmatter.originCountry || 'Perú',
-        keysCount: parseNum(frontmatter.keysCount) ?? 2,
-        citvValidity: frontmatter.citvValidity || '2027',
-        vatType: frontmatter.vatType || 'IGV Incluido',
-        lastRevisionDate: frontmatter.lastRevisionDate || '17 de julio de 2026',
+        originCountry: frontmatter.originCountry || '',
+        keysCount: parseNum(frontmatter.keysCount),
+        citvValidity: frontmatter.citvValidity || '',
+        vatType: frontmatter.vatType || '',
+        lastRevisionDate: frontmatter.lastRevisionDate || '',
         reserved: Boolean(frontmatter.reserved),
         featured: frontmatter.featured !== false,
         featuredImage: frontmatter.featuredImage || frontmatter.image || '',
@@ -80,8 +81,8 @@ export function loadAllMotorcyclesFromCms(): any[] {
         discountPrice: discountVal,
         badge: frontmatter.badge,
         seo: {
-          title: frontmatter.seoTitle || `${frontmatter.brand || ''} ${frontmatter.model || ''}`,
-          description: frontmatter.seoDescription || frontmatter.description || ''
+          title: `${frontmatter.brand || ''} ${frontmatter.model || ''}`.trim(),
+          description: frontmatter.description || body || ''
         }
       });
     }
@@ -123,8 +124,8 @@ export function loadAllBlogPostsFromCms(): BlogPostContent[] {
         },
         tags: Array.isArray(frontmatter.tags) ? frontmatter.tags : [],
         seo: {
-          title: frontmatter.seoTitle || frontmatter.title,
-          description: frontmatter.seoDescription || frontmatter.excerpt
+          title: frontmatter.title || 'Sin Título',
+          description: frontmatter.excerpt || frontmatter.description || ''
         },
         body
       });

@@ -88,16 +88,31 @@ export const SLUG_MAP_TO_STYLE: Record<string, string> = {
   'off-road': 'OFF-ROAD'
 };
 
-// Helper to find bike by id or slug (exact id match prioritized)
+// Helper to find bike by id or slug (exact id or slug match prioritized)
 export const findBikeInSource = (source: MotorbikeExtended[], rawId: string): MotorbikeExtended | undefined => {
   if (!rawId) return undefined;
-  const target = rawId.toLowerCase();
-  const exactById = source.find(b => b.id.toLowerCase() === target);
+  const target = decodeURIComponent(rawId).toLowerCase();
+
+  // 1. Exact match by ID
+  const exactById = source.find(b => String(b.id || '').toLowerCase() === target);
   if (exactById) return exactById;
+
+  // 2. Exact match by slug
+  const exactBySlug = source.find(b => String(b.slug || '').toLowerCase() === target);
+  if (exactBySlug) return exactBySlug;
+
+  // 3. Match if target slug contains or ends with the unique bike ID
+  const matchByIdInTarget = source.find(b => b.id && (target.includes(b.id.toLowerCase()) || target.endsWith(b.id.toLowerCase())));
+  if (matchByIdInTarget) return matchByIdInTarget;
+
+  // 4. Match by slugified brand + model + id
+  const matchByBrandModelId = source.find(b => toSlug(`${b.brand} ${b.model} ${b.id}`) === target);
+  if (matchByBrandModelId) return matchByBrandModelId;
+
+  // 5. Fallback match by brand + model or slugified ID
   return source.find(b => 
-    (b.slug && b.slug.toLowerCase() === target) || 
     toSlug(`${b.brand} ${b.model}`) === target ||
-    toSlug(b.id) === target
+    toSlug(String(b.id)) === target
   );
 };
 

@@ -1,4 +1,5 @@
 import customBrands from './brands.json';
+import { motorbikesData } from './motorbikesData';
 
 /**
  * Configuración global de marcas de motocicletas en KAELOS.
@@ -19,7 +20,7 @@ export const DEFAULT_GLOBAL_BRANDS: string[] = Array.isArray(rawBrands)
  * Obtiene la lista completa de marcas combinando la lista global configurada
  * y cualquier otra marca encontrada dinámicamente en el inventario.
  */
-export function getAllBrands(inventory?: Array<{ brand: string }>): string[] {
+export function getAllBrands(inventory: Array<{ brand: string }> = motorbikesData): string[] {
   const brandSet = new Map<string, string>();
 
   // 1. Agregar marcas configuradas por defecto

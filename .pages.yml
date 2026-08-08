@@ -18,11 +18,17 @@ content:
       fields:
         - brand
         - model
+        - id
+        - reserved
         - condition
         - price
         - year
 
     fields:
+      - name: id
+        label: ID Único / Código de Moto
+        type: uuid
+
       - name: brand
         label: Marca de la Moto
         type: select
@@ -193,7 +199,7 @@ content:
         type: string
 
       - name: reserved
-        label: Moto Reservada
+        label: Moto Reservada (Activar interruptor para marcar como RESERVADA)
         type: boolean
 
       - name: featuredImage

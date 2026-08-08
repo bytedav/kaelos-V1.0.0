@@ -10,6 +10,7 @@ import { MotorbikeExtended } from './MotorbikeCard';
 import { getCategoryFallbackGallery, getCategoryFallbackImage } from '../utils/images';
 import { CarouselArrows } from './ui/CarouselArrows';
 import { FavoriteButton } from './ui/FavoriteButton';
+import { motorbikesData } from '../data/motorbikesData';
 
 interface MotoImagesViewProps {
   bike: MotorbikeExtended | null;
@@ -37,31 +38,13 @@ const IMPERFECTION_MOCKS = [
   }
 ];
 
-const DEFAULT_HARLEY: MotorbikeExtended = {
-  id: 'harley-heritage-classic',
-  brand: 'Harley Davidson',
-  model: 'Heritage Classic',
-  year: 2024,
-  kms: 7615,
-  power: '94 CV',
-  price: 22999,
-  category: 'Custom',
-  image: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=800',
-  images: [
-    'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=800',
-    'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&q=80&w=800',
-    'https://images.unsplash.com/photo-1599819811279-d5ad9cccf838?auto=format&fit=crop&q=80&w=800'
-  ],
-  fuel: 'Gasolina'
-};
-
 export default function MotoImagesView({ 
   bike, 
   favorites, 
   onToggleFavorite, 
   onClose 
 }: MotoImagesViewProps) {
-  const currentBike = bike || DEFAULT_HARLEY;
+  const currentBike = bike || motorbikesData[0];
   const isFav = favorites.includes(currentBike.id);
 
   const bikeCond = (currentBike.condition || (currentBike.kms === 0 ? 'nueva' : 'ocasión')).toLowerCase();

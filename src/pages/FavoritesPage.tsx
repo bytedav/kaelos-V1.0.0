@@ -19,34 +19,6 @@ interface FavoritesPageProps {
   isLoading?: boolean;
 }
 
-const DEFAULT_PEUGEOT: StyleBike = {
-  id: 'budget-2k-1',
-  brand: 'PEUGEOT',
-  model: 'TWEET 125 I ABS',
-  year: 2018,
-  kms: '27.187 km',
-  price: 1699,
-  financePrice: 38,
-  images: [
-    'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&q=80&w=600',
-    'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=600'
-  ]
-};
-
-const DEFAULT_HARLEY: StyleBike = {
-  id: 'harley-heritage-classic',
-  brand: 'HARLEY DAVIDSON',
-  model: 'HERITAGE CLASSIC',
-  year: 2024,
-  kms: '7615 km',
-  price: 22999,
-  financePrice: 413,
-  images: [
-    'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&q=80&w=600',
-    'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=600'
-  ]
-};
-
 export default function FavoritesPage({
   favorites: propsFavorites,
   onToggleFavorite: propsToggleFavorite,
@@ -95,26 +67,7 @@ export default function FavoritesPage({
       const styleMatch = flatStyleBikes.find(b => b.id === id);
       if (styleMatch) return styleMatch;
 
-      // 4. High-fidelity mocks fallback
-      if (id === 'budget-2k-1' || id === 'style-sc-1') return DEFAULT_PEUGEOT;
-      if (id === 'harley-heritage-classic') return DEFAULT_HARLEY;
-
-      // 5. General fallback for any dynamic ID
-      const parts = id.split('-');
-      const rawBrand = parts[0] ? parts[0].toUpperCase() : 'KAELOS';
-      const rawModel = parts.slice(1).join(' ').toUpperCase() || 'MOTO GUARDADA';
-      return {
-        id,
-        brand: rawBrand,
-        model: rawModel,
-        year: 2024,
-        kms: '12.500 km',
-        price: 2990,
-        financePrice: 42,
-        images: [
-          'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&q=80&w=600'
-        ]
-      } as StyleBike;
+      return null;
     }).filter((b): b is StyleBike => b !== null);
   }, [favorites]);
 

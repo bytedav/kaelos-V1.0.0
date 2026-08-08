@@ -37,6 +37,7 @@ import { StyleBike } from '../types';
 import { getCategoryFallbackGallery, getCategoryFallbackImage } from '../utils/images';
 import { calculateCuota, clampEntranceFee, getMinEntrance, FINANCE_TERMS, DEFAULT_TERM } from '../utils/finance';
 import { MotoDetailSkeleton } from './ui/Skeleton';
+import { motorbikesData } from '../data/motorbikesData';
 
 interface MotoDetailViewProps {
   bike: MotorbikeExtended | null;
@@ -69,24 +70,6 @@ const BRAND_MODEL_DICTIONARY: Record<string, string[]> = {
   aprilia: ['RS 660', 'TUONO 660', 'TUAREG 660', 'RSV4', 'SR GT 125', 'TUONO V4'],
   'royal enfield': ['METEOR 350', 'CLASSIC 350', 'HUNTER 350', 'HIMALAYAN 450', 'INTERCEPTOR 650', 'CONTINENTAL GT 650', 'SUPER METEOR 650'],
   triumph: ['STREET TRIPLE 765', 'SPEED TRIPLE 1200', 'TIGER 900', 'TIGER 1200', 'BONNEVILLE T120', 'TRIDENT 660', 'SCRAMBLER 900', 'SPEED TWIN 900']
-};
-
-const DEFAULT_HARLEY: MotorbikeExtended = {
-  id: 'harley-heritage-classic',
-  brand: 'Harley Davidson',
-  model: 'Heritage Classic',
-  year: 2024,
-  kms: 7615,
-  power: '94 CV',
-  price: 22999,
-  category: 'Custom',
-  image: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=800',
-  images: [
-    'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=800',
-    'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&q=80&w=800',
-    'https://images.unsplash.com/photo-1599819811279-d5ad9cccf838?auto=format&fit=crop&q=80&w=800'
-  ],
-  fuel: 'Gasolina'
 };
 
 const getDisplacement = (b: MotorbikeExtended): string => {
@@ -191,7 +174,7 @@ export default function MotoDetailView({
     return <MotoDetailSkeleton />;
   }
 
-  const currentBike = bike || DEFAULT_HARLEY;
+  const currentBike = bike || (allBikes && allBikes.length > 0 ? allBikes[0] : motorbikesData[0]);
   const isFav = favorites.includes(currentBike.id);
   const isBikeReserved = Boolean(currentBike.reserved || currentBike.isReserved || reservedBikeIds.includes(currentBike.id));
 
@@ -241,7 +224,7 @@ export default function MotoDetailView({
 
   // Dynamic Finance Simulator States
   const [isSimulatorOpen, setIsSimulatorOpen] = useState(false);
-  const [entranceFee, setEntranceFee] = useState<number>(getMinEntrance((bike || DEFAULT_HARLEY).price));
+  const [entranceFee, setEntranceFee] = useState<number>(getMinEntrance(currentBike.price));
   const [termMonths, setTermMonths] = useState<number>(DEFAULT_TERM);
 
   // Related bikes (exclude current bike, get Custom/Touring category first, match same brand or style)
@@ -1252,33 +1235,43 @@ export default function MotoDetailView({
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                       {/* Col 1 */}
                       <div className="flex flex-col min-w-0 space-y-3">
-                        <div className="flex flex-col min-w-0">
-                          <span className="text-[10px] sm:text-[12px] text-[#8e8e93] font-semibold leading-tight">País de origen</span>
-                          <span className="text-xs sm:text-[15px] font-bold text-brand-dark leading-snug mt-0.5">{currentBike.originCountry || 'Perú'}</span>
-                        </div>
-                        <div className="flex flex-col min-w-0">
-                          <span className="text-[10px] sm:text-[12px] text-[#8e8e93] font-semibold leading-tight">Revisión Técnica (CITV)</span>
-                          <span className="text-xs sm:text-[15px] font-bold text-brand-dark leading-snug mt-0.5">Válida hasta {currentBike.citvValidity || citvYear}</span>
-                        </div>
+                        {currentBike.originCountry && (
+                          <div className="flex flex-col min-w-0">
+                            <span className="text-[10px] sm:text-[12px] text-[#8e8e93] font-semibold leading-tight">País de origen</span>
+                            <span className="text-xs sm:text-[15px] font-bold text-brand-dark leading-snug mt-0.5">{currentBike.originCountry}</span>
+                          </div>
+                        )}
+                        {currentBike.citvValidity && (
+                          <div className="flex flex-col min-w-0">
+                            <span className="text-[10px] sm:text-[12px] text-[#8e8e93] font-semibold leading-tight">Revisión Técnica (CITV)</span>
+                            <span className="text-xs sm:text-[15px] font-bold text-brand-dark leading-snug mt-0.5">Válida hasta {currentBike.citvValidity}</span>
+                          </div>
+                        )}
                       </div>
 
                       {/* Col 2 */}
-                      <div className="flex flex-col min-w-0">
-                        <span className="text-[10px] sm:text-[12px] text-[#8e8e93] font-semibold leading-tight">Número de llaves</span>
-                        <span className="text-xs sm:text-[15px] font-bold text-brand-dark leading-snug mt-0.5">{currentBike.keysCount ?? keyCount}</span>
-                      </div>
+                      {currentBike.keysCount !== undefined && currentBike.keysCount !== null && (
+                        <div className="flex flex-col min-w-0">
+                          <span className="text-[10px] sm:text-[12px] text-[#8e8e93] font-semibold leading-tight">Número de llaves</span>
+                          <span className="text-xs sm:text-[15px] font-bold text-brand-dark leading-snug mt-0.5">{currentBike.keysCount}</span>
+                        </div>
+                      )}
 
                       {/* Col 3 */}
-                      <div className="flex flex-col min-w-0">
-                        <span className="text-[10px] sm:text-[12px] text-[#8e8e93] font-semibold leading-tight">Última revisión</span>
-                        <span className="text-xs sm:text-[15px] font-bold text-brand-dark leading-snug mt-0.5">{currentBike.lastRevisionDate || '17 de julio de 2026'}</span>
-                      </div>
+                      {currentBike.lastRevisionDate && (
+                        <div className="flex flex-col min-w-0">
+                          <span className="text-[10px] sm:text-[12px] text-[#8e8e93] font-semibold leading-tight">Última revisión</span>
+                          <span className="text-xs sm:text-[15px] font-bold text-brand-dark leading-snug mt-0.5">{currentBike.lastRevisionDate}</span>
+                        </div>
+                      )}
 
                       {/* Col 4 */}
-                      <div className="flex flex-col min-w-0">
-                        <span className="text-[10px] sm:text-[12px] text-[#8e8e93] font-semibold leading-tight">Tipo de Impuesto / IGV</span>
-                        <span className="text-xs sm:text-[15px] font-bold text-brand-dark leading-snug mt-0.5">{currentBike.vatType || 'IGV Incluido'}</span>
-                      </div>
+                      {currentBike.vatType && (
+                        <div className="flex flex-col min-w-0">
+                          <span className="text-[10px] sm:text-[12px] text-[#8e8e93] font-semibold leading-tight">Tipo de Impuesto / IGV</span>
+                          <span className="text-xs sm:text-[15px] font-bold text-brand-dark leading-snug mt-0.5">{currentBike.vatType}</span>
+                        </div>
+                      )}
                     </div>
 
                     {/* Revision details container box */}
