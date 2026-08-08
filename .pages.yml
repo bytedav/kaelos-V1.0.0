@@ -96,6 +96,7 @@ content:
             - Touring
             - Custom
             - Enduro / Cross
+            - Scrambler
         required: true
 
       - name: price
@@ -106,6 +107,10 @@ content:
       - name: discountPrice
         label: Precio Oferta / Anterior (S/.)
         type: number
+
+      - name: isOffer
+        label: Marca si está en Oferta
+        type: boolean
 
       - name: kms
         label: Kilometraje (0 para nuevas)
@@ -121,7 +126,11 @@ content:
 
       - name: fuel
         label: Tipo de Combustible
-        type: string
+        type: select
+        options:
+          values:
+            - Gasolina
+            - Eléctrica
 
       - name: featuredImage
         label: Imagen Principal
@@ -135,7 +144,7 @@ content:
           type: image
 
       - name: description
-        label: Descripción
+        label: Descripción / Resumen
         type: text
 
       - name: imperfections
@@ -152,13 +161,25 @@ content:
             label: Descripción de la imperfección
             type: text
 
-      - name: isOffer
-        label: Marca si está en Oferta
+      - name: featured
+        label: Moto Destacada en Inicio
+        type: boolean
+
+      - name: published
+        label: Publicada en la Web
         type: boolean
 
       - name: badge
         label: Etiqueta Especial (ej. ¡NUEVA LLEGADA!)
         type: string
+
+      - name: seoTitle
+        label: Título SEO (Opcional)
+        type: string
+
+      - name: seoDescription
+        label: Descripción SEO (Opcional)
+        type: text
 
       - name: body
         label: Detalles Adicionales / Ficha Técnica (Markdown)
