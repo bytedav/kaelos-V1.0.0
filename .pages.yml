@@ -138,10 +138,8 @@ content:
 
       - name: gallery
         label: Galería de Fotos (Imágenes Adicionales)
-        type: list
-        field:
-          label: Imagen
-          type: image
+        type: image
+        list: true
 
       - name: description
         label: Descripción / Resumen
@@ -149,7 +147,8 @@ content:
 
       - name: imperfections
         label: Imperfecciones (Solo para motos de ocasión)
-        type: object-list
+        type: object
+        list: true
         fields:
           - name: image
             label: Foto del Detalle / Imperfección
@@ -280,10 +279,8 @@ content:
     fields:
       - name: brands
         label: Lista de Marcas de Motos
-        type: list
-        field:
-          label: Nombre de Marca
-          type: string
+        type: string
+        list: true
 
   - name: ciudades
     label: Ciudades de Perú
@@ -292,10 +289,8 @@ content:
     fields:
       - name: cities
         label: Lista de Ciudades
-        type: list
-        field:
-          label: Nombre de Ciudad
-          type: string
+        type: string
+        list: true
 
 
 

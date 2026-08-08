@@ -129,7 +129,7 @@ const getDisplacement = (b: MotorbikeExtended): string => {
 };
 
 const getBikeConditionScores = (b: MotorbikeExtended) => {
-  const isNew = b.kms === 0 || b.isKm0;
+  const isNew = b.kms === 0 || b.isKm0 || String(b.condition || '').toLowerCase() === 'nueva';
   if (isNew) {
     return {
       neumaticoDelantero: '100%',
@@ -1067,7 +1067,7 @@ export default function MotoDetailView({
                   <div className="flex flex-col min-w-0">
                     <span className="text-[10.5px] sm:text-xs text-slate-400 font-medium leading-snug">Cilindrada</span>
                     <span className="text-sm sm:text-base font-extrabold text-slate-950 leading-tight mt-0.5">
-                      {currentBike.displacement ? `${currentBike.displacement} cc` : '500 cc'}
+                      {displacementText}
                     </span>
                   </div>
                 </div>
@@ -1141,6 +1141,16 @@ export default function MotoDetailView({
                       <div className="flex flex-col min-w-0">
                         <span className="text-[10px] sm:text-[12px] text-slate-400 font-semibold leading-tight">Cilindrada</span>
                         <span className="text-xs sm:text-sm font-black text-slate-900 leading-snug mt-0.5">{displacementText}</span>
+                      </div>
+                      {currentBike.power && (
+                        <div className="flex flex-col min-w-0">
+                          <span className="text-[10px] sm:text-[12px] text-slate-400 font-semibold leading-tight">Potencia</span>
+                          <span className="text-xs sm:text-sm font-black text-slate-900 leading-snug mt-0.5">{currentBike.power}</span>
+                        </div>
+                      )}
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-[10px] sm:text-[12px] text-slate-400 font-semibold leading-tight">Combustible</span>
+                        <span className="text-xs sm:text-sm font-black text-slate-900 leading-snug mt-0.5">{currentBike.fuel || 'Gasolina'}</span>
                       </div>
                       <div className="flex flex-col min-w-0">
                         <span className="text-[10px] sm:text-[12px] text-slate-400 font-semibold leading-tight">Distribución</span>
