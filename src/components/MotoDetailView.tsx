@@ -112,20 +112,28 @@ const getDisplacement = (b: MotorbikeExtended): string => {
 };
 
 const getBikeConditionScores = (b: MotorbikeExtended) => {
+  const custom = b.componentScores || {};
+  const formatScore = (val: any, fallback: number) => {
+    if (val !== undefined && val !== null && val !== '') {
+      return typeof val === 'number' ? `${val}%` : String(val).endsWith('%') ? val : `${val}%`;
+    }
+    return `${fallback}%`;
+  };
+
   const isNew = b.kms === 0 || b.isKm0 || String(b.condition || '').toLowerCase() === 'nueva';
   if (isNew) {
     return {
-      neumaticoDelantero: '100%',
-      neumaticoTrasero: '100%',
-      distribucion: '100%',
-      kitTransmision: '100%',
-      bateria: '100%',
-      bujias: '100%',
-      filtroAire: '100%',
-      discoTrasero: '100%',
-      discoDelantero: '100%',
-      pastillasTraseras: '100%',
-      pastillasDelanteras: '100%'
+      neumaticoDelantero: formatScore(custom.neumaticoDelantero, 100),
+      neumaticoTrasero: formatScore(custom.neumaticoTrasero, 100),
+      distribucion: formatScore(custom.distribucion, 100),
+      kitTransmision: formatScore(custom.kitTransmision, 100),
+      bateria: formatScore(custom.bateria, 100),
+      bujias: formatScore(custom.bujias, 100),
+      filtroAire: formatScore(custom.filtroAire, 100),
+      discoTrasero: formatScore(custom.discoTrasero, 100),
+      discoDelantero: formatScore(custom.discoDelantero, 100),
+      pastillasTraseras: formatScore(custom.pastillasTraseras, 100),
+      pastillasDelanteras: formatScore(custom.pastillasDelanteras, 100)
     };
   }
 
@@ -145,17 +153,17 @@ const getBikeConditionScores = (b: MotorbikeExtended) => {
   const pastillasDel = Math.max(65, Math.min(95, 88 - Math.floor((kms % 6000) / 800) * 5));
 
   return {
-    neumaticoDelantero: `${neumaticoDel}%`,
-    neumaticoTrasero: `${neumaticoTras}%`,
-    distribucion: `${distribucion}%`,
-    kitTransmision: `${kitTrans}%`,
-    bateria: `${bateria}%`,
-    bujias: `${bujias}%`,
-    filtroAire: `${filtroAire}%`,
-    discoTrasero: `${discoTras}%`,
-    discoDelantero: `${discoDel}%`,
-    pastillasTraseras: `${pastillasTras}%`,
-    pastillasDelanteras: `${pastillasDel}%`
+    neumaticoDelantero: formatScore(custom.neumaticoDelantero, neumaticoDel),
+    neumaticoTrasero: formatScore(custom.neumaticoTrasero, neumaticoTras),
+    distribucion: formatScore(custom.distribucion, distribucion),
+    kitTransmision: formatScore(custom.kitTransmision, kitTrans),
+    bateria: formatScore(custom.bateria, bateria),
+    bujias: formatScore(custom.bujias, bujias),
+    filtroAire: formatScore(custom.filtroAire, filtroAire),
+    discoTrasero: formatScore(custom.discoTrasero, discoTras),
+    discoDelantero: formatScore(custom.discoDelantero, discoDel),
+    pastillasTraseras: formatScore(custom.pastillasTraseras, pastillasTras),
+    pastillasDelanteras: formatScore(custom.pastillasDelanteras, pastillasDel)
   };
 };
 
@@ -293,49 +301,7 @@ export default function MotoDetailView({
       .filter(b => b.id !== currentBike.id)
       .slice(0, 5);
     
-    // Fallbacks if list empty
-    if (filtered.length === 0) {
-      setRelatedBikes([
-        {
-          id: 'related-harley-sportster',
-          brand: 'Harley Davidson',
-          model: 'Sportster 883 XL',
-          year: 2007,
-          kms: 43587,
-          power: '53 CV',
-          price: 5799,
-          category: 'Custom',
-          image: 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&q=80&w=500',
-          fuel: 'Gasolina'
-        },
-        {
-          id: 'related-harley-street',
-          brand: 'Harley Davidson',
-          model: 'Street 750 ABS',
-          year: 2019,
-          kms: 7599,
-          power: '58 CV',
-          price: 5999,
-          category: 'Custom',
-          image: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=500',
-          fuel: 'Gasolina'
-        },
-        {
-          id: 'related-harley-sportster-1250',
-          brand: 'Harley Davidson',
-          model: 'Sportster 1250 S',
-          year: 2021,
-          kms: 6391,
-          power: '122 CV',
-          price: 12999,
-          category: 'Custom',
-          image: 'https://images.unsplash.com/photo-1599819811279-d5ad9cccf838?auto=format&fit=crop&q=80&w=500',
-          fuel: 'Gasolina'
-        }
-      ]);
-    } else {
-      setRelatedBikes(filtered);
-    }
+    setRelatedBikes(filtered);
   }, [allBikes, currentBike]);
 
   // Gallery handler with resilient fallback support
@@ -1275,50 +1241,42 @@ export default function MotoDetailView({
                     </div>
 
                     {/* Revision details container box */}
-                    <div className="bg-[#f8f9fa] border border-[#e5e5ea]/80 rounded-2xl sm:rounded-[24px] p-4 sm:p-7 space-y-3.5 shadow-2xs">
-                      <div className="space-y-1 pb-3 border-b border-[#e5e5ea]/60">
-                        <span className="text-[10px] sm:text-[12px] text-[#8e8e93] font-semibold uppercase tracking-wider block">Jul 2026</span>
-                        <span className="text-sm sm:text-[17px] font-black text-slate-900">Kaelos - {formattedRevisionKms}</span>
-                      </div>
-                      
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-y-2.5 sm:gap-y-3.5 gap-x-6">
-                        {/* Column 1 */}
-                        <div className="space-y-2">
-                          <div className="flex items-center gap-2 text-[#8e8e93] font-semibold text-xs sm:text-[14px]">
-                            <span className="text-[#a1a1aa] text-base leading-none shrink-0">•</span>
-                            <span>Inspección general</span>
-                          </div>
-                          <div className="flex items-center gap-2 text-[#8e8e93] font-semibold text-xs sm:text-[14px]">
-                            <span className="text-[#a1a1aa] text-base leading-none shrink-0">•</span>
-                            <span>Revisión del cable de embrague</span>
-                          </div>
-                        </div>
+                    {(() => {
+                      const revDate = currentBike.revisionDateFormatted || currentBike.lastRevisionDate || 'Jul 2026';
+                      const revCenter = currentBike.revisionCenter || 'Kaelos';
+                      const revKms = currentBike.revisionKms !== undefined && currentBike.revisionKms !== null
+                        ? `${currentBike.revisionKms.toLocaleString('es-PE')} km`
+                        : formattedRevisionKms;
+                      const defaultItems = [
+                        'Inspección general',
+                        'Revisión del cable de embrague',
+                        'Cambio de aceite',
+                        'Cambio de bujías',
+                        'Cambio del filtro de aceite',
+                        'Cambio de filtro de aire'
+                      ];
+                      const items = (currentBike.serviceHistory && currentBike.serviceHistory.length > 0)
+                        ? currentBike.serviceHistory
+                        : defaultItems;
 
-                        {/* Column 2 */}
-                        <div className="space-y-2">
-                          <div className="flex items-center gap-2 text-[#8e8e93] font-semibold text-xs sm:text-[14px]">
-                            <span className="text-[#a1a1aa] text-base leading-none shrink-0">•</span>
-                            <span>Cambio de aceite</span>
+                      return (
+                        <div className="bg-[#f8f9fa] border border-[#e5e5ea]/80 rounded-2xl sm:rounded-[24px] p-4 sm:p-7 space-y-3.5 shadow-2xs">
+                          <div className="space-y-1 pb-3 border-b border-[#e5e5ea]/60">
+                            <span className="text-[10px] sm:text-[12px] text-[#8e8e93] font-semibold uppercase tracking-wider block">{revDate}</span>
+                            <span className="text-sm sm:text-[17px] font-black text-slate-900">{revCenter} - {revKms}</span>
                           </div>
-                          <div className="flex items-center gap-2 text-[#8e8e93] font-semibold text-xs sm:text-[14px]">
-                            <span className="text-[#a1a1aa] text-base leading-none shrink-0">•</span>
-                            <span>Cambio de bujías</span>
-                          </div>
-                        </div>
-
-                        {/* Column 3 */}
-                        <div className="space-y-2">
-                          <div className="flex items-center gap-2 text-[#8e8e93] font-semibold text-xs sm:text-[14px]">
-                            <span className="text-[#a1a1aa] text-base leading-none shrink-0">•</span>
-                            <span>Cambio del filtro de aceite</span>
-                          </div>
-                          <div className="flex items-center gap-2 text-[#8e8e93] font-semibold text-xs sm:text-[14px]">
-                            <span className="text-[#a1a1aa] text-base leading-none shrink-0">•</span>
-                            <span>Cambio de filtro de aire</span>
+                          
+                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-2.5 sm:gap-y-3.5 gap-x-6">
+                            {items.map((item, idx) => (
+                              <div key={idx} className="flex items-center gap-2 text-[#8e8e93] font-semibold text-xs sm:text-[14px]">
+                                <span className="text-[#a1a1aa] text-base leading-none shrink-0">•</span>
+                                <span>{item}</span>
+                              </div>
+                            ))}
                           </div>
                         </div>
-                      </div>
-                    </div>
+                      );
+                    })()}
 
                   </div>
                 )}

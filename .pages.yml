@@ -198,6 +198,61 @@ content:
         label: Fecha de Última Revisión
         type: string
 
+      - name: revisionCenter
+        label: Taller / Centro de servicio de la revisión
+        type: string
+
+      - name: revisionDateFormatted
+        label: Mes y Año de la revisión (ej. JUL 2026)
+        type: string
+
+      - name: revisionKms
+        label: Kilometraje al momento de la revisión
+        type: number
+
+      - name: serviceHistory
+        label: Historial de revisiones (Lista de trabajos realizados)
+        type: string
+        list: true
+
+      - name: componentScores
+        label: Porcentajes de Estado de Componentes (Especificaciones técnicas)
+        type: object
+        fields:
+          - name: neumaticoDelantero
+            label: Neumático delantero (%)
+            type: number
+          - name: neumaticoTrasero
+            label: Neumático trasero (%)
+            type: number
+          - name: distribucion
+            label: Distribución (%)
+            type: number
+          - name: kitTransmision
+            label: Kit de transmisión (%)
+            type: number
+          - name: bateria
+            label: Batería eléctrica (%)
+            type: number
+          - name: bujias
+            label: Bujías (%)
+            type: number
+          - name: filtroAire
+            label: Filtro de aire (%)
+            type: number
+          - name: discoTrasero
+            label: Disco de freno trasero (%)
+            type: number
+          - name: discoDelantero
+            label: Disco de freno delantero (%)
+            type: number
+          - name: pastillasTraseras
+            label: Pastillas de freno trasero (%)
+            type: number
+          - name: pastillasDelanteras
+            label: Pastillas de freno delantero (%)
+            type: number
+
       - name: reserved
         label: Moto Reservada (Activar interruptor para marcar como RESERVADA)
         type: boolean

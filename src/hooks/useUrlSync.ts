@@ -183,15 +183,25 @@ export function parseUrlToState(
       const bikeId = decodeURIComponent(detailSubMatch[1]);
       const sub = detailSubMatch[2];
       selectedDetailedBike = findBikeInSource(bikesSource, bikeId) || null;
-      if (sub === 'images') {
-        activePage = 'moto-images';
+      if (selectedDetailedBike) {
+        if (sub === 'images') {
+          activePage = 'moto-images';
+        } else {
+          activePage = 'moto-finance';
+        }
       } else {
-        activePage = 'moto-finance';
+        // If bike not found, fallback to catalog
+        activePage = 'compra';
       }
     } else if (motoPathMatch) {
       const bikeId = decodeURIComponent(motoPathMatch[1]);
       selectedDetailedBike = findBikeInSource(bikesSource, bikeId) || null;
-      activePage = 'moto';
+      if (selectedDetailedBike) {
+        activePage = 'moto';
+      } else {
+        // If bike not found, fallback to catalog
+        activePage = 'compra';
+      }
     } else if (isVendePath) {
       activePage = 'vende';
     } else if (isCompraPath) {
@@ -469,20 +479,21 @@ export function useUrlSync({
     const queryParams = new URLSearchParams();
     let targetPath = '/';
     if (activePage === 'moto') {
-      const bikeId = selectedDetailedBike?.id || 'harley-heritage-classic';
-      targetPath = `/moto/${bikeId}`;
+      targetPath = selectedDetailedBike?.id ? `/moto/${selectedDetailedBike.id}` : '/motos';
     } else if (activePage === 'moto-images') {
-      const bikeId = selectedDetailedBike?.id || 'harley-heritage-classic';
-      targetPath = `/moto/${bikeId}/images`;
+      targetPath = selectedDetailedBike?.id ? `/moto/${selectedDetailedBike.id}/images` : '/motos';
     } else if (activePage === 'moto-finance') {
-      const bikeId = selectedDetailedBike?.id || 'harley-heritage-classic';
-      const isPack = window.location.pathname.endsWith('/pack');
-      targetPath = `/moto/${bikeId}/${isPack ? 'pack' : 'finance'}`;
-      const currentParams = new URLSearchParams(window.location.search);
-      const entrance = currentParams.get('entrance');
-      const term = currentParams.get('term');
-      if (entrance) queryParams.set('entrance', entrance);
-      if (term) queryParams.set('term', term);
+      if (selectedDetailedBike?.id) {
+        const isPack = window.location.pathname.endsWith('/pack');
+        targetPath = `/moto/${selectedDetailedBike.id}/${isPack ? 'pack' : 'finance'}`;
+        const currentParams = new URLSearchParams(window.location.search);
+        const entrance = currentParams.get('entrance');
+        const term = currentParams.get('term');
+        if (entrance) queryParams.set('entrance', entrance);
+        if (term) queryParams.set('term', term);
+      } else {
+        targetPath = '/motos';
+      }
     } else if (activePage === 'compra') {
       targetPath = '/motos';
       if (selectedCiudades.length > 0) {

@@ -18,6 +18,28 @@ keysCount: 2
 citvValidity: "2027"
 vatType: "IGV Incluido"
 lastRevisionDate: "17 de julio de 2026"
+revisionCenter: "Kaelos - Surco"
+revisionDateFormatted: "JUL 2026"
+revisionKms: 3500
+serviceHistory:
+  - "Inspección general de 100 puntos"
+  - "Cambio de aceite sintético"
+  - "Cambio del filtro de aceite"
+  - "Revisión del cable de embrague"
+  - "Cambio de bujías"
+  - "Cambio de filtro de aire"
+componentScores:
+  neumaticoDelantero: 90
+  neumaticoTrasero: 85
+  distribucion: 95
+  kitTransmision: 88
+  bateria: 95
+  bujias: 90
+  filtroAire: 100
+  discoTrasero: 90
+  discoDelantero: 94
+  pastillasTraseras: 80
+  pastillasDelanteras: 82
 featuredImage: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=1200"
 gallery:
   - "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=1200"

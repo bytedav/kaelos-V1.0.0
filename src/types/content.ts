@@ -49,6 +49,11 @@ export interface MotorbikeContent {
   citvValidity?: string;
   vatType?: string;
   lastRevisionDate?: string;
+  revisionCenter?: string;
+  revisionDateFormatted?: string;
+  revisionKms?: number;
+  serviceHistory?: string[];
+  componentScores?: Record<string, number | string>;
   reserved?: boolean;
   weight?: number;
   seatHeight?: number;

@@ -35,6 +35,11 @@ export interface MotorbikeExtended {
   citvValidity?: string;
   vatType?: string;
   lastRevisionDate?: string;
+  revisionCenter?: string;
+  revisionDateFormatted?: string;
+  revisionKms?: number;
+  serviceHistory?: string[];
+  componentScores?: Record<string, number | string>;
   reserved?: boolean;
   isReserved?: boolean;
 }
